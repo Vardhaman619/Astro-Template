@@ -1,0 +1,104 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ServiceHeader from '../../components/services/ServiceHeader.astro';
+import ServiceGrid from '../../components/services/ServiceGrid.astro';
+import ServiceContent from '../../components/services/ServiceContent.astro';
+import CTASection from '../../components/CTASection.astro';
+
+const services = [
+  {
+    title: 'Foundation Inspection',
+    description: 'Comprehensive foundation assessments to identify issues early',
+    image: '/images/foundation-inspection.jpg',
+    slug: '/services/foundation-inspection',
+    icon: '🔍'
+  },
+  {
+    title: 'Crack Repair',
+    description: 'Expert repair of foundation cracks and structural damage',
+    image: '/images/crack-repair.jpg',
+    slug: '/services/crack-repair',
+    icon: '🏗️'
+  },
+  {
+    title: 'Underpinning',
+    description: 'Strengthen and stabilize existing foundations',
+    image: '/images/underpinning.jpg',
+    slug: '/services/underpinning',
+    icon: '🏠'
+  },
+  {
+    title: 'Waterproofing',
+    description: 'Protect your foundation from water damage',
+    image: '/images/waterproofing.jpg',
+    slug: '/services/waterproofing',
+    icon: '💧'
+  },
+  {
+    title: 'Slab Leveling',
+    description: 'Level and stabilize concrete slabs',
+    image: '/images/slab-leveling.jpg',
+    slug: '/services/slab-leveling',
+    icon: '📏'
+  }
+];
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: null }
+];
+
+const content = `At Foundation Repair Adelaide, we specialize in comprehensive foundation solutions that ensure the long-term stability and safety of your property. Our team of certified professionals brings decades of experience and cutting-edge technology to every project.
+
+We understand that foundation issues can be stressful and potentially costly if left unaddressed. That's why we prioritize early detection and preventive measures, offering thorough inspections and customized repair solutions tailored to your specific needs.
+
+Our commitment to excellence extends beyond just fixing immediate problems. We focus on providing lasting solutions that protect your investment and give you peace of mind. From minor crack repairs to major foundation rehabilitation, we handle every project with the same level of dedication and expertise.`;
+---
+
+<Layout
+  title="Our Foundation Repair Services"
+  description="Comprehensive foundation repair services in Adelaide. From inspections to repairs, we provide expert solutions for all foundation issues."
+>
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <ServiceHeader
+        title="Our Foundation Repair Services"
+        subtitle="Expert solutions for all your foundation needs"
+        breadcrumbs={breadcrumbs}
+      />
+
+      <div class="grid lg:grid-cols-3 gap-12">
+        <div class="lg:col-span-2">
+          <ServiceContent content={content} />
+        </div>
+
+        <div class="lg:col-span-1">
+          <div class="sticky top-24">
+            <div class="bg-primary text-white p-8 rounded-lg shadow-lg">
+              <h3 class="text-2xl font-bold mb-4">Need Expert Help?</h3>
+              <p class="mb-6">Get a free consultation and quote for your foundation repair needs.</p>
+              <a 
+                href="/contact"
+                class="block bg-secondary hover:bg-secondary-light text-white text-center px-6 py-3 rounded-md transition-colors duration-300"
+              >
+                Get Free Quote
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-neutral-light">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-primary text-center mb-12">Our Services</h2>
+      <ServiceGrid services={services} />
+    </div>
+  </section>
+
+  <CTASection
+    title="Need Expert Foundation Repair?"
+    subtitle="Get in touch for a free consultation and quote."
+  />
+</Layout>

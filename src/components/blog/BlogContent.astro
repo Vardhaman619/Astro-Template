@@ -1,0 +1,26 @@
+---
+import BlogImage from './BlogImage.astro';
+
+interface Props {
+  content: string;
+  images?: {
+    src: string;
+    alt: string;
+    caption?: string;
+  }[];
+}
+
+const { content, images } = Astro.props;
+---
+
+<div class="prose prose-lg max-w-none">
+  <slot />
+  
+  {images && images.map(image => (
+    <BlogImage 
+      src={image.src}
+      alt={image.alt}
+      caption={image.caption}
+    />
+  ))}
+</div>

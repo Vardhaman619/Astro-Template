@@ -1,0 +1,163 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import ServiceQuoteSection from '../../components/ServiceQuoteSection.astro';
+
+export async function getStaticPaths() {
+  const suburbs = [
+    { name: 'Prospect', region: 'North Adelaide' },
+    { name: 'Walkerville', region: 'North Adelaide' },
+    { name: 'Medindie', region: 'North Adelaide' },
+    // Add other suburbs as needed
+  ];
+
+  return suburbs.map(({ name, region }) => ({
+    params: { suburb: name.toLowerCase().replace(/\s+/g, '-') },
+    props: { suburb: name, region }
+  }));
+}
+
+const { suburb, region } = Astro.props;
+---
+
+<Layout 
+  title={`Foundation Repair ${suburb} | Expert Foundation Solutions`}
+  description={`Professional foundation repair services in ${suburb}, Adelaide. Expert foundation solutions including inspection, crack repair, and underpinning.`}
+>
+  <!-- Hero Section -->
+  <section class="relative min-h-[60vh] flex items-center">
+    <div class="absolute inset-0 z-0">
+      <img 
+        src="https://images.unsplash.com/photo-1590579491624-f98f36d4c763?auto=format&fit=crop&q=80&w=2070"
+        alt={`Foundation Repair in ${suburb}`}
+        class="w-full h-full object-cover brightness-50"
+      />
+    </div>
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="flex flex-col items-start">
+        <div class="flex items-center text-white/80 mb-4">
+          <a href="/" class="hover:text-white transition-colors">Home</a>
+          <span class="mx-2">›</span>
+          <a href="/service-areas" class="hover:text-white transition-colors">Service Areas</a>
+          <span class="mx-2">›</span>
+          <span class="text-white">{suburb}</span>
+        </div>
+        <h1 class="text-5xl font-bold text-white mb-4">Foundation Repair {suburb}</h1>
+        <p class="text-xl text-white/90 max-w-2xl">Expert foundation repair solutions in {suburb}, Adelaide</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <section class="py-20">
+    <div class="container mx-auto px-4">
+      <div class="grid lg:grid-cols-2 gap-12">
+        <!-- Left Column - Brief Intro -->
+        <div>
+          <p class="text-xl font-medium text-primary leading-relaxed">
+            Foundation Repair Adelaide provides professional services to maintain structural stability and safety in homes and buildings across {suburb}.
+          </p>
+        </div>
+
+        <!-- Right Column - Quote Form -->
+        <div>
+          <div class="bg-primary text-white p-10 rounded-lg shadow-2xl">
+            <h3 class="text-3xl font-bold mb-6">FREE INSTANT QUOTE!</h3>
+            <ContactForm />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed Content -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto">
+        <div class="prose prose-lg max-w-none">
+          <h2 class="text-3xl font-bold text-primary mb-8">Foundation Repair Services in {suburb}</h2>
+          
+          <div class="mb-12">
+            <img 
+              src="https://images.unsplash.com/photo-1504615755583-2916b52192a3?auto=format&fit=crop&q=80&w=2070"
+              alt="Foundation Repair Work"
+              class="w-full h-[400px] object-cover rounded-lg shadow-lg mb-8"
+            />
+            <p class="text-lg text-neutral-600 leading-relaxed">
+              Our expert team focuses on early problem detection and swift resolution. We handle foundation issues promptly to prevent expensive repairs and structural failures. Using advanced techniques and state-of-the-art equipment, we ensure your property's foundation remains stable and secure.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-12 mb-12">
+            <div>
+              <h3 class="text-2xl font-bold text-primary mb-4">Our Approach</h3>
+              <p class="text-neutral-600">
+                We utilize steel piers to stabilize foundations by transferring building weight to more stable ground or bedrock. Our comprehensive solutions address both immediate concerns and long-term stability.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold text-primary mb-4">Quality Assurance</h3>
+              <p class="text-neutral-600">
+                Every project undergoes rigorous quality control measures. We maintain clear communication throughout the process and provide detailed documentation of all work performed.
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-neutral-light p-8 rounded-lg mb-12">
+            <h3 class="text-2xl font-bold text-primary mb-4">Why Choose Us in {suburb}</h3>
+            <ul class="space-y-4">
+              <li class="flex items-center gap-3">
+                <span class="text-secondary">✓</span>
+                <span>Local expertise and understanding of {suburb} soil conditions</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="text-secondary">✓</span>
+                <span>Comprehensive warranty options</span>
+              </li>
+              <li class="flex items-center gap-3">
+                <span class="text-secondary">✓</span>
+                <span>Advanced repair techniques and equipment</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="text-center">
+            <a 
+              href="/contact"
+              class="inline-block bg-secondary hover:bg-secondary-light text-white px-8 py-4 rounded-md font-bold transition-colors duration-300"
+            >
+              Schedule Your Inspection Today
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.prose h2 {
+  @apply text-3xl font-bold text-primary mb-6 pt-12 first:pt-0;
+}
+
+.prose h3 {
+  @apply text-2xl font-bold text-primary mb-4 pt-8;
+}
+
+.prose p {
+  @apply text-neutral-600 leading-relaxed mb-6;
+}
+
+.prose ul {
+  @apply space-y-2 my-6;
+}
+
+.prose ul li {
+  @apply flex items-center gap-2;
+}
+
+.prose ul li::before {
+  content: "•";
+  @apply text-primary font-bold;
+}
+</style>

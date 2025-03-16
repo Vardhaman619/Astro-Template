@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Config } from '../utils/config';
+
+const companyInfo = Config.getCompanyInfo();
+---
+
+<Layout 
+  title="Terms of Service"
+  description="Terms of Service for Foundation Repair Adelaide. Understand our service terms and conditions."
+>
+  <div class="py-16 bg-neutral-light">
+    <div class="container mx-auto px-4">
+      <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-lg shadow-sm">
+        <h1 class="text-4xl font-bold text-primary mb-8">Terms of Service</h1>
+        
+        <div class="prose prose-lg max-w-none">
+          <p>Last updated: {new Date().toLocaleDateString()}</p>
+
+          <h2>1. Agreement to Terms</h2>
+          <p>
+            By accessing or using the services provided by {companyInfo.name}, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not access our services.
+          </p>
+
+          <h2>2. Services</h2>
+          <p>
+            We provide foundation repair and related services. Our services include but are not limited to:
+          </p>
+          <ul>
+            <li>Foundation inspections</li>
+            <li>Foundation repairs</li>
+            <li>Crack repairs</li>
+            <li>Waterproofing</li>
+            <li>Underpinning</li>
+          </ul>
+
+          <h2>3. Service Quotes and Pricing</h2>
+          <p>
+            All quotes provided are estimates based on visible conditions. Additional costs may arise if hidden problems are discovered during work. We will communicate any changes promptly and seek your approval before proceeding.
+          </p>
+
+          <h2>4. Warranties and Guarantees</h2>
+          <p>
+            Our services come with warranties as specified in your service agreement. Warranties are subject to proper maintenance and normal use conditions.
+          </p>
+
+          <h2>5. Client Responsibilities</h2>
+          <p>You agree to:</p>
+          <ul>
+            <li>Provide accurate information about your property</li>
+            <li>Grant necessary access to your property</li>
+            <li>Maintain the property as recommended</li>
+            <li>Pay for services as agreed</li>
+          </ul>
+
+          <h2>6. Liability Limitations</h2>
+          <p>
+            We are not liable for damages caused by:
+          </p>
+          <ul>
+            <li>Pre-existing conditions</li>
+            <li>Natural disasters</li>
+            <li>Normal wear and tear</li>
+            <li>Improper maintenance</li>
+          </ul>
+
+          <h2>7. Payment Terms</h2>
+          <p>
+            Payment terms are specified in your service agreement. We may require deposits for large projects. Final payment is due upon completion of work.
+          </p>
+
+          <h2>8. Cancellation Policy</h2>
+          <p>
+            Cancellation policies vary by service type and are specified in your service agreement. Please contact us for specific details.
+          </p>
+
+          <h2>9. Dispute Resolution</h2>
+          <p>
+            Any disputes will be resolved through negotiation or mediation before pursuing legal action.
+          </p>
+
+          <h2>10. Contact Information</h2>
+          <p>
+            For questions about these Terms of Service, please contact us at:
+          </p>
+          <p>
+            Email: {Config.getEmail()}<br>
+            Phone: {Config.getPhone()}<br>
+            Address: {Config.getAddress()}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,114 @@
+---
+import Layout from './Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description: string;
+    publishDate: Date;
+    author: string;
+    category: string;
+    image: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<Layout 
+  title={frontmatter.title}
+  description={frontmatter.description}
+  type="article"
+>
+  <article class="py-16">
+    <div class="container mx-auto px-4">
+      <!-- Breadcrumbs -->
+      <div class="mb-8">
+        <nav class="flex items-center text-sm text-neutral-medium">
+          <a href="/" class="hover:text-secondary transition-colors">Home</a>
+          <span class="mx-2">›</span>
+          <a href="/blog" class="hover:text-secondary transition-colors">Blog</a>
+          <span class="mx-2">›</span>
+          <span class="text-neutral">{frontmatter.title}</span>
+        </nav>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-12">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+          <h1 class="text-4xl font-bold text-primary mb-6">{frontmatter.title}</h1>
+          
+          <div class="flex items-center gap-4 text-neutral-medium mb-8">
+            <span>{new Date(frontmatter.publishDate).toLocaleDateString()}</span>
+            <span>•</span>
+            <span>{frontmatter.category}</span>
+            <span>•</span>
+            <span>{frontmatter.author}</span>
+          </div>
+
+          <img 
+            src={frontmatter.image} 
+            alt={frontmatter.title}
+            class="w-full max-h-[400px] object-cover rounded-lg shadow-lg mb-12"
+          />
+
+          <div class="prose prose-lg max-w-none">
+            <slot />
+          </div>
+        </div>
+
+        <!-- Quote Form -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-24">
+            <div class="bg-primary text-white p-8 rounded-lg shadow-lg">
+              <h3 class="text-2xl font-bold mb-6">Get Your Free Quote</h3>
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+.prose {
+  @apply text-neutral-700;
+}
+
+.prose h2 {
+  @apply text-3xl font-bold text-primary mt-12 mb-6;
+}
+
+.prose h3 {
+  @apply text-2xl font-bold text-primary mt-8 mb-4;
+}
+
+.prose p {
+  @apply mb-6 leading-relaxed;
+}
+
+.prose img {
+  @apply rounded-lg shadow-lg my-8 max-w-[800px] mx-auto h-auto;
+}
+
+.prose ul {
+  @apply my-6 list-disc pl-6;
+}
+
+.prose li {
+  @apply mb-2;
+}
+
+/* Add spacing between images and paragraphs */
+.prose p + img,
+.prose img + p {
+  @apply mt-12;
+}
+
+/* Add spacing between consecutive images */
+.prose img + img {
+  @apply mt-16;
+}
+</style>

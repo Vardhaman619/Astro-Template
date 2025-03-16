@@ -1,0 +1,25 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  className?: string;
+}
+
+const { src, alt, className = "" } = Astro.props;
+
+// Add query parameters for Unsplash images to ensure proper sizing and quality
+const getOptimizedImageUrl = (url: string) => {
+  if (url.includes('unsplash.com')) {
+    return `${url}?auto=format&fit=crop&q=80&w=2000`;
+  }
+  return url;
+};
+---
+
+<img 
+  src={getOptimizedImageUrl(src)}
+  alt={alt}
+  class={className}
+  loading="lazy"
+  onerror="this.onerror=null; this.src='/images/fallback.jpg';"
+/>

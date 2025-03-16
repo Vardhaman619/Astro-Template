@@ -1,0 +1,28 @@
+---
+interface Props {
+  content: string;
+  features?: string[];
+}
+
+const { content, features } = Astro.props;
+---
+
+<div class="prose prose-lg max-w-none">
+  {content.split('\n\n').map(paragraph => (
+    <p>{paragraph}</p>
+  ))}
+
+  {features && features.length > 0 && (
+    <div class="mt-8">
+      <h3 class="text-2xl font-bold mb-4">Key Features</h3>
+      <ul class="space-y-2">
+        {features.map(feature => (
+          <li class="flex items-center gap-2">
+            <span class="text-secondary">✓</span>
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</div>

@@ -1,0 +1,86 @@
+---
+interface Props {
+  categories: {
+    name: string;
+    count: number;
+  }[];
+  recentPosts: {
+    title: string;
+    date: string;
+    image: string;
+    slug: string;
+  }[];
+}
+
+const { categories, recentPosts } = Astro.props;
+---
+
+<aside class="space-y-8">
+  <!-- Categories -->
+  <div class="bg-white p-8 rounded-lg shadow-sm">
+    <h2 class="text-2xl font-bold mb-6">Categories</h2>
+    <ul class="space-y-4">
+      {categories.map(category => (
+        <li class="flex items-center justify-between">
+          <a 
+            href={`/blog/category/${category.name.toLowerCase().replace(' ', '-')}`}
+            class="text-neutral hover:text-secondary transition-colors"
+          >
+            {category.name}
+          </a>
+          <span class="text-primary">{category.count}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Recent Posts -->
+  <div class="bg-white p-8 rounded-lg shadow-sm">
+    <h2 class="text-2xl font-bold mb-6">Recent Posts</h2>
+    <div class="space-y-6">
+      {recentPosts.slice(0, 3).map(post => (
+        <a href={post.slug} class="flex gap-4 group">
+          <img
+            src={post.image}
+            alt={post.title}
+            class="w-20 h-20 object-cover rounded"
+          />
+          <div>
+            <h3 class="font-semibold group-hover:text-secondary transition-colors line-clamp-2">
+              {post.title}
+            </h3>
+            <p class="text-sm text-neutral-medium">{post.date}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- Quote Form -->
+  <div class="bg-primary text-white p-8 rounded-lg">
+    <h2 class="text-2xl font-bold mb-6">Get a Free Quote</h2>
+    <form class="space-y-4">
+      <input
+        type="text"
+        placeholder="Name"
+        class="w-full px-4 py-2 rounded bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:border-white"
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        class="w-full px-4 py-2 rounded bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:border-white"
+      />
+      <textarea
+        placeholder="Message"
+        rows="4"
+        class="w-full px-4 py-2 rounded bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:border-white"
+      ></textarea>
+      <button
+        type="submit"
+        class="w-full bg-secondary hover:bg-secondary-light text-white py-2 rounded transition-colors"
+      >
+        Submit
+      </button>
+    </form>
+  </div>
+</aside>

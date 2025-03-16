@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import { latestNewsContent } from '../config/content/latest-news';
+
+// Get all blog posts and sort by publish date
+const allPosts = await getCollection('blog');
+const latestPosts = allPosts
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 3);
+
+// Only render section if there are posts
+const hasPosts = latestPosts.length > 0;
+const { title, subtitle } = latestNewsContent;
+---
+
+{hasPosts && (
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <!-- Call to Action Banner -->
+      <div class="bg-primary mb-20 py-4 px-6 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4">
+        <h2 class="text-2xl text-white font-bold text-center md:text-left">Make an Appointment Today</h2>
+        <a 
+          href="/contact" 
+          class="bg-yellow-200 hover:bg-yellow-300 text-primary px-6 py-2 rounded flex items-center gap-2 transition-colors duration-300"
+        >
+          Get a Free Estimate
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Latest News Section -->
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-primary mb-4">{title}</h2>
+        <p class="text-xl text-neutral-600">{subtitle}</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        {latestPosts.map(post => (
+          <article class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <a href={`/blog/${post.slug}`} class="block">
+              <img 
+                src={post.data.image} 
+                alt={post.data.title}
+                class="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </a>
+            <div class="p-6">
+              <h3 class="text-2xl font-bold mb-2 hover:text-secondary transition-colors duration-300">
+                <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+              </h3>
+              <div class="flex items-center text-sm text-neutral mb-4">
+                <span>{post.data.publishDate.toLocaleDateString()}</span>
+                <span class="mx-2">|</span>
+                <span>{post.data.category}</span>
+              </div>
+              <p class="text-neutral mb-4">{post.data.description}</p>
+              <a 
+                href={`/blog/${post.slug}`}
+                class="text-secondary hover:text-primary font-semibold inline-flex items-center gap-2"
+              >
+                READ MORE
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

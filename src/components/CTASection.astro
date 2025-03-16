@@ -1,0 +1,38 @@
+---
+import ContactForm from './ContactForm.astro';
+
+interface Props {
+  title: string;
+  subtitle: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<section class="py-16 bg-primary">
+  <div class="container mx-auto px-4">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="text-white">
+        <h2 class="text-3xl font-bold mb-4">{title}</h2>
+        <p class="text-xl mb-8">{subtitle}</p>
+        <ul class="space-y-4">
+          <li class="flex items-center">
+            <span class="mr-2">✓</span>
+            Free Initial Consultation
+          </li>
+          <li class="flex items-center">
+            <span class="mr-2">✓</span>
+            Expert Team
+          </li>
+          <li class="flex items-center">
+            <span class="mr-2">✓</span>
+            Guaranteed Work
+          </li>
+        </ul>
+      </div>
+      <div>
+        <ContactForm />
+      </div>
+    </div>
+  </div>
+</section>

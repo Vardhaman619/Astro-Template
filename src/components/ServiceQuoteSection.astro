@@ -1,0 +1,51 @@
+---
+import ContactForm from './ContactForm.astro';
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const { 
+  title = "Get Your Free Foundation Inspection Quote",
+  subtitle = "Expert foundation repair solutions in Adelaide"
+} = Astro.props;
+---
+
+<div class="bg-white p-8 rounded-lg shadow-xl border border-gray-100">
+  <div class="text-center mb-8">
+    <h3 class="text-3xl font-bold text-primary mb-3">{title}</h3>
+    <p class="text-neutral-medium">{subtitle}</p>
+  </div>
+
+  <ContactForm />
+
+  <div class="mt-8 pt-8 border-t border-gray-100">
+    <div class="flex flex-col space-y-4">
+      <div class="flex items-center gap-3">
+        <div class="text-secondary">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <span class="text-neutral">Free Initial Consultation</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="text-secondary">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <span class="text-neutral">No Obligation Quote</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="text-secondary">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <span class="text-neutral">Expert Assessment</span>
+      </div>
+    </div>
+  </div>
+</div>

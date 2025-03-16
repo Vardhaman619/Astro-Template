@@ -1,0 +1,57 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import BlogCard from '../../../components/blog/BlogCard.astro';
+import Pagination from '../../../components/blog/Pagination.astro';
+import QuoteSidebar from '../../../components/blog/QuoteSidebar.astro';
+
+export async function getStaticPaths({ paginate }) {
+  // Simulated blog posts data
+  const allPosts = Array.from({ length: 30 }, (_, i) => ({
+    id: i + 1,
+    title: `Foundation Repair Tips ${i + 1}`,
+    excerpt: 'Learn about the most effective methods for foundation repair and maintenance...',
+    date: new Date(2024, 0, i + 1).toLocaleDateString(),
+    image: `https://images.unsplash.com/photo-${1570129477492 + i}?auto=format&fit=crop&q=80&w=2070`,
+    category: 'Foundation Tips',
+    author: 'John Doe',
+    slug: `/blog/foundation-repair-tips-${i + 1}`
+  }));
+
+  return paginate(allPosts, { pageSize: 10 });
+}
+
+const { page } = Astro.props;
+---
+
+<Layout 
+  title={`Foundation Repair Blog - Page ${page.currentPage}`}
+  description="Stay updated with the latest foundation repair tips, techniques, and industry insights from Adelaide's leading foundation repair experts."
+>
+  <section class="bg-primary text-white py-20">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">Foundation Repair Blog</h1>
+      <p class="text-xl text-gray-300 max-w-2xl">
+        Expert insights, tips, and news about foundation repair, maintenance, and structural integrity.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+          <div class="grid md:grid-cols-2 gap-8 mb-12">
+            {page.data.map(post => <BlogCard post={post} />)}
+          </div>
+          <Pagination currentPage={page.currentPage} totalPages={page.lastPage} />
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+          <QuoteSidebar />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

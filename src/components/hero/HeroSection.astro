@@ -1,0 +1,53 @@
+---
+import type { HeroContent } from '../../types/content';
+import Image from '../common/Image.astro';
+
+interface Props {
+  content: HeroContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="relative min-h-[80vh] flex items-center">
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10"></div>
+    <Image 
+      src="https://images.unsplash.com/photo-1590579491624-f98f36d4c763"
+      alt="Foundation Repair Services"
+      className="w-full h-full object-cover"
+    />
+  </div>
+  <div class="container mx-auto px-4 relative z-20">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="text-center md:text-left">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 [text-shadow:_2px_2px_4px_rgb(0_0_0_/_50%)]">
+          {content.title}
+        </h1>
+        <p class="text-lg md:text-xl text-white/90 mb-8 [text-shadow:_1px_1px_2px_rgb(0_0_0_/_50%)]">
+          {content.description}
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+          <a 
+            href={content.cta.primary.href}
+            class="bg-white text-primary hover:bg-neutral-light px-8 py-4 rounded-md font-bold transition duration-300 text-center shadow-lg hover:shadow-xl"
+          >
+            {content.cta.primary.text}
+          </a>
+          <a 
+            href={content.cta.secondary.href}
+            class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-md font-bold transition duration-300 text-center shadow-lg hover:shadow-xl"
+          >
+            {content.cta.secondary.text}
+          </a>
+        </div>
+      </div>
+      <div class="flex justify-end mt-8 md:mt-0">
+        <div class="bg-white/95 p-6 md:p-8 rounded-lg shadow-xl backdrop-blur-sm w-full max-w-lg">
+          <h2 class="text-xl md:text-2xl font-bold text-primary mb-6">Get Your Free Quote</h2>
+          <slot />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
