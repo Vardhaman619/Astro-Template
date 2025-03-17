@@ -1,15 +1,14 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig, envField } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 import { VitePWA } from 'vite-plugin-pwa';
 
+import icon from 'astro-icon';
+
 export default defineConfig({
   site: 'https://foundationrepairadelaide.com.au',
-  integrations: [
-    tailwind(),
-    sitemap()
-  ],
-  compressHTML: true,
+  output: "static",
+  integrations: [tailwind(), sitemap(), icon()],
   build: {
     inlineStylesheets: 'auto'
   },
@@ -65,6 +64,13 @@ export default defineConfig({
           }
         }
       }
+    }
+  },
+  env: {
+    schema: {
+      SENDGRID_API_KEY: envField.string({ context: "server", access: "secret" }),
+      SENDER_MAIL_ADDRESS: envField.string({ context: "server", access: "secret" }),
+      RECEIVER_MAIL_ADDRESS: envField.string({ context: "server", access: "secret" })
     }
   }
 });

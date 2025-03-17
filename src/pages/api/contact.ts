@@ -1,3 +1,5 @@
+// make this dynamic api endpoint
+export const prerender = false
 import type { APIRoute } from 'astro';
 import { sendEmail, type EmailFormData } from '../../utils/email';
 
@@ -18,6 +20,7 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { 'Content-Type': 'application/json' }
     });
   } catch (error) {
+    console.error(error)
     return new Response(JSON.stringify({ error: 'Failed to process request' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }

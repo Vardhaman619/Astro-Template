@@ -6,6 +6,8 @@ To run this project, you need to set up the following environment variables in a
 
 ```bash
 SENDGRID_API_KEY=your_sendgrid_api_key_here
+SENDER_MAIL_ADDRESS=sender-mail-address
+RECEIVER_MAIL_ADDRESS=receiver-mail-address
 ```
 
 ## Email Configuration

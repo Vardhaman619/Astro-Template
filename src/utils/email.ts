@@ -1,8 +1,8 @@
 import sgMail from '@sendgrid/mail';
 import { z } from 'zod';
-
+import { SENDGRID_API_KEY, RECEIVER_MAIL_ADDRESS, SENDER_MAIL_ADDRESS } from "astro:env/server"
 // Email validation schema
-const emailSchema = z.object({
+export const emailSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email address"),
@@ -13,12 +13,8 @@ const emailSchema = z.object({
 
 export type EmailFormData = z.infer<typeof emailSchema>;
 
-// Initialize SendGrid
-const apiKey = import.meta.env.SENDGRID_API_KEY;
-if (!apiKey) {
-  throw new Error('SENDGRID_API_KEY environment variable is not set');
-}
-sgMail.setApiKey(apiKey);
+
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 export async function sendEmail(data: EmailFormData) {
   try {
@@ -40,8 +36,8 @@ export async function sendEmail(data: EmailFormData) {
 
     // Send email using SendGrid
     await sgMail.send({
-      to: import.meta.env.ADMIN_EMAIL,
-      from: import.meta.env.SITE_EMAIL, // Must be verified in SendGrid
+      to: RECEIVER_MAIL_ADDRESS,
+      from: SENDER_MAIL_ADDRESS, // Must be verified in SendGrid
       subject: 'New Quote Request - Foundation Repair Adelaide',
       text: emailContent,
       html: emailContent.replace(/\n/g, '<br>')
@@ -49,10 +45,11 @@ export async function sendEmail(data: EmailFormData) {
 
     return { success: true };
   } catch (error) {
-    console.error('Email error:', error);
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Failed to send email' 
+    console.log(SENDER_MAIL_ADDRESS)
+    console.error('Email error:', JSON.stringify(error));
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to send email'
     };
   }
 }

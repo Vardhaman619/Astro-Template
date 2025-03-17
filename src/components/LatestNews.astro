@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import { latestNewsContent } from '../config/content/latest-news';
+import { Image } from 'astro:assets';
 
 // Get all blog posts and sort by publish date
 const allPosts = await getCollection('blog');
@@ -40,7 +41,7 @@ const { title, subtitle } = latestNewsContent;
         {latestPosts.map(post => (
           <article class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
             <a href={`/blog/${post.slug}`} class="block">
-              <img 
+              <Image 
                 src={post.data.image} 
                 alt={post.data.title}
                 class="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"

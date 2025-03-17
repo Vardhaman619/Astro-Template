@@ -3,12 +3,13 @@ title: "Managing Foundation Issues: Tips for a Stress-Free Repair"
 description: "Expert guidance on handling foundation repairs effectively, from initial assessment to completion. Learn how to ensure a smooth repair process."
 publishDate: 2024-03-20
 author: "John Smith"
-image: "https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=1200&h=800&q=80"
+image: "../../assets/images/blog-image.jpg"
+imageCaption: "Image caption text"
 category: "Foundation Tips"
 featured: true
+readTimeInMinutes: 6
 ---
 
-# Managing Foundation Issues: Tips for a Stress-Free Repair
 
 Foundation issues can be daunting, but with proper planning and professional guidance, the repair process can be smooth and stress-free. Here's your comprehensive guide to managing foundation repairs effectively.
 

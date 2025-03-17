@@ -1,19 +1,19 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import HeroSection from '../components/hero/HeroSection.astro';
-import ContactForm from '../components/ContactForm.astro';
-import DifferenceSection from '../components/DifferenceSection.astro';
-import TestimonialsSection from '../components/TestimonialsSection.astro';
-import WhyChooseUs from '../components/WhyChooseUs.astro';
-import LatestNews from '../components/LatestNews.astro';
-import AppointmentSection from '../components/AppointmentSection.astro';
-import ContentSection from '../components/sections/ContentSection.astro';
-import { homeContent } from '../config/content/home';
+import Layout from "../layouts/Layout.astro";
+import HeroSection from "../components/hero/HeroSection.astro";
+import ContactForm from "../components/ContactForm.astro";
+import DifferenceSection from "../components/DifferenceSection.astro";
+import TestimonialsSection from "../components/TestimonialsSection.astro";
+import WhyChooseUs from "../components/WhyChooseUs.astro";
+import LatestNews from "../components/LatestNews.astro";
+import AppointmentSection from "../components/AppointmentSection.astro";
+import ContentSection from "../components/sections/ContentSection.astro";
+import { homeContent } from "../config/content/home";
 
 const { hero, sections } = homeContent;
 ---
 
-<Layout 
+<Layout
   title="Expert Foundation Repair Services in Adelaide"
   description="Adelaide's trusted foundation repair specialists. We provide professional foundation inspection, crack repair, and underpinning services. Get your free quote today!"
 >
@@ -21,9 +21,7 @@ const { hero, sections } = homeContent;
     <ContactForm />
   </HeroSection>
 
-  {sections.map(section => (
-    <ContentSection section={section} />
-  ))}
+  {sections.map((section) => <ContentSection section={section} />)}
 
   <DifferenceSection />
   <WhyChooseUs />

@@ -1,23 +1,23 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import SEO from '../components/SEO.astro';
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import SEO from "../components/SEO.astro";
 
 interface Props {
   title: string;
   description: string;
   image?: string;
   noindex?: boolean;
-  type?: 'website' | 'article';
+  type?: "website" | "article";
 }
 
 const { title, description, image, noindex, type } = Astro.props;
 
 // Critical CSS paths
 const criticalStyles = [
-  '/styles/critical/base.css',
-  '/styles/critical/header.css',
-  '/styles/critical/hero.css'
+  "/styles/critical/base.css",
+  "/styles/critical/header.css",
+  "/styles/critical/hero.css",
 ];
 ---
 
@@ -27,7 +27,7 @@ const criticalStyles = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    
+
     <SEO
       title={title}
       description={description}
@@ -35,22 +35,32 @@ const criticalStyles = [
       noindex={noindex}
       type={type}
     />
-    
+
     <!-- Inline critical CSS -->
-    {criticalStyles.map(style => 
-      <link rel="stylesheet" href={style} media="print" onload="this.media='all'" />
-    )}
+    {
+      criticalStyles.map((style) => (
+        <link
+          rel="stylesheet"
+          href={style}
+          media="print"
+          onload="this.media='all'"
+        />
+      ))
+    }
 
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
-    
+
     <!-- DNS prefetch -->
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
-    
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script>
-      import { loadDeferredStyles, preloadCriticalImages } from '../utils/css-loader';
-      document.addEventListener('DOMContentLoaded', () => {
+      import {
+        loadDeferredStyles,
+        preloadCriticalImages,
+      } from "../utils/css-loader";
+      document.addEventListener("DOMContentLoaded", () => {
         loadDeferredStyles();
         preloadCriticalImages();
       });
@@ -58,9 +68,10 @@ const criticalStyles = [
   </head>
   <body class="bg-neutral-light">
     <Header />
-    <main class="pt-32 lg:pt-20">
+    <main class="pt-20">
       <slot />
     </main>
     <Footer />
+    <script src="../scripts/contact-form.ts"></script>
   </body>
 </html>
