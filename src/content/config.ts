@@ -23,13 +23,17 @@ const blog = defineCollection({
 
 const services = defineCollection({
   type: 'content',
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string(),
     icon: z.string(),
-    image: z.string(),
+    image: image(),
     order: z.number(),
-    featured: z.boolean().default(false)
+    featured: z.boolean().default(false),
+    serviceName: z.string(),
+    process: z.array(z.string()),
+    benefits: z.array(z.string()),
+    whyChooseUs: z.array(z.string()),
   })
 });
 

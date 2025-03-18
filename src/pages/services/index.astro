@@ -4,44 +4,12 @@ import ServiceHeader from '../../components/services/ServiceHeader.astro';
 import ServiceGrid from '../../components/services/ServiceGrid.astro';
 import ServiceContent from '../../components/services/ServiceContent.astro';
 import CTASection from '../../components/CTASection.astro';
+import { getCollection } from 'astro:content';
 
-const services = [
-  {
-    title: 'Foundation Inspection',
-    description: 'Comprehensive foundation assessments to identify issues early',
-    image: '/images/foundation-inspection.jpg',
-    slug: '/services/foundation-inspection',
-    icon: '🔍'
-  },
-  {
-    title: 'Crack Repair',
-    description: 'Expert repair of foundation cracks and structural damage',
-    image: '/images/crack-repair.jpg',
-    slug: '/services/crack-repair',
-    icon: '🏗️'
-  },
-  {
-    title: 'Underpinning',
-    description: 'Strengthen and stabilize existing foundations',
-    image: '/images/underpinning.jpg',
-    slug: '/services/underpinning',
-    icon: '🏠'
-  },
-  {
-    title: 'Waterproofing',
-    description: 'Protect your foundation from water damage',
-    image: '/images/waterproofing.jpg',
-    slug: '/services/waterproofing',
-    icon: '💧'
-  },
-  {
-    title: 'Slab Leveling',
-    description: 'Level and stabilize concrete slabs',
-    image: '/images/slab-leveling.jpg',
-    slug: '/services/slab-leveling',
-    icon: '📏'
-  }
-];
+const services = (await getCollection("services")).map((service) => ({
+  ...service.data,
+  slug: service.slug
+}));
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },

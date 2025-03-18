@@ -2,9 +2,28 @@
 title: "Foundation Inspection"
 description: "Comprehensive foundation assessment service to identify and prevent structural issues"
 icon: "🔍"
-image: "/images/services/foundation-inspection.jpg"
+image: "./services-image.jpg"
 order: 1
 featured: true
+serviceName: "Foundation Inspection"
+process:
+  - "Visual Assessment"
+  - "Structural Evaluation"
+  - "Moisture Testing"
+  - "Documentation"
+  - "Detailed Report"
+  - "Recommendations"
+benefits:
+  - "Early problem detection"
+  - "Preventive maintenance"
+  - "Cost savings"
+  - "Peace of mind"
+  - "Property value protection"
+whyChooseUs:
+  - "Certified inspectors with years of experience"
+  - "State-of-the-art inspection equipment"
+  - "Detailed reports with clear recommendations"
+  - "Competitive pricing and transparent quotes"
 ---
 
 Our professional foundation inspection service provides a thorough assessment of your property's structural integrity. Using advanced diagnostic tools and techniques, our experienced team identifies potential issues before they become major problems.

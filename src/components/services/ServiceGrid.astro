@@ -1,14 +1,9 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 import ServiceCard from './ServiceCard.astro';
 
 interface Props {
-  services: {
-    title: string;
-    description: string;
-    image: string;
-    icon: string;
-    slug: string;
-  }[];
+  services: (CollectionEntry<"services">["data"] & { slug: string})[];
 }
 
 const { services } = Astro.props;
