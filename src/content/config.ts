@@ -18,6 +18,16 @@ const blog = defineCollection({
     })).optional(),
     readTimeInMinutes: z.number(),
     imageCaption: z.string().optional(),
+    cta: z.object({
+      enable: z.boolean().default(false),
+      heading: z.string().optional().default("Make an Appointment Today"),
+      buttons: z.array(z.object({
+        text: z.string(),
+        link: z.string(),
+        type: z.enum(["primary", "secondary"]),
+        icon: z.string()
+      })).optional().default([{ text: "Call Now", link: "/", type: "primary", icon: "lucide:phone" }, { text: "Get Quote", link: "/", type: "primary", icon: "lucide:mail" }])
+    }).optional()
   })
 });
 

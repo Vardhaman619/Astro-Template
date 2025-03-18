@@ -11,7 +11,7 @@ const { title, description: subtitle, description, image } = Astro.props;
 
 <Layout title={title} description={description}>
   <!-- Hero Section -->
-  <section class="relative min-h-[60vh] flex items-center">
+  <section class="relative min-h-[60vh] py-14 md:py-10 flex items-center">
     <div class="absolute inset-0 z-0">
       <Image
         src={image}
@@ -19,8 +19,8 @@ const { title, description: subtitle, description, image } = Astro.props;
         class="w-full h-full object-cover brightness-50"
       />
     </div>
-    <div class="container mx-auto px-4 relative z-10">
-      <div class="flex flex-col items-start">
+    <div class="container mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-x-6 items-center gap-y-10">
+      <div class="flex flex-col md:items-start items-center ">
         <div class="flex items-center text-white/80 mb-4">
           <a href="/" class="hover:text-white transition-colors">Home</a>
           <span class="mx-2">›</span>
@@ -30,17 +30,27 @@ const { title, description: subtitle, description, image } = Astro.props;
           <span class="mx-2">›</span>
           <span class="text-white">{title}</span>
         </div>
-        <h1 class="text-5xl font-bold text-white mb-4">{title}</h1>
-        <p class="text-xl text-white/90 max-w-2xl">{subtitle}</p>
+        <h1 class="text-5xl font-bold text-white mb-4 text-center md:text-left">{title}</h1>
+        <p class="text-xl text-white/90 max-w-2xl text-center md:text-left">{subtitle}</p>
+      </div>
+      <div class="flex justify-center lg:justify-end">
+        <div
+          class="bg-white/95 p-6 md:p-8 rounded-lg shadow-xl backdrop-blur-sm w-full max-w-lg"
+        >
+          <h2 class="text-xl md:text-2xl font-bold text-primary mb-6">
+            Get Your Free Quote
+          </h2>
+          <ContactForm />
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Main Content -->
-  <section class="py-20">
+<!-- Main Content -->
+<!-- <section class="py-20">
     <div class="container mx-auto px-4">
       <div class="grid lg:grid-cols-2 gap-12">
-        <!-- Left Column - Brief Intro -->
+        Left Column - Brief Intro
         <div>
           <p class="text-xl font-medium text-primary leading-relaxed">
             Foundation Repair Adelaide provides professional services to
@@ -49,7 +59,7 @@ const { title, description: subtitle, description, image } = Astro.props;
           </p>
         </div>
 
-        <!-- Right Column - Quote Form -->
+        Right Column - Quote Form
         <div>
           <div class="bg-primary text-white p-10 rounded-lg shadow-2xl">
             <h3 class="text-3xl font-bold mb-6">FREE INSTANT QUOTE!</h3>
@@ -58,57 +68,56 @@ const { title, description: subtitle, description, image } = Astro.props;
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
-  <!-- Detailed Content -->
-  <section class="py-20 bg-white">
-    <div class="container mx-auto px-4">
-      <div class="max-w-4xl mx-auto">
-        <div class="prose prose-lg max-w-none">
-          <div class="mb-12">
-            <img
-              src="https://images.unsplash.com/photo-1504615755583-2916b52192a3?auto=format&fit=crop&q=80&w=2070"
-              alt="Foundation Repair Work"
-              class="w-full h-[400px] object-cover rounded-lg shadow-lg mb-8"
-            />
-            <slot />
-          </div>
+<!-- Detailed Content -->
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="prose prose-lg max-w-none">
+        <div class="mb-12">
+          <img
+            src="https://images.unsplash.com/photo-1504615755583-2916b52192a3?auto=format&fit=crop&q=80&w=2070"
+            alt="Foundation Repair Work"
+            class="w-full h-[400px] object-cover rounded-lg shadow-lg mb-8"
+          />
+          <slot />
+        </div>
 
-          <div class="grid md:grid-cols-2 gap-12 mb-12">
-            <div>
-              <h3 class="text-2xl font-bold text-primary mb-4">Our Approach</h3>
-              <p class="text-neutral-600">
-                We utilize advanced techniques and state-of-the-art equipment to
-                ensure your property's foundation remains stable and secure. Our
-                comprehensive solutions address both immediate concerns and
-                long-term stability.
-              </p>
-            </div>
-            <div>
-              <h3 class="text-2xl font-bold text-primary mb-4">
-                Quality Assurance
-              </h3>
-              <p class="text-neutral-600">
-                Every project undergoes rigorous quality control measures. We
-                maintain clear communication throughout the process and provide
-                detailed documentation of all work performed.
-              </p>
-            </div>
+        <div class="grid md:grid-cols-2 gap-12 mb-12">
+          <div>
+            <h3 class="text-2xl font-bold text-primary mb-4">Our Approach</h3>
+            <p class="text-neutral-600">
+              We utilize advanced techniques and state-of-the-art equipment to
+              ensure your property's foundation remains stable and secure. Our
+              comprehensive solutions address both immediate concerns and
+              long-term stability.
+            </p>
           </div>
+          <div>
+            <h3 class="text-2xl font-bold text-primary mb-4">
+              Quality Assurance
+            </h3>
+            <p class="text-neutral-600">
+              Every project undergoes rigorous quality control measures. We
+              maintain clear communication throughout the process and provide
+              detailed documentation of all work performed.
+            </p>
+          </div>
+        </div>
 
-          <div class="text-center">
-            <a
-              href="/contact"
-              class="inline-block bg-secondary hover:bg-secondary-light text-white px-8 py-4 rounded-md font-bold transition-colors duration-300"
-            >
-              Schedule Your Service Today
-            </a>
-          </div>
+        <div class="text-center">
+          <a
+            href="/contact"
+            class="inline-block bg-secondary hover:bg-secondary-light text-white px-8 py-4 rounded-md font-bold transition-colors duration-300"
+          >
+            Schedule Your Service Today
+          </a>
         </div>
       </div>
     </div>
-  </section>
-</Layout>
+  </div>
+</section>
 
 <style>
   .prose h2 {

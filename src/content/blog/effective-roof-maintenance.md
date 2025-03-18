@@ -6,7 +6,20 @@ author: "Jane Doe"
 image: "../../assets/images/blog-image.jpg"  
 category: "Home Maintenance"  
 featured: true
-readTimeInMinutes: 5  
+readTimeInMinutes: 5
+#----------- CTA Config -------------------
+cta:
+    enable: true
+    heading: "Make an Appointment Today"
+    buttons:
+        - text: "button text"
+          link: "/link"
+          type: "primary"
+          icon: "lucide:phone"
+        - text: "button text 2"
+          link: "/link"
+          type: "secondary"
+          icon: "lucide:mail"
 ---
 
 

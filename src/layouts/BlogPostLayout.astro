@@ -82,7 +82,8 @@ const { frontmatter } = Astro.props;
             <div class="prose prose-lg max-w-none">
               <slot />
             </div>
-            <div
+            {frontmatter.cta.enable ? (
+              <div
               class="bg-primary rounded shadow text-white p-4 flex items-center justify-between mt-12 gap-x-8"
             >
               <p class="text-xl font-semibold">Make an Appointment Today</p>
@@ -97,6 +98,7 @@ const { frontmatter } = Astro.props;
                 </a>
               </div>
             </div>
+            ): null }
           </div>
         </div>
         <!-- Quote Form -->
