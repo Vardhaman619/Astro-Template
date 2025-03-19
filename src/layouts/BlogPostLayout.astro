@@ -82,23 +82,29 @@ const { frontmatter } = Astro.props;
             <div class="prose prose-lg max-w-none">
               <slot />
             </div>
-            {frontmatter.cta.enable ? (
-              <div
-              class="bg-primary rounded shadow text-white p-4 flex items-center justify-between mt-12 gap-x-8"
-            >
-              <p class="text-xl font-semibold">Make an Appointment Today</p>
-              <div class="flex gap-4">
-                <a class="flex gap-x-2 items-center bg-accent p-2.5 rounded-lg" href={`tel:${Config.getPhone()}`}>
-                  <Icon name="lucide:phone" />
-                  Call Now</a
-                >
-                <a class="flex gap-x-2 items-center bg-secondary p-2.5 rounded-lg" href="/contact">
-                  <Icon name="lucide:mail" />
-                  Get Quote
-                </a>
-              </div>
-            </div>
-            ): null }
+            {
+              frontmatter?.cta?.enable ? (
+                <div class="bg-primary rounded shadow text-white p-4 flex items-center justify-between mt-12 gap-x-8">
+                  <p class="text-xl font-semibold">Make an Appointment Today</p>
+                  <div class="flex gap-4">
+                    <a
+                      class="flex gap-x-2 items-center bg-accent p-2.5 rounded-lg"
+                      href={`tel:${Config.getPhone()}`}
+                    >
+                      <Icon name="lucide:phone" />
+                      Call Now
+                    </a>
+                    <a
+                      class="flex gap-x-2 items-center bg-secondary p-2.5 rounded-lg"
+                      href="/contact"
+                    >
+                      <Icon name="lucide:mail" />
+                      Get Quote
+                    </a>
+                  </div>
+                </div>
+              ) : null
+            }
           </div>
         </div>
         <!-- Quote Form -->
