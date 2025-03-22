@@ -1,0 +1,47 @@
+---
+import { Picture } from "astro:assets";
+import ServiceImage from "../../../assets/images/services/image-1.png";
+import { cn } from "../../../utils/cn.ts";
+interface Props {
+    title: string;
+    tagLine?: string;
+    cta?: {
+        text: string;
+        link: string;
+        type: "primary" | "secondary";
+    };
+}
+const { title, tagLine, cta } = Astro.props;
+---
+
+<section class="py-20">
+    <div class="container mx-auto px-4 grid md:grid-cols-2 gap-10 items-center md:items-start">
+        <div class="grid place-items-center md:place-items-start">
+            <slot name="image">
+                <Picture src={ServiceImage} alt="service image" />
+            </slot>
+        </div>
+        <div class="flex flex-col items-start gap-y-4">
+            <span class="w-14 inline-block h-0.5 rounded-full bg-secondary"></span>
+            {tagLine ? <strong class="text-xl font-semibold">{tagLine}</strong> : null}
+            <h2 class="text-2xl font-bold">{title}</h2>
+            <div class="prose lg:prose-lg mt-3">
+                <slot name="content" />
+            </div>
+            {
+                cta ? (
+                    <a
+                        href={cta.link}
+                        class={cn("px-10 mt-4 py-3 transition-all duration-300 font-semibold mx-auto", {
+                            "bg-primary text-white ": cta.type === "primary",
+                            "bg-secondary text-primary ":
+                                cta.type === "secondary",
+                        })}
+                    >
+                        {cta.text}
+                    </a>
+                ) : null
+            }
+        </div>
+    </div>
+</section>
