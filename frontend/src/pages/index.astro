@@ -12,7 +12,18 @@ import { homeContent } from "../config/content/home";
 import FluidContentSection from "../components/FluidContentSection.astro";
 import FluidContentSectionImage from "../assets/images/fluid-content-section-image.png";
 import TwoTilesSection from "../components/TwoTilesSection.astro";
+import { payloadcmsClient } from "../utils/payloadcms";
+import axios from "axios";
 const { hero, sections } = homeContent;
+const data = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/index?depth=1&draft=false&locale=undefined`,
+  {
+    headers:{
+      'Authorization':`users API-Key ${import.meta.env.PAYLOADCMS_AUTH_TOKEN}`,
+    },
+    credentials:"include",
+  }).then(data=>data.json())
+
+console.log(data)
 ---
 
 <Layout

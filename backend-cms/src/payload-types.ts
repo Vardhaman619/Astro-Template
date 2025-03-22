@@ -74,6 +74,7 @@ export interface Config {
     'map-with-content-section': MapWithContentSection;
     'blogs-grid-section': BlogsGridSection;
     'services-grid-section': ServicesGridSection;
+    'testimonial-section': TestimonialSection;
   };
   collections: {
     users: User;
@@ -111,6 +112,7 @@ export interface Config {
     colors: Color;
     header: Header;
     setting: Setting;
+    's-area': SArea;
   };
   globalsSelect: {
     index: IndexSelect<false> | IndexSelect<true>;
@@ -118,6 +120,7 @@ export interface Config {
     colors: ColorsSelect<false> | ColorsSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
     setting: SettingSelect<false> | SettingSelect<true>;
+    's-area': SAreaSelect<false> | SAreaSelect<true>;
   };
   locale: null;
   user: User & {
@@ -152,13 +155,13 @@ export interface UserAuthOperations {
  */
 export interface ContentSection {
   direction?: ('vertical' | 'horizontal') | null;
-  backgroundType?: ('white' | 'gray' | 'primary' | 'secondary') | null;
+  backgroundType?: ('white' | 'gray' | 'primary') | null;
   content: {
     heading: {
       /**
        * A short tagline to go with the title
        */
-      tagLine: string;
+      tagLine?: string | null;
       title: string;
       alignment?: ('left' | 'center' | 'right') | null;
     };
@@ -3619,6 +3622,14 @@ export interface Blog {
         }[]
       | null;
   };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -3654,9 +3665,20 @@ export interface ServicesGridSection {
  */
 export interface Service {
   id: number;
-  title: string;
-  description: string;
-  featuredImage: number | Media;
+  heroSection: {
+    showContactForm: boolean;
+    title: string;
+    description?: string | null;
+    ctas?:
+      | {
+          label: string;
+          link: string;
+          variant: 'primary' | 'secondary';
+          id?: string | null;
+        }[]
+      | null;
+    backgroundImage?: (number | null) | Media;
+  };
   sections?:
     | (
         | IconCardsGridSection
@@ -3667,8 +3689,43 @@ export interface Service {
         | MapWithContentSection
         | BlogsGridSection
         | ServicesGridSection
+        | TestimonialSection
       )[]
     | null;
+  slug?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonial-section".
+ */
+export interface TestimonialSection {
+  title: string;
+  description: string;
+  testimonials: (number | Testimonial)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testimonial-section';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonial".
+ */
+export interface Testimonial {
+  id: number;
+  reviewerName: string;
+  title: string;
+  content: string;
+  rating: number;
   updatedAt: string;
   createdAt: string;
 }
@@ -3680,6 +3737,9 @@ export interface User {
   id: number;
   updatedAt: string;
   createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -3698,19 +3758,6 @@ export interface Author {
   name: string;
   email: string;
   bio?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonial".
- */
-export interface Testimonial {
-  id: number;
-  reviewerName: string;
-  title: string;
-  content: string;
-  rating: number;
   updatedAt: string;
   createdAt: string;
 }
@@ -3834,6 +3881,9 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
@@ -3919,6 +3969,13 @@ export interface BlogSelect<T extends boolean = true> {
               id?: T;
             };
       };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3944,10 +4001,31 @@ export interface ServiceAreaSelect<T extends boolean = true> {
  * via the `definition` "service_select".
  */
 export interface ServiceSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  featuredImage?: T;
+  heroSection?:
+    | T
+    | {
+        showContactForm?: T;
+        title?: T;
+        description?: T;
+        ctas?:
+          | T
+          | {
+              label?: T;
+              link?: T;
+              variant?: T;
+              id?: T;
+            };
+        backgroundImage?: T;
+      };
   sections?: T | {};
+  slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3989,14 +4067,19 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Index {
   id: number;
-  title: string;
-  description: string;
-  featuredImage: number | Media;
-  noindex?: boolean | null;
-  testimonials: {
+  heroSection: {
+    showContactForm: boolean;
     title: string;
-    description: string;
-    testimonials: (number | Testimonial)[];
+    description?: string | null;
+    ctas?:
+      | {
+          label: string;
+          link: string;
+          variant: 'primary' | 'secondary';
+          id?: string | null;
+        }[]
+      | null;
+    backgroundImage?: (number | null) | Media;
   };
   sections?:
     | (
@@ -4008,8 +4091,17 @@ export interface Index {
         | MapWithContentSection
         | BlogsGridSection
         | ServicesGridSection
+        | TestimonialSection
       )[]
     | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4050,8 +4142,17 @@ export interface About {
         | MapWithContentSection
         | BlogsGridSection
         | ServicesGridSection
+        | TestimonialSection
       )[]
     | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -4166,21 +4267,76 @@ export interface Setting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "s-area".
+ */
+export interface SArea {
+  id: number;
+  heroSection: {
+    showContactForm: boolean;
+    title: string;
+    description?: string | null;
+    ctas?:
+      | {
+          label: string;
+          link: string;
+          variant: 'primary' | 'secondary';
+          id?: string | null;
+        }[]
+      | null;
+  };
+  sections?:
+    | (
+        | IconCardsGridSection
+        | ImgCardsGridSection
+        | ContentSection
+        | ContactFormSection
+        | FaqSection
+        | MapWithContentSection
+        | BlogsGridSection
+        | ServicesGridSection
+        | TestimonialSection
+      )[]
+    | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "index_select".
  */
 export interface IndexSelect<T extends boolean = true> {
-  title?: T;
-  description?: T;
-  featuredImage?: T;
-  noindex?: T;
-  testimonials?:
+  heroSection?:
+    | T
+    | {
+        showContactForm?: T;
+        title?: T;
+        description?: T;
+        ctas?:
+          | T
+          | {
+              label?: T;
+              link?: T;
+              variant?: T;
+              id?: T;
+            };
+        backgroundImage?: T;
+      };
+  sections?: T | {};
+  meta?:
     | T
     | {
         title?: T;
         description?: T;
-        testimonials?: T;
+        image?: T;
       };
-  sections?: T | {};
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -4214,6 +4370,13 @@ export interface AboutSelect<T extends boolean = true> {
         id?: T;
       };
   sections?: T | {};
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -4334,6 +4497,38 @@ export interface SettingSelect<T extends boolean = true> {
         days?: T;
         startTime?: T;
         endTime?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "s-area_select".
+ */
+export interface SAreaSelect<T extends boolean = true> {
+  heroSection?:
+    | T
+    | {
+        showContactForm?: T;
+        title?: T;
+        description?: T;
+        ctas?:
+          | T
+          | {
+              label?: T;
+              link?: T;
+              variant?: T;
+              id?: T;
+            };
+      };
+  sections?: T | {};
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;

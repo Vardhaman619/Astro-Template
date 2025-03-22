@@ -1,8 +1,8 @@
-import { slugField } from "../fields/slug";
-import { CollectionConfig } from "payload";
+import { GlobalConfig } from "payload";
 
-export const Service: CollectionConfig = {
-  slug: "service",
+export const ServiceAreaPage: GlobalConfig = {
+  label: "Service Area Page Listing",
+  slug: "s-area",
   access: {
     read: () => true,
   },
@@ -61,17 +61,11 @@ export const Service: CollectionConfig = {
             },
           ],
         },
-        {
-          name: "backgroundImage",
-          label: "Background Image",
-          type: "upload",
-          relationTo: "media"
-        }
       ]
     },
     {
-      name: "sections",
-      type: "blocks",
+      name: 'sections',
+      type: 'blocks',
       label: "Other Sections",
       blocks: [],
       blockReferences: [
@@ -86,6 +80,5 @@ export const Service: CollectionConfig = {
         "testimonial-section"
       ],
     },
-    slugField("meta.title"),
-  ],
+  ]
 }

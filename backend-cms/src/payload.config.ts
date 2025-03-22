@@ -2,6 +2,7 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { seoPlugin } from '@payloadcms/plugin-seo';
 import path from 'path'
 import { ContentSection } from './blocks/ContentSection'
 import { IconCardsGridSection } from './blocks/IconCardsGridSection'
@@ -29,7 +30,8 @@ import { Setting } from './globals/setting'
 import { BlogsGridSection } from './blocks/BlogsGridSection'
 import { ServicesGridSection } from './blocks/ServicesGridSection'
 import { uploadthingStorage } from '@payloadcms/storage-uploadthing'
-
+import { TestimonialGridSection } from './blocks/TestimonialGridSection';
+import { ServiceAreaPage } from "./globals/serviceareapage"
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -45,7 +47,8 @@ export default buildConfig({
     Aboutpage,
     Colors,
     Header,
-    Setting
+    Setting,
+    ServiceAreaPage
   ],
   collections: [Users, Media, Author, BlogCategory, Testimonial, Blog, ServicesArea, Service],
   editor: lexicalEditor(),
@@ -60,6 +63,11 @@ export default buildConfig({
   }),
   sharp,
   plugins: [
+    seoPlugin({
+      collections: ['service', 'blog'],
+      globals: ['index', 'about', "s-area"],
+      uploadsCollection: 'media'
+    }),
     payloadCloudPlugin(),
     uploadthingStorage({
       collections: {
@@ -79,6 +87,7 @@ export default buildConfig({
     FaqSection,
     MapWithContentSection,
     BlogsGridSection,
-    ServicesGridSection
+    ServicesGridSection,
+    TestimonialGridSection
   ],
 })

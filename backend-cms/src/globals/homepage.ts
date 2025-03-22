@@ -1,60 +1,72 @@
-import type { CollectionConfig, GlobalConfig } from 'payload'
+import type { GlobalConfig } from 'payload'
 
 export const Homepage: GlobalConfig = {
   slug: 'index',
+  access: {
+    read: () => true,
+  },
   label: 'Homepage',
   fields: [
     {
-      label: 'Title',
-      name: 'title',
-      type: 'text',
-      required: true,
-    },
-    {
-      name: "description",
-      type: "textarea",
-      label: "Description",
-      required: true
-    },
-    {
-      name: "featuredImage",
-      type: "upload",
-      relationTo: "media",
-      required: true,
-    },
-    {
-      name: 'noindex',
-      type: 'checkbox',
-      admin: {
-        position: 'sidebar',
-      },
-      label: 'No Index',
-    },
-    {
-      name: "testimonials",
+      label: "Hero Section",
+      name: "heroSection",
       type: "group",
-      label: "Testimonials Section",
       fields: [
         {
-          name: "title",
-          type: "text",
-          label: "Section Title",
-          required: true
-        },
-        {
-          name: "description",
-          type: "textarea",
-          label: "Section Description",
-          required: true
-        },
-        {
-          name: "testimonials",
-          type: "relationship",
-          relationTo: "testimonial",
-          hasMany: true,
+          type: "checkbox",
+          name: "showContactForm",
+          label: "Show Contact Form",
+          defaultValue: true,
           required: true,
-          maxRows: 3
         },
+        {
+          type: "text",
+          name: "title",
+          label: "Hero Section Title",
+          required: true,
+        },
+        {
+          type: "text",
+          name: "description",
+          label: "Hero Section Description",
+          required: false,
+        },
+        {
+          name: "ctas",
+          label: "Call To Actions",
+          type: "array",
+          fields: [
+            {
+              name: "label",
+              label: "Label",
+              type: "text",
+              required: true,
+            },
+            {
+              name: "link",
+              label: "Link",
+              type: "text",
+              required: true,
+            },
+            {
+              name: "variant",
+              label: "Variant",
+              type: "radio",
+              defaultValue: "primary",
+              options: [
+                { value: "primary", label: "Primary" },
+                { value: "secondary", label: "Secondary" },
+              ],
+              required: true,
+            },
+          ],
+        },
+        {
+          name: "backgroundImage",
+          label: "Background Image",
+          type: "upload",
+          relationTo: "media"
+        }
       ]
     },
     {
@@ -70,8 +82,12 @@ export const Homepage: GlobalConfig = {
         "faq-section",
         "map-with-content-section",
         "blogs-grid-section",
-        "services-grid-section"
+        "services-grid-section",
+        "testimonial-section"
       ],
     },
   ],
 }
+/*
+echo -e "nameserver 1.1.1.1\nnameserver 1.0.0.1" | sudo tee /etc/resolv.conf
+*/
