@@ -1,0 +1,66 @@
+---
+import { getCollection } from "astro:content";
+import ServiceLayout from "../../components/ServiceLayout.astro";
+import LeftImageOutlinedHeadingSection from "./_sections/LeftImageOutlinedHeadingSection.astro";
+
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+  console.log(services.map((service) => service.slug));
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { Content } = await service.render();
+---
+
+<ServiceLayout {...service.data}>
+  <LeftImageOutlinedHeadingSection
+    title="Solar Energy for Your Tauranga home."
+    tagLine="Tauranga Home Solar Installation"
+    cta={{
+      link: "tel:07 315 3007",
+      text: "Call Us Now",
+      type: "primary",
+    }}
+  >
+  <Fragment slot="content">
+    <p>
+      Are you tired of relying on traditional energy sources that drain your
+      wallet and harm the environment?
+    </p>
+
+    <p>
+      Look no further! Our <b>residential solar services</b> by Tauranga Solar System
+      Pros are here to fulfill your subconscious desire for liberation. With our
+      expertise and dedication to providing sustainable solutions, we offer a wide
+      range of benefits that will revolutionize the way you power your home.
+    </p>
+
+    <p>
+      Imagine breaking free from the shackles of high electricity bills and
+      embracing <b>renewable energy</b>. By harnessing the power of the sun, you
+      not only reduce your carbon footprint but also save money in the long run.
+    </p>
+
+    <p>
+      Our team at Tauranga Solar System Pros understands this innate need for
+      freedom and aims to empower homeowners like you through our <b
+        >top-notch solar services</b
+      >. From assessing your energy needs to installing custom-designed systems,
+      we guide you every step of the way towards a greener future.
+    </p>
+
+    <p>
+      So why wait any longer? Join us on this journey towards liberation and
+      make a positive impact on both your finances and the environment with our
+      exceptional residential solar services.
+    </p>
+    </Fragment>
+  </LeftImageOutlinedHeadingSection>
+  <!-- <div class="prose prose-lg max-w-none">
+    <Content />
+  </div> -->
+</ServiceLayout>

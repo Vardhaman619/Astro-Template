@@ -1,0 +1,76 @@
+import { iconOptions } from "@/config";
+import { Block } from "payload";
+
+export const IconCardsGridSection: Block = {
+    slug: 'icon-cards-grid-section',
+    fields: [
+        {
+            name: "title",
+            label: "Title of the section",
+            type: "text",
+        },
+        {
+            name: "description",
+            label: "Description of the section",
+            type: "textarea",
+        },
+        {
+            name: "cards",
+            type: "array",
+            fields: [{
+                name: "title",
+                type: "text",
+                required: true
+            }, {
+                name: "description",
+                type: "textarea",
+            },
+            {
+                name: "icon",
+                type: "select",
+                options: iconOptions
+            },
+            ]
+        },
+        {
+            type: "row",
+            fields: [{
+                name: "desktopNumberOfColumns",
+                label: "Desktop Columns",
+                type: "number",
+                min: 1,
+                required: true,
+            },
+            {
+                name: "tabletNumberOfColumns",
+                label: "Tablet Columns",
+                type: "number",
+                min: 1,
+                required: true,
+            },
+            {
+                name: "mobileNumberOfColumns",
+                label: "Mobile Columns",
+                type: "number",
+                min: 1,
+                required: true,
+            }
+            ]
+        },
+        {
+            name: "variant",
+            label: "Variant",
+            type: "select",
+            options: [
+                {
+                    label: "Primary",
+                    value: "primary"
+                },
+                {
+                    label: "Secondary",
+                    value: "secondary"
+                }
+            ]
+        }
+    ]
+}
