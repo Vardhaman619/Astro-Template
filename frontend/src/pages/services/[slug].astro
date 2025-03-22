@@ -5,7 +5,6 @@ import LeftImageOutlinedHeadingSection from "./_sections/LeftImageOutlinedHeadin
 
 export async function getStaticPaths() {
   const services = await getCollection("services");
-  console.log(services.map((service) => service.slug));
   return services.map((service) => ({
     params: { slug: service.slug },
     props: { service },

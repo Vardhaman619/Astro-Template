@@ -1,0 +1,17 @@
+---
+import type {BlogsGridSection, Config, ContactFormSection, ContentSection, FaqSection, IconCardsGridSection, ImgCardsGridSection, MapWithContentSection, ServicesGridSection,TestimonialSection} from "../../types/payload-types"
+import ContentSectionBlock from "../Blocks/ContentSection/index.astro"
+interface Props {
+  block: ContentSection|
+IconCardsGridSection|
+ImgCardsGridSection|
+ContactFormSection|
+FaqSection|
+MapWithContentSection|
+BlogsGridSection|
+ServicesGridSection|
+TestimonialSection
+}
+const {block} = Astro.props
+---
+{block.blockType=="content-section" ? <ContentSectionBlock data={block} /> : null}

@@ -1,5 +1,5 @@
 import { descriptionOrPoints } from "../../fields/description-or-points";
-import { Block } from "payload";
+import type { Block } from "payload";
 
 export const ContentSection: Block = {
   slug: "content-section",
@@ -14,13 +14,22 @@ export const ContentSection: Block = {
       type: "radio",
       defaultValue: "vertical",
       options: [{
-        label: "Vertical",
+        label: "Vertical (Content + Image)",
         value: "vertical"
       },
       {
-        label: "Horizontal",
+        label: "Horizontal (Content + Image)",
         value: "horizontal"
-      }]
+      },
+      {
+        label: "Horizontal Reverse (Image + Content)",
+        value: "horizontal-reverse"
+      },
+      {
+        label: "Vertical Reverse (Image + Content)",
+        value: "horizontal-reverse"
+      }
+      ]
     },
     {
       name: "backgroundType",
@@ -41,7 +50,6 @@ export const ContentSection: Block = {
         label: "Primary Color",
         value: "primary"
       },
-
       ]
     },
     {

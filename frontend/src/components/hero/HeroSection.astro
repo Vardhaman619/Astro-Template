@@ -1,21 +1,25 @@
 ---
-import type { HeroContent } from '../../types/content';
+import { Picture } from 'astro:assets';
+import type { Index } from '../../types/payload-types';
 import Image from '../common/Image.astro';
 
 interface Props {
-  content: HeroContent;
+  content:  Index["heroSection"];
 }
 
 const { content } = Astro.props;
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
+if(typeof content.backgroundImage != "object") throw Error("Homepage hero section backgroundImage not uploaded yet to cms")
+
 ---
 
 <section class="relative min-h-[80vh] flex items-center py-10">
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10"></div>
-    <Image 
-      src="https://images.unsplash.com/photo-1590579491624-f98f36d4c763"
-      alt="Foundation Repair Services"
-      className="w-full h-full object-cover"
+    <Picture
+    src={images[`/src/assets/images/${content.backgroundImage.filename}`]()}
+      alt={content.backgroundImage.alt}
+      class="w-full h-full object-cover"
     />
   </div>
   <div class="container mx-auto px-4 relative z-20">
@@ -28,23 +32,24 @@ const { content } = Astro.props;
           {content.description}
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-          <a 
-            href={content.cta.primary.href}
-            class="bg-white text-primary hover:bg-neutral-light px-8 py-4 rounded-md font-bold transition duration-300 text-center shadow-lg hover:shadow-xl"
+          {content.ctas.map((cta)=>{
+          return (
+          <a
+            href={cta.link}
+            class:list={["px-8 py-4 rounded-md font-bold transition duration-300 text-center shadow-lg hover:shadow-xl",{
+              "bg-primary-foreground text-primary-background":cta.variant == "primary",
+              "bg-transparent hover:bg-primary-foreground text-primary-foreground hover:text-primary-background":cta.variant == "secondary",
+            }]}
           >
-            {content.cta.primary.text}
+            {cta.label}
           </a>
-          <a 
-            href={content.cta.secondary.href}
-            class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-md font-bold transition duration-300 text-center shadow-lg hover:shadow-xl"
-          >
-            {content.cta.secondary.text}
-          </a>
+          )
+          })}
         </div>
       </div>
       <div class="flex justify-center md:justify-end mt-8 md:mt-0">
         <div class="bg-white/95 p-6 md:p-8 rounded-lg shadow-xl backdrop-blur-sm w-full max-w-lg">
-          <h2 class="text-xl md:text-2xl font-bold text-primary mb-6">Get Your Free Quote</h2>
+          <h2 class="text-xl md:text-2xl font-bold text-primary-background mb-6">Get Your Free Quote</h2>
           <slot />
         </div>
       </div>

@@ -1,0 +1,9 @@
+---
+interface Props{
+  href:string;
+  text:string;
+  varaint:"primary"|"secondary"
+}
+const {href,text,varaint} = Astro.props
+---
+<a {href}>{text}</a>

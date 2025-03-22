@@ -38,7 +38,6 @@ const format = (val: string): string =>
     .toLowerCase()
 
 const getNestedValue = (obj: any, path: string): any => {
-  console.log({ path, obj })
   return path.split('.').reduce((acc, key) => acc?.[key], obj);
 };
 const formatSlug =

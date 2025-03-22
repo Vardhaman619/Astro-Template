@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
+    "dev": "bun remote-to-local-image.ts && astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -15,6 +15,8 @@
     "@astrojs/tailwind": "^6.0.0",
     "@astrojs/vercel": "^8.1.2",
     "@iconify-json/lucide": "^1.2.30",
+    "@lexical/html": "^0.28.0",
+    "@payloadcms/richtext-lexical": "^3.29.0",
     "@sendgrid/mail": "^7.7.0",
     "astro": "^5.5.2",
     "astro-icon": "^1.1.5",

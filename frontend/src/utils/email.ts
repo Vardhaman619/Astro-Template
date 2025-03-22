@@ -29,7 +29,7 @@ export async function sendEmail(data: EmailFormData) {
       Email: ${validatedData.email}
       Phone: ${validatedData.phone}
       Service: ${validatedData.service}
-      
+
       Message:
       ${validatedData.message}
     `;
@@ -45,7 +45,6 @@ export async function sendEmail(data: EmailFormData) {
 
     return { success: true };
   } catch (error) {
-    console.log(SENDER_MAIL_ADDRESS)
     console.error('Email error:', JSON.stringify(error));
     return {
       success: false,

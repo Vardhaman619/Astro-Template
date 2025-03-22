@@ -7,19 +7,20 @@ export default {
     extend: {
       colors: {
         primary: {
-          foreground: siteConfig.colors.primaryForeground,
-          background: siteConfig.colors.primaryBackground,
+          background: "var(--primary-background)",
+          foreground: "var(--primary-foreground)",
         },
         secondary: {
-          foreground: siteConfig.colors.secondaryForeground,
-          background: siteConfig.colors.secondaryBackground,
+          background: "var(--secondary-background)",
+          foreground: "var(--primary-foreground)",
         },
         accent: {
-          foreground: siteConfig.colors.accentForeground,
-          background: siteConfig.colors.accentBackground
+          background: "var(--accent-background)",
+          foreground: "var(--accent-background)"
         },
         neutral: {
-          ...siteConfig.colors.neutral,
+          gray: "var(--neutral-gray)",
+          divider: "var(--neutral-divider)"
         }
       },
       container: {

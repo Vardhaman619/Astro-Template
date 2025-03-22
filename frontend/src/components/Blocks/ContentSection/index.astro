@@ -1,0 +1,71 @@
+---
+import { Picture } from 'astro:assets';
+import type { ContentSection } from '../../../types/payload-types'
+import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
+import { Icon } from 'astro-icon/components';
+
+
+interface Props {
+  data:ContentSection
+}
+const {data} = Astro.props
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
+---
+<section>
+  <div
+    class:list={[
+      "container flex mx-auto",
+      {
+        "flex-col": data.direction == "vertical",
+      },
+    ]}
+  >
+    <div class="flex-1">
+      <h2>{data.content.heading.title}</h2>
+      <div>
+        {data.content.despoint.blocks.map((block) => {
+          if (block.blockType == "description")
+            return <Fragment class="prose" set:html={convertLexicalToHTML({data:block.content})}></Fragment>;
+          return (<div class="flex flex-col gap-y-6">
+          {block.point.map((point) =>(
+            <div class="flex gap-x-6">
+              <div>
+                <Icon name={point.icon} />
+              </div>
+              <div>
+                <b>{point?.title}</b>
+               {point?.description &&  <p>{point.description}</p>}
+              </div>
+            </div>
+          ))}
+          </div>)
+        })}
+      </div>
+    </div>
+    {data?.image && data?.image?.images?.length > 0 ? (
+      <div class="flex-1">
+        {data.image.images.length > 1 ? (
+          <div>
+            {data.image.images.map((imageField) => {
+              return (
+                <Picture
+                  src={images[
+                    `/src/assets/images/${imageField.image.filename}`
+                  ]()}
+                  alt={imageField.image.alt ?? "image"}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <Picture
+            src={images[
+              `/src/assets/images/${data.image.images[0].image.filename}`
+            ]()}
+            alt={data.image.images[0].image.alt ?? "image"}
+          />
+        )}
+      </div>
+    ) : null}
+  </div>
+</section>
