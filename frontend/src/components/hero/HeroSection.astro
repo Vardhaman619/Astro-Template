@@ -38,7 +38,7 @@ if(typeof content.backgroundImage != "object") throw Error("Homepage hero sectio
             href={cta.link}
             class:list={["px-8 py-4 rounded-md font-bold transition duration-300 text-center shadow-lg hover:shadow-xl",{
               "bg-primary-foreground text-primary-background":cta.variant == "primary",
-              "bg-transparent hover:bg-primary-foreground text-primary-foreground hover:text-primary-background":cta.variant == "secondary",
+              "bg-transparent hover:bg-primary-foreground text-primary-foreground hover:text-primary-background outline outline-1 outline-primary-foreground ":cta.variant == "secondary",
             }]}
           >
             {cta.label}

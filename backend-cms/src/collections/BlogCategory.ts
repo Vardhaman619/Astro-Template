@@ -1,4 +1,4 @@
-import { CollectionConfig } from 'payload';
+import type { CollectionConfig } from 'payload';
 
 export const BlogCategory: CollectionConfig = {
   slug: 'blog-category',
@@ -7,6 +7,9 @@ export const BlogCategory: CollectionConfig = {
     plural: 'Blog Categories',
   }, access: {
     read: () => true,
+  },
+  admin: {
+    useAsTitle: "name",
   },
   fields: [
     {

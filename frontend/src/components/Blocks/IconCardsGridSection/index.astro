@@ -1,0 +1,60 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { IconCardsGridSection } from '../../../types/payload-types';
+
+interface Props{
+  data:IconCardsGridSection
+}
+const {data} = Astro.props;
+---
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold mb-4">{data?.title}</h2>
+      <p class="text-primary-background text-xl">{data?.description}</p>
+    </div>
+
+    <div class:list={["grid gap-3 md:gap-4 lg:gap-6",{
+      "grid-cols-1":data.mobileNumberOfColumns == 1,
+      "grid-cols-2":data.mobileNumberOfColumns == 2,
+      "grid-cols-3":data.mobileNumberOfColumns == 3,
+      "grid-cols-4":data.mobileNumberOfColumns == 4,
+      "grid-cols-5":data.mobileNumberOfColumns == 5,
+      "grid-cols-6":data.mobileNumberOfColumns == 6,
+      "grid-cols-7":data.mobileNumberOfColumns == 7,
+      "grid-cols-8":data.mobileNumberOfColumns == 8,
+      "grid-cols-9":data.mobileNumberOfColumns == 9,
+      "md:grid-cols-1":data.tabletNumberOfColumns == 1,
+      "md:grid-cols-2":data.tabletNumberOfColumns == 2,
+      "md:grid-cols-3":data.tabletNumberOfColumns == 3,
+      "md:grid-cols-4":data.tabletNumberOfColumns == 4,
+      "md:grid-cols-5":data.tabletNumberOfColumns == 5,
+      "md:grid-cols-6":data.tabletNumberOfColumns == 6,
+      "md:grid-cols-7":data.tabletNumberOfColumns == 7,
+      "md:grid-cols-8":data.tabletNumberOfColumns == 8,
+      "md:grid-cols-9":data.tabletNumberOfColumns == 9,
+      "lg:grid-cols-1":data.desktopNumberOfColumns == 1,
+      "lg:grid-cols-2":data.desktopNumberOfColumns == 2,
+      "lg:grid-cols-3":data.desktopNumberOfColumns == 3,
+      "lg:grid-cols-4":data.desktopNumberOfColumns == 4,
+      "lg:grid-cols-5":data.desktopNumberOfColumns == 5,
+      "lg:grid-cols-6":data.desktopNumberOfColumns == 6,
+      "lg:grid-cols-7":data.desktopNumberOfColumns == 7,
+      "lg:grid-cols-8":data.desktopNumberOfColumns == 8,
+      "lg:grid-cols-9":data.desktopNumberOfColumns == 9,
+      "lg:grid-cols-10":data.desktopNumberOfColumns == 10,
+    }]}>
+      {data.cards.map(card => (
+        <div class="bg-white p-8 rounded-lg shadow-lg text-center group hover:shadow-xl transition-all duration-300">
+          {card.icon ? (
+          <div class="bg-secondary-background text-secondary-foreground text-3xl w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-white group-hover:scale-110 transition-transform duration-300">
+            <Icon name={card.icon}/>
+          </div>
+          ) :null}
+          <h3 class="text-xl font-bold mb-3">{card?.title}</h3>
+          {card.description ? <p class="text-neutral text-sm">{card.description}</p>:null}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

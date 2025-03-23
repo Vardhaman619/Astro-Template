@@ -1,19 +1,33 @@
 ---
 import { getCollection } from 'astro:content';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+import type { Author, Blog, Media } from '../../types/payload-types';
+import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
+  const data:{docs:{id:number,slug:string}[]} = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/blog?depth=1&draft=false&locale=undefined&select[slug]=true&limit=100`).then(data=>data.json());
+  return data.docs.map(({slug,id}) => ({
+    params: { slug },
+    props: { id },
   }));
 }
 
-const { post } = Astro.props;
-const { Content } = await post.render();
+const { id } = Astro.props;
+const data:Blog = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/blog/${id}?depth=1&draft=false&locale=undefined`).then(data=>data.json());
 ---
 
-<BlogPostLayout frontmatter={post.data}>
-  <Content />
+<BlogPostLayout frontmatter={{
+  title:data.title,
+  description:data.description,
+  publishDate:data.createdAt,
+  author:(data.author as Author).name,
+  image:{
+    filename:(data.featuredImage as Media).filename,
+    alt:(data.featuredImage as Media).alt
+  }
+
+}}>
+<div set:html={convertLexicalToHTML({
+  data: data?.content,
+})}></div>
 </BlogPostLayout>

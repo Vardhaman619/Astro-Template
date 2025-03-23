@@ -1,5 +1,5 @@
 import { iconOptions } from "../../config";
-import { Block } from "payload";
+import type { Block } from "payload";
 
 export const IconCardsGridSection: Block = {
   labels: {

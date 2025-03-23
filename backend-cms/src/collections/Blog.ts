@@ -1,4 +1,5 @@
-import { CollectionConfig } from "payload";
+import { slugField } from "@/fields/slug";
+import type { CollectionConfig } from "payload";
 
 export const Blog: CollectionConfig = {
   slug: "blog",
@@ -7,6 +8,9 @@ export const Blog: CollectionConfig = {
     plural: "Blogs"
   }, access: {
     read: () => true,
+  },
+  admin: {
+    useAsTitle: "title"
   },
   fields: [
     {
@@ -28,6 +32,14 @@ export const Blog: CollectionConfig = {
       relationTo: "blog-category",
       required: true
     },
+    {
+      name: "author",
+      label: "Auhtor",
+      type: "relationship",
+      relationTo: "author",
+      required: true
+    },
+    slugField("title"),
     {
       name: "content",
       label: "Content",
@@ -51,6 +63,9 @@ export const Blog: CollectionConfig = {
       type: 'group',
       name: "cta",
       label: "CTA Banner",
+      admin: {
+        condition: (data, sibling) => sibling.hasBottomCta,
+      },
       fields: [
         {
           name: "title",

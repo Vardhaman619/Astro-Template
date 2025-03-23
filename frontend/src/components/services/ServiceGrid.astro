@@ -1,9 +1,10 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import ServiceCard from './ServiceCard.astro';
+import type { Media } from '../../types/payload-types';
 
 interface Props {
-  services: (CollectionEntry<"services">["data"] & { slug: string})[];
+  services: {slug:string,meta:{image:Media,title:string}}[];
 }
 
 const { services } = Astro.props;

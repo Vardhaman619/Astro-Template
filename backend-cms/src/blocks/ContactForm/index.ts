@@ -1,4 +1,4 @@
-import { Block } from "payload";
+import type { Block } from "payload";
 
 export const ContactForm: Block = {
   slug: "contact-form-section",
@@ -56,40 +56,46 @@ export const ContactForm: Block = {
       name: "variant",
       label: "Contact Form Section Variant",
       type: "radio",
+      defaultValue:"horizontal",
       options: [
         {
-          value: "default",
-          label: "Content(Left Side) - Form(Right Side)"
+          value: "horizontal",
+          label: "Horizontal (Content + Form)"
         },
         {
-          value: "reverse",
-          label: "Form(Left Side) - Content(Right Side)"
+          value: "horizontal-reverse",
+          label: "Horizontal Reverse (Form + Content)"
         },
         {
           value: "center",
-          label: "Only Form Centered"
+          label: "Centered"
         },
         {
           value: "vertical",
-          label: "Content(Top) - Form(Bottom)"
-        },
-        {
-          value: "vertical-reverse",
-          label: "Form(Top) - Content(Bottom)"
+          label: "Vertical (Content + Form)"
         },
         {
           value: "background-image",
-          label: "Content(Left Side) - Form(Right Side) With Background Image"
+          label: "Horizontal With Background Image"
         }
       ]
     },
     {
+      name: "backgroundImage",
+      type: "upload",
+      label: "Background Image for Form Section",
+      relationTo: "media",
+      admin: {
+        condition: (data, sibling) => sibling.variant === "background-image",
+      },
+    },
+    {
       name: "formBelowContent",
-      label: "Form Below Content",
+      label: "Content Below Form (Optional)",
       type: "group",
       fields: [{
-        name: "isInsideForm",
-        label: "Is Inside Form",
+        name: "isInside",
+        label: "Is Content Inside Of Form?",
         type: "checkbox",
         defaultValue: false
       },
@@ -100,7 +106,7 @@ export const ContactForm: Block = {
       },
       {
         name: "cta",
-        label: "Call To Action",
+        label: "Call To Action Button",
         type: "group",
         fields: [
           {

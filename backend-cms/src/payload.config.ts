@@ -9,11 +9,11 @@ import { IconCardsGridSection } from './blocks/IconCardsGridSection'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { BlogCategory } from "./collections/BlogCategory"
 import { Testimonial } from "./collections/Testimonial"
+import { SubArea } from "./collections/SubArea"
 import { ImageCardsGridSection } from './blocks/ImageCardsGridSection'
 import { Blog } from './collections/Blog'
 import { Author } from './collections/Author'
@@ -50,7 +50,7 @@ export default buildConfig({
     Setting,
     ServiceAreaPage
   ],
-  collections: [Users, Media, Author, BlogCategory, Testimonial, Blog, ServicesArea, Service],
+  collections: [Users, Media, Author, BlogCategory, Testimonial, Blog, SubArea, ServicesArea, Service],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -64,7 +64,7 @@ export default buildConfig({
   sharp,
   plugins: [
     seoPlugin({
-      collections: ['service', 'blog'],
+      collections: ['service', 'blog', 'sa'],
       globals: ['index', 'about', "s-area"],
       uploadsCollection: 'media'
     }),

@@ -1,53 +1,41 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
+import type { Setting } from '../types/payload-types';
+import { Icon } from 'astro-icon/components';
 
+const settingsdata:Setting = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined`).then(data=>data.json())
 const contactInfo = [
   {
-    icon: 'location',
-    title: 'Our Location',
-    content: '123 Foundation St, Adelaide, SA 5000',
-    link: 'https://maps.google.com'
+    title:"Our Location",
+    content:`${settingsdata?.address?.street},${settingsdata?.address?.city},${settingsdata?.address?.state},${settingsdata?.address?.country}-${settingsdata?.address?.postcode}`,
+    icon:"lucide:map-pin",
+    link:"#",
   },
-  {
-    icon: 'phone',
-    title: 'Phone Number',
-    content: '(123) 456-7890',
-    link: 'tel:(123)456-7890'
-  },
-  {
-    icon: 'email',
-    title: 'Email Address',
-    content: 'info@foundationrepair.com',
-    link: 'mailto:info@foundationrepair.com'
-  }
-];
+ {
+			title: "Phone Number",
+			content: settingsdata?.contact?.phone ?? "(123) 456-7890",
+			icon:"lucide:phone",
+			link:`tel:${settingsdata?.contact?.phone ?? "(123) 456-7890"}`
+}  ,
+{
+ 	title: "Email Address",
+			content: settingsdata?.contact?.email ?? "info@foundationrepair.com",
+			icon:"lucide:mail",
+			link:`mailto:${settingsdata?.contact?.email ?? "info@foundationrepair.com"}`
+}
+]
 
-const getIcon = (name: string) => {
-  const icons = {
-    location: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-    </svg>`,
-    phone: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-    </svg>`,
-    email: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-    </svg>`
-  };
-  return icons[name] || '';
-};
 ---
 
-<Layout 
+<Layout
   title="Contact Us - Foundation Repair Adelaide"
   description="Get in touch with Adelaide's leading foundation repair experts. Contact us for a free consultation and quote."
 >
   <!-- Hero Section -->
   <section class="relative min-h-[40vh] flex items-center">
     <div class="absolute inset-0 z-0">
-      <img 
+      <img
         src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=2070"
         alt="Contact Us"
         class="w-full h-full object-cover brightness-50"
@@ -68,12 +56,12 @@ const getIcon = (name: string) => {
     <div class="container mx-auto px-4">
       <div class="grid md:grid-cols-3 gap-8">
         {contactInfo.map(item => (
-          <a 
+          <a
             href={item.link}
-            class="bg-neutral-light p-8 rounded-lg text-center hover:bg-primary hover:text-white transition-all duration-300 group"
+            class="bg-neutral-light p-8 rounded-lg text-center hover:bg-primary-background hover:text-primary-foreground transition-all duration-300 group outline outline-primary-background"
           >
-            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-primary group-hover:text-secondary">
-              <Fragment set:html={getIcon(item.icon)} />
+            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-primary-background">
+              <Icon name={item.icon} class='text-3xl'/>
             </div>
             <h3 class="text-xl font-bold mb-2">{item.title}</h3>
             <p class="text-neutral group-hover:text-white/90">{item.content}</p>
@@ -101,8 +89,8 @@ const getIcon = (name: string) => {
         <div class="mt-12 text-center">
           <p class="text-neutral-medium mb-4">
             Need immediate assistance? Call us at
-            <a href="tel:(123)456-7890" class="text-secondary hover:text-primary font-bold">
-              (123) 456-7890
+            <a href={`tel:${settingsdata?.contact?.phone ?? "(123) 456-7890"}`} class="text-secondary hover:text-primary font-bold">
+              {settingsdata?.contact?.phone}
             </a>
           </p>
           <p class="text-sm text-neutral-medium">
@@ -114,17 +102,7 @@ const getIcon = (name: string) => {
   </section>
 
   <!-- Map Section -->
-  <section class="h-[400px] relative">
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3271.828645025787!2d138.59923531524136!3d-34.92577668037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ab0ced1b3ad4f23%3A0x5033654628ec0f0!2sAdelaide%20SA%205000!5e0!3m2!1sen!2sau!4v1650000000000!5m2!1sen!2sau"
-      width="100%"
-      height="100%"
-      style="border:0;"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      class="absolute inset-0"
-    ></iframe>
+  <section class="h-[450px] relative" set:html={settingsdata.address.mapsEmbed}>
   </section>
 
   <!-- Business Hours -->
@@ -155,7 +133,7 @@ const getIcon = (name: string) => {
             <p class="mb-4">
               Available 24/7 for emergency foundation repair services. Call our emergency hotline:
             </p>
-            <a 
+            <a
               href="tel:(123)456-7890"
               class="text-2xl font-bold hover:text-secondary transition-colors"
             >

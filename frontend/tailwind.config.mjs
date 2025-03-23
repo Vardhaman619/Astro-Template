@@ -25,8 +25,11 @@ export default {
       },
       container: {
         center: true,
-        padding: '1rem'
-      }
+        padding: '1rem',
+      },
+      screens: {
+        '2xl': '1240px',
+      },
     }
   },
   plugins: [tailwindcssTypographyPlugin()]

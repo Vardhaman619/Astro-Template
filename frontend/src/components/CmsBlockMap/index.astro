@@ -1,13 +1,18 @@
 ---
-import type {BlogsGridSection, Config, ContactFormSection, ContentSection, FaqSection, IconCardsGridSection, ImgCardsGridSection, MapWithContentSection, ServicesGridSection,TestimonialSection} from "../../types/payload-types"
+import type {BlogsGridSection, Config, ContactFormSection, ContentSection, FaqSection, IconCardsGridSection, ImgCardsGridSection, MapSection, ServicesGridSection,TestimonialSection} from "../../types/payload-types"
+import MapContentSection from "../Blocks/MapContentSection/index.astro"
 import ContentSectionBlock from "../Blocks/ContentSection/index.astro"
+import FaqSectionBlock from "../Blocks/FaqSection/index.astro"
+import IconCardsGridSectionBlock from "../Blocks/IconCardsGridSection/index.astro"
+import ImageCardsGridSectionBlock from "../Blocks/ImageCardsGridSection/index.astro"
+import ContactFormSectionBlock from "../Blocks/ContactFormSection/index.astro"
 interface Props {
   block: ContentSection|
 IconCardsGridSection|
 ImgCardsGridSection|
 ContactFormSection|
 FaqSection|
-MapWithContentSection|
+MapSection|
 BlogsGridSection|
 ServicesGridSection|
 TestimonialSection
@@ -15,3 +20,8 @@ TestimonialSection
 const {block} = Astro.props
 ---
 {block.blockType=="content-section" ? <ContentSectionBlock data={block} /> : null}
+{block.blockType=="map-section" ? <MapContentSection data={block} /> : null}
+{block.blockType=="faq-section" ? <FaqSectionBlock data={block} /> : null}
+{block.blockType=="icon-cards-grid-section" ? <IconCardsGridSectionBlock data={block} /> : null}
+{block.blockType=="img-cards-grid-section" ? <ImageCardsGridSectionBlock data={block} /> : null}
+{block.blockType=="contact-form-section" ? <ContactFormSectionBlock data={block} /> : null}

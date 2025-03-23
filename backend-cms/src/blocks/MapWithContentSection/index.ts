@@ -1,12 +1,33 @@
-import { Block } from "payload";
+import type { Block } from "payload";
 
 export const MapWithContentSection: Block = {
-  slug: 'map-with-content-section',
+  slug: 'map-section',
   labels: {
     singular: "Map + Text Content Section",
     plural: "Map + Text Content Section"
   },
   fields: [
+    {
+      name: "backgroundType",
+      label: "Background Type",
+      type: "radio",
+      admin: {
+        position: "sidebar",
+      },
+      defaultValue: 'white',
+      options: [{
+        label: "White",
+        value: "white"
+      }, {
+        label: 'Gray',
+        value: 'gray'
+      },
+      {
+        label: "Primary Color",
+        value: "primary"
+      },
+      ]
+    },
     {
       name: 'heading',
       label: 'Heading',
@@ -18,43 +39,68 @@ export const MapWithContentSection: Block = {
       type: 'richText',
     },
     {
-      type: "array",
-      name: "ctas",
-      label: "CTA Buttons",
+      type: "group",
+      name: "ct",
+      label: "Ctas",
       fields: [
         {
-          name: "cta",
-          type: "group",
+          type: "array",
+          name: "ctas",
+          label: "CTA Buttons",
           fields: [
             {
-              name: "text",
-              type: "text",
-              label: "CTA Text",
-              required: true
-            },
-            {
-              name: "link",
-              type: "text",
-              label: "CTA Link",
-              required: true
-            },
-            {
-              name: "variant",
-              label: "CTA Variant",
-              type: "radio",
-              defaultValue: "primary",
-              options: [
+              name: "cta",
+              type: "group",
+              fields: [
                 {
-                  label: "Primary",
-                  value: "primary"
+                  name: "text",
+                  type: "text",
+                  label: "CTA Text",
+                  required: true
                 },
                 {
-                  label: "Secondary",
-                  value: "secondary"
-                }
-              ],
-              required: true
+                  name: "link",
+                  type: "text",
+                  label: "CTA Link",
+                  required: true
+                },
+                {
+                  name: "variant",
+                  label: "CTA Variant",
+                  type: "radio",
+                  defaultValue: "primary",
+                  options: [
+                    {
+                      label: "Primary",
+                      value: "primary"
+                    },
+                    {
+                      label: "Secondary",
+                      value: "secondary"
+                    }
+                  ],
+                  required: true
+                },
+              ]
             },
+            {
+              name: "place",
+              label: "CTA Position",
+              admin: {
+                description: "inside or outside the content",
+              },
+              type: "radio",
+              defaultValue: "inside",
+              options: [
+                {
+                  label: "Inside",
+                  value: "inside"
+                },
+                {
+                  label: "Outside",
+                  value: "outside"
+                }]
+            }
           ]
         },
         {
@@ -75,25 +121,8 @@ export const MapWithContentSection: Block = {
             value: "right"
           }]
         },
-        {
-          name: "position",
-          label: "CTA Position",
-          admin: {
-            description: "inside or outside the content",
-          },
-          type: "radio",
-          defaultValue: "inside",
-          options: [
-            {
-              label: "Inside",
-              value: "inside"
-            },
-            {
-              label: "Outside",
-              value: "outside"
-            }]
-        }
       ]
     }
+
   ]
 }

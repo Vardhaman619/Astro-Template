@@ -5,7 +5,7 @@ import { Icon } from "astro-icon/components";
 import { Picture } from "astro:assets";
 const headerData:Header = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/header?depth=1&draft=false&locale=undefined`).then(data=>data.json())
 const settingsdata:Setting = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined`).then(data=>data.json())
-if(typeof settingsdata.logo == "number") throw Error("Logo is not uploaded yet in cms");
+if(typeof settingsdata.logo === "number") throw Error("Logo is not uploaded yet in cms");
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
 ---
 
@@ -27,7 +27,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
           class="flex items-center gap-2 text-primary hover:text-primary-light transition-colors"
         >
           <Icon name="lucide:phone-call"/>
-          <span>${settingsdata.contact.phone}</span>
+          <span>{settingsdata.contact.phone}</span>
         </a>
       </div>
     </div>
@@ -37,11 +37,12 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
     <!-- Main Navigation -->
     <nav class="flex justify-between items-center py-3">
       <!-- Logo -->
+      <a href="/">
       <Picture
       src={images[`/src/assets/images/${settingsdata.logo.filename}`]()}
       alt={settingsdata.logo.alt??"image"}
       class="w-24"
-      />
+      /></a>
       <!-- Navigation Items -->
       <div class="hidden lg:flex items-center">
         {

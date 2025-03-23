@@ -71,7 +71,7 @@ export interface Config {
     'img-cards-grid-section': ImgCardsGridSection;
     'contact-form-section': ContactFormSection;
     'faq-section': FaqSection;
-    'map-with-content-section': MapWithContentSection;
+    'map-section': MapSection;
     'blogs-grid-section': BlogsGridSection;
     'services-grid-section': ServicesGridSection;
     'testimonial-section': TestimonialSection;
@@ -83,6 +83,7 @@ export interface Config {
     'blog-category': BlogCategory;
     testimonial: Testimonial;
     blog: Blog;
+    sa: Sa;
     'service-area': ServiceArea;
     service: Service;
     'payload-locked-documents': PayloadLockedDocument;
@@ -97,6 +98,7 @@ export interface Config {
     'blog-category': BlogCategorySelect<false> | BlogCategorySelect<true>;
     testimonial: TestimonialSelect<false> | TestimonialSelect<true>;
     blog: BlogSelect<false> | BlogSelect<true>;
+    sa: SaSelect<false> | SaSelect<true>;
     'service-area': ServiceAreaSelect<false> | ServiceAreaSelect<true>;
     service: ServiceSelect<false> | ServiceSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -154,7 +156,7 @@ export interface UserAuthOperations {
  * via the `definition` "content-section".
  */
 export interface ContentSection {
-  direction?: ('vertical' | 'horizontal') | null;
+  direction?: ('vertical' | 'horizontal' | 'horizontal-reverse' | 'vertical-reverse') | null;
   backgroundType?: ('white' | 'gray' | 'primary') | null;
   content: {
     heading: {
@@ -1766,7 +1768,815 @@ export interface ContentSection {
                         | 'lucide:zap'
                         | 'lucide:zap-off'
                         | 'lucide:zoom-in'
-                        | 'lucide:zoom-out';
+                        | 'lucide:zoom-out'
+                        | 'fluent-color:add-circle-16'
+                        | 'fluent-color:add-circle-20'
+                        | 'fluent-color:add-circle-24'
+                        | 'fluent-color:add-circle-28'
+                        | 'fluent-color:add-circle-32'
+                        | 'fluent-color:agents-16'
+                        | 'fluent-color:agents-20'
+                        | 'fluent-color:agents-24'
+                        | 'fluent-color:agents-28'
+                        | 'fluent-color:agents-32'
+                        | 'fluent-color:agents-48'
+                        | 'fluent-color:alert-16'
+                        | 'fluent-color:alert-20'
+                        | 'fluent-color:alert-24'
+                        | 'fluent-color:alert-28'
+                        | 'fluent-color:alert-32'
+                        | 'fluent-color:alert-48'
+                        | 'fluent-color:alert-badge-16'
+                        | 'fluent-color:alert-badge-20'
+                        | 'fluent-color:alert-badge-24'
+                        | 'fluent-color:alert-badge-32'
+                        | 'fluent-color:alert-urgent-16'
+                        | 'fluent-color:alert-urgent-20'
+                        | 'fluent-color:alert-urgent-24'
+                        | 'fluent-color:animal-paw-print-16'
+                        | 'fluent-color:animal-paw-print-20'
+                        | 'fluent-color:animal-paw-print-24'
+                        | 'fluent-color:animal-paw-print-28'
+                        | 'fluent-color:animal-paw-print-32'
+                        | 'fluent-color:animal-paw-print-48'
+                        | 'fluent-color:approvals-app-16'
+                        | 'fluent-color:approvals-app-20'
+                        | 'fluent-color:approvals-app-24'
+                        | 'fluent-color:approvals-app-28'
+                        | 'fluent-color:approvals-app-32'
+                        | 'fluent-color:apps-16'
+                        | 'fluent-color:apps-20'
+                        | 'fluent-color:apps-24'
+                        | 'fluent-color:apps-28'
+                        | 'fluent-color:apps-32'
+                        | 'fluent-color:apps-48'
+                        | 'fluent-color:apps-list-20'
+                        | 'fluent-color:apps-list-24'
+                        | 'fluent-color:apps-list-32'
+                        | 'fluent-color:apps-list-detail-20'
+                        | 'fluent-color:apps-list-detail-24'
+                        | 'fluent-color:apps-list-detail-32'
+                        | 'fluent-color:arrow-clockwise-dashes-16'
+                        | 'fluent-color:arrow-clockwise-dashes-20'
+                        | 'fluent-color:arrow-clockwise-dashes-24'
+                        | 'fluent-color:arrow-clockwise-dashes-32'
+                        | 'fluent-color:arrow-clockwise-dashes-settings-16'
+                        | 'fluent-color:arrow-clockwise-dashes-settings-20'
+                        | 'fluent-color:arrow-clockwise-dashes-settings-24'
+                        | 'fluent-color:arrow-clockwise-dashes-settings-28'
+                        | 'fluent-color:arrow-clockwise-dashes-settings-32'
+                        | 'fluent-color:arrow-clockwise-dashes-settings-48'
+                        | 'fluent-color:arrow-square-20'
+                        | 'fluent-color:arrow-square-24'
+                        | 'fluent-color:arrow-square-32'
+                        | 'fluent-color:arrow-square-down-20'
+                        | 'fluent-color:arrow-square-down-24'
+                        | 'fluent-color:arrow-square-down-32'
+                        | 'fluent-color:arrow-sync-16'
+                        | 'fluent-color:arrow-sync-20'
+                        | 'fluent-color:arrow-sync-24'
+                        | 'fluent-color:arrow-trending-lines-20'
+                        | 'fluent-color:arrow-trending-lines-24'
+                        | 'fluent-color:beach-16'
+                        | 'fluent-color:beach-20'
+                        | 'fluent-color:beach-24'
+                        | 'fluent-color:beach-28'
+                        | 'fluent-color:beach-32'
+                        | 'fluent-color:beach-48'
+                        | 'fluent-color:board-16'
+                        | 'fluent-color:board-20'
+                        | 'fluent-color:board-24'
+                        | 'fluent-color:board-28'
+                        | 'fluent-color:book-16'
+                        | 'fluent-color:book-20'
+                        | 'fluent-color:book-24'
+                        | 'fluent-color:book-28'
+                        | 'fluent-color:book-32'
+                        | 'fluent-color:book-48'
+                        | 'fluent-color:book-database-16'
+                        | 'fluent-color:book-database-20'
+                        | 'fluent-color:book-database-24'
+                        | 'fluent-color:book-database-32'
+                        | 'fluent-color:book-open-16'
+                        | 'fluent-color:book-open-20'
+                        | 'fluent-color:book-open-24'
+                        | 'fluent-color:book-open-28'
+                        | 'fluent-color:book-open-32'
+                        | 'fluent-color:book-open-48'
+                        | 'fluent-color:book-star-20'
+                        | 'fluent-color:book-star-24'
+                        | 'fluent-color:bookmark-16'
+                        | 'fluent-color:bookmark-20'
+                        | 'fluent-color:bookmark-24'
+                        | 'fluent-color:bookmark-28'
+                        | 'fluent-color:bookmark-32'
+                        | 'fluent-color:bot-16'
+                        | 'fluent-color:bot-20'
+                        | 'fluent-color:bot-24'
+                        | 'fluent-color:bot-sparkle-16'
+                        | 'fluent-color:bot-sparkle-20'
+                        | 'fluent-color:bot-sparkle-24'
+                        | 'fluent-color:building-16'
+                        | 'fluent-color:building-20'
+                        | 'fluent-color:building-24'
+                        | 'fluent-color:building-32'
+                        | 'fluent-color:building-48'
+                        | 'fluent-color:building-government-16'
+                        | 'fluent-color:building-government-20'
+                        | 'fluent-color:building-government-24'
+                        | 'fluent-color:building-government-32'
+                        | 'fluent-color:building-government-search-16'
+                        | 'fluent-color:building-government-search-20'
+                        | 'fluent-color:building-government-search-24'
+                        | 'fluent-color:building-government-search-32'
+                        | 'fluent-color:building-home-16'
+                        | 'fluent-color:building-home-20'
+                        | 'fluent-color:building-home-24'
+                        | 'fluent-color:building-home-32'
+                        | 'fluent-color:building-multiple-20'
+                        | 'fluent-color:building-multiple-24'
+                        | 'fluent-color:building-people-16'
+                        | 'fluent-color:building-people-20'
+                        | 'fluent-color:building-people-24'
+                        | 'fluent-color:building-store-16'
+                        | 'fluent-color:building-store-20'
+                        | 'fluent-color:building-store-24'
+                        | 'fluent-color:calendar-16'
+                        | 'fluent-color:calendar-20'
+                        | 'fluent-color:calendar-24'
+                        | 'fluent-color:calendar-28'
+                        | 'fluent-color:calendar-32'
+                        | 'fluent-color:calendar-48'
+                        | 'fluent-color:calendar-cancel-16'
+                        | 'fluent-color:calendar-cancel-20'
+                        | 'fluent-color:calendar-cancel-24'
+                        | 'fluent-color:calendar-checkmark-16'
+                        | 'fluent-color:calendar-checkmark-20'
+                        | 'fluent-color:calendar-checkmark-24'
+                        | 'fluent-color:calendar-clock-16'
+                        | 'fluent-color:calendar-clock-20'
+                        | 'fluent-color:calendar-clock-24'
+                        | 'fluent-color:calendar-data-bar-16'
+                        | 'fluent-color:calendar-data-bar-20'
+                        | 'fluent-color:calendar-data-bar-24'
+                        | 'fluent-color:calendar-data-bar-28'
+                        | 'fluent-color:calendar-edit-16'
+                        | 'fluent-color:calendar-edit-20'
+                        | 'fluent-color:calendar-edit-24'
+                        | 'fluent-color:calendar-edit-32'
+                        | 'fluent-color:calendar-people-20'
+                        | 'fluent-color:calendar-sync-16'
+                        | 'fluent-color:calendar-sync-20'
+                        | 'fluent-color:calendar-sync-24'
+                        | 'fluent-color:camera-16'
+                        | 'fluent-color:camera-20'
+                        | 'fluent-color:camera-24'
+                        | 'fluent-color:certificate-16'
+                        | 'fluent-color:certificate-20'
+                        | 'fluent-color:certificate-24'
+                        | 'fluent-color:certificate-32'
+                        | 'fluent-color:chart-multiple-16'
+                        | 'fluent-color:chart-multiple-20'
+                        | 'fluent-color:chart-multiple-24'
+                        | 'fluent-color:chart-multiple-32'
+                        | 'fluent-color:chat-bubbles-question-16'
+                        | 'fluent-color:chat-bubbles-question-20'
+                        | 'fluent-color:chat-bubbles-question-24'
+                        | 'fluent-color:chat-more-16'
+                        | 'fluent-color:chat-more-20'
+                        | 'fluent-color:chat-more-24'
+                        | 'fluent-color:chat-multiple-16'
+                        | 'fluent-color:chat-multiple-20'
+                        | 'fluent-color:chat-multiple-24'
+                        | 'fluent-color:checkbox-16'
+                        | 'fluent-color:checkbox-20'
+                        | 'fluent-color:checkbox-24'
+                        | 'fluent-color:checkbox-person-16'
+                        | 'fluent-color:checkbox-person-20'
+                        | 'fluent-color:checkbox-person-24'
+                        | 'fluent-color:checkmark-circle-16'
+                        | 'fluent-color:checkmark-circle-20'
+                        | 'fluent-color:checkmark-circle-24'
+                        | 'fluent-color:checkmark-circle-32'
+                        | 'fluent-color:checkmark-circle-48'
+                        | 'fluent-color:clipboard-16'
+                        | 'fluent-color:clipboard-20'
+                        | 'fluent-color:clipboard-24'
+                        | 'fluent-color:clipboard-28'
+                        | 'fluent-color:clipboard-32'
+                        | 'fluent-color:clipboard-48'
+                        | 'fluent-color:clipboard-task-16'
+                        | 'fluent-color:clipboard-task-20'
+                        | 'fluent-color:clipboard-task-24'
+                        | 'fluent-color:clipboard-text-edit-20'
+                        | 'fluent-color:clipboard-text-edit-24'
+                        | 'fluent-color:clipboard-text-edit-32'
+                        | 'fluent-color:clock-16'
+                        | 'fluent-color:clock-20'
+                        | 'fluent-color:clock-24'
+                        | 'fluent-color:clock-28'
+                        | 'fluent-color:clock-32'
+                        | 'fluent-color:clock-48'
+                        | 'fluent-color:clock-alarm-16'
+                        | 'fluent-color:clock-alarm-20'
+                        | 'fluent-color:clock-alarm-24'
+                        | 'fluent-color:clock-alarm-32'
+                        | 'fluent-color:clock-alarm-48'
+                        | 'fluent-color:cloud-16'
+                        | 'fluent-color:cloud-20'
+                        | 'fluent-color:cloud-24'
+                        | 'fluent-color:cloud-28'
+                        | 'fluent-color:cloud-32'
+                        | 'fluent-color:cloud-48'
+                        | 'fluent-color:cloud-dismiss-16'
+                        | 'fluent-color:cloud-dismiss-20'
+                        | 'fluent-color:cloud-dismiss-24'
+                        | 'fluent-color:cloud-dismiss-28'
+                        | 'fluent-color:cloud-dismiss-32'
+                        | 'fluent-color:cloud-dismiss-48'
+                        | 'fluent-color:cloud-words-16'
+                        | 'fluent-color:cloud-words-20'
+                        | 'fluent-color:cloud-words-24'
+                        | 'fluent-color:cloud-words-28'
+                        | 'fluent-color:cloud-words-32'
+                        | 'fluent-color:cloud-words-48'
+                        | 'fluent-color:code-16'
+                        | 'fluent-color:code-20'
+                        | 'fluent-color:code-24'
+                        | 'fluent-color:code-block-16'
+                        | 'fluent-color:code-block-20'
+                        | 'fluent-color:code-block-24'
+                        | 'fluent-color:code-block-28'
+                        | 'fluent-color:code-block-32'
+                        | 'fluent-color:code-block-48'
+                        | 'fluent-color:coin-multiple-16'
+                        | 'fluent-color:coin-multiple-20'
+                        | 'fluent-color:coin-multiple-24'
+                        | 'fluent-color:coin-multiple-28'
+                        | 'fluent-color:coin-multiple-32'
+                        | 'fluent-color:coin-multiple-48'
+                        | 'fluent-color:comment-16'
+                        | 'fluent-color:comment-20'
+                        | 'fluent-color:comment-24'
+                        | 'fluent-color:comment-28'
+                        | 'fluent-color:comment-32'
+                        | 'fluent-color:comment-48'
+                        | 'fluent-color:comment-multiple-16'
+                        | 'fluent-color:comment-multiple-20'
+                        | 'fluent-color:comment-multiple-24'
+                        | 'fluent-color:comment-multiple-28'
+                        | 'fluent-color:comment-multiple-32'
+                        | 'fluent-color:contact-card-16'
+                        | 'fluent-color:contact-card-20'
+                        | 'fluent-color:contact-card-24'
+                        | 'fluent-color:contact-card-28'
+                        | 'fluent-color:contact-card-32'
+                        | 'fluent-color:contact-card-48'
+                        | 'fluent-color:content-view-16'
+                        | 'fluent-color:content-view-20'
+                        | 'fluent-color:content-view-24'
+                        | 'fluent-color:content-view-28'
+                        | 'fluent-color:content-view-32'
+                        | 'fluent-color:data-area-20'
+                        | 'fluent-color:data-area-24'
+                        | 'fluent-color:data-area-32'
+                        | 'fluent-color:data-bar-vertical-ascending-16'
+                        | 'fluent-color:data-bar-vertical-ascending-20'
+                        | 'fluent-color:data-bar-vertical-ascending-24'
+                        | 'fluent-color:data-line-20'
+                        | 'fluent-color:data-line-24'
+                        | 'fluent-color:data-line-32'
+                        | 'fluent-color:data-pie-20'
+                        | 'fluent-color:data-pie-24'
+                        | 'fluent-color:data-pie-32'
+                        | 'fluent-color:data-scatter-20'
+                        | 'fluent-color:data-scatter-24'
+                        | 'fluent-color:data-scatter-32'
+                        | 'fluent-color:data-trending-16'
+                        | 'fluent-color:data-trending-20'
+                        | 'fluent-color:data-trending-24'
+                        | 'fluent-color:data-trending-28'
+                        | 'fluent-color:data-trending-32'
+                        | 'fluent-color:data-trending-48'
+                        | 'fluent-color:database-16'
+                        | 'fluent-color:database-20'
+                        | 'fluent-color:database-24'
+                        | 'fluent-color:database-32'
+                        | 'fluent-color:database-48'
+                        | 'fluent-color:design-ideas-16'
+                        | 'fluent-color:design-ideas-20'
+                        | 'fluent-color:design-ideas-24'
+                        | 'fluent-color:design-ideas-28'
+                        | 'fluent-color:design-ideas-32'
+                        | 'fluent-color:design-ideas-48'
+                        | 'fluent-color:dismiss-circle-16'
+                        | 'fluent-color:dismiss-circle-20'
+                        | 'fluent-color:dismiss-circle-24'
+                        | 'fluent-color:dismiss-circle-28'
+                        | 'fluent-color:dismiss-circle-32'
+                        | 'fluent-color:dismiss-circle-48'
+                        | 'fluent-color:diversity-16'
+                        | 'fluent-color:diversity-20'
+                        | 'fluent-color:diversity-24'
+                        | 'fluent-color:diversity-28'
+                        | 'fluent-color:diversity-48'
+                        | 'fluent-color:document-16'
+                        | 'fluent-color:document-20'
+                        | 'fluent-color:document-24'
+                        | 'fluent-color:document-28'
+                        | 'fluent-color:document-32'
+                        | 'fluent-color:document-48'
+                        | 'fluent-color:document-add-16'
+                        | 'fluent-color:document-add-20'
+                        | 'fluent-color:document-add-24'
+                        | 'fluent-color:document-add-28'
+                        | 'fluent-color:document-add-48'
+                        | 'fluent-color:document-edit-16'
+                        | 'fluent-color:document-edit-20'
+                        | 'fluent-color:document-edit-24'
+                        | 'fluent-color:document-folder-16'
+                        | 'fluent-color:document-folder-20'
+                        | 'fluent-color:document-folder-24'
+                        | 'fluent-color:document-lock-16'
+                        | 'fluent-color:document-lock-20'
+                        | 'fluent-color:document-lock-24'
+                        | 'fluent-color:document-lock-28'
+                        | 'fluent-color:document-lock-32'
+                        | 'fluent-color:document-lock-48'
+                        | 'fluent-color:document-text-16'
+                        | 'fluent-color:document-text-20'
+                        | 'fluent-color:document-text-24'
+                        | 'fluent-color:document-text-28'
+                        | 'fluent-color:document-text-32'
+                        | 'fluent-color:document-text-48'
+                        | 'fluent-color:drafts-16'
+                        | 'fluent-color:drafts-20'
+                        | 'fluent-color:drafts-24'
+                        | 'fluent-color:edit-16'
+                        | 'fluent-color:edit-20'
+                        | 'fluent-color:edit-24'
+                        | 'fluent-color:edit-32'
+                        | 'fluent-color:error-circle-16'
+                        | 'fluent-color:error-circle-20'
+                        | 'fluent-color:error-circle-24'
+                        | 'fluent-color:error-circle-48'
+                        | 'fluent-color:fast-forward-circle-24'
+                        | 'fluent-color:flag-16'
+                        | 'fluent-color:flag-20'
+                        | 'fluent-color:flag-24'
+                        | 'fluent-color:flag-28'
+                        | 'fluent-color:flag-32'
+                        | 'fluent-color:flag-48'
+                        | 'fluent-color:food-16'
+                        | 'fluent-color:food-20'
+                        | 'fluent-color:food-24'
+                        | 'fluent-color:food-28'
+                        | 'fluent-color:food-32'
+                        | 'fluent-color:food-48'
+                        | 'fluent-color:form-20'
+                        | 'fluent-color:form-24'
+                        | 'fluent-color:form-28'
+                        | 'fluent-color:form-48'
+                        | 'fluent-color:game-chat-20'
+                        | 'fluent-color:gauge-20'
+                        | 'fluent-color:gauge-24'
+                        | 'fluent-color:gauge-32'
+                        | 'fluent-color:gift-16'
+                        | 'fluent-color:gift-20'
+                        | 'fluent-color:gift-24'
+                        | 'fluent-color:gift-card-16'
+                        | 'fluent-color:gift-card-20'
+                        | 'fluent-color:gift-card-24'
+                        | 'fluent-color:globe-20'
+                        | 'fluent-color:globe-24'
+                        | 'fluent-color:globe-shield-20'
+                        | 'fluent-color:globe-shield-24'
+                        | 'fluent-color:globe-shield-48'
+                        | 'fluent-color:guest-16'
+                        | 'fluent-color:guest-20'
+                        | 'fluent-color:guest-24'
+                        | 'fluent-color:guest-28'
+                        | 'fluent-color:guest-32'
+                        | 'fluent-color:guest-48'
+                        | 'fluent-color:headphones-20'
+                        | 'fluent-color:headphones-24'
+                        | 'fluent-color:headphones-28'
+                        | 'fluent-color:headphones-32'
+                        | 'fluent-color:headphones-48'
+                        | 'fluent-color:headset-16'
+                        | 'fluent-color:headset-20'
+                        | 'fluent-color:headset-24'
+                        | 'fluent-color:headset-28'
+                        | 'fluent-color:headset-32'
+                        | 'fluent-color:headset-48'
+                        | 'fluent-color:heart-16'
+                        | 'fluent-color:heart-20'
+                        | 'fluent-color:heart-24'
+                        | 'fluent-color:heart-28'
+                        | 'fluent-color:heart-32'
+                        | 'fluent-color:heart-48'
+                        | 'fluent-color:history-16'
+                        | 'fluent-color:history-20'
+                        | 'fluent-color:history-24'
+                        | 'fluent-color:history-28'
+                        | 'fluent-color:history-32'
+                        | 'fluent-color:history-48'
+                        | 'fluent-color:home-16'
+                        | 'fluent-color:home-20'
+                        | 'fluent-color:home-24'
+                        | 'fluent-color:home-28'
+                        | 'fluent-color:home-32'
+                        | 'fluent-color:home-48'
+                        | 'fluent-color:image-16'
+                        | 'fluent-color:image-20'
+                        | 'fluent-color:image-24'
+                        | 'fluent-color:image-28'
+                        | 'fluent-color:image-32'
+                        | 'fluent-color:image-48'
+                        | 'fluent-color:image-off-20'
+                        | 'fluent-color:image-off-24'
+                        | 'fluent-color:image-off-28'
+                        | 'fluent-color:image-off-32'
+                        | 'fluent-color:image-off-48'
+                        | 'fluent-color:laptop-16'
+                        | 'fluent-color:laptop-20'
+                        | 'fluent-color:laptop-24'
+                        | 'fluent-color:laptop-28'
+                        | 'fluent-color:laptop-32'
+                        | 'fluent-color:laptop-48'
+                        | 'fluent-color:layer-diagonal-person-16'
+                        | 'fluent-color:layer-diagonal-person-20'
+                        | 'fluent-color:layer-diagonal-person-24'
+                        | 'fluent-color:library-16'
+                        | 'fluent-color:library-20'
+                        | 'fluent-color:library-24'
+                        | 'fluent-color:library-28'
+                        | 'fluent-color:library-32'
+                        | 'fluent-color:lightbulb-16'
+                        | 'fluent-color:lightbulb-20'
+                        | 'fluent-color:lightbulb-24'
+                        | 'fluent-color:lightbulb-28'
+                        | 'fluent-color:lightbulb-32'
+                        | 'fluent-color:lightbulb-48'
+                        | 'fluent-color:lightbulb-checkmark-20'
+                        | 'fluent-color:lightbulb-checkmark-24'
+                        | 'fluent-color:lightbulb-checkmark-32'
+                        | 'fluent-color:lightbulb-filament-16'
+                        | 'fluent-color:lightbulb-filament-20'
+                        | 'fluent-color:lightbulb-filament-24'
+                        | 'fluent-color:lightbulb-filament-28'
+                        | 'fluent-color:lightbulb-filament-32'
+                        | 'fluent-color:lightbulb-filament-48'
+                        | 'fluent-color:link-multiple-16'
+                        | 'fluent-color:link-multiple-20'
+                        | 'fluent-color:link-multiple-24'
+                        | 'fluent-color:list-bar-16'
+                        | 'fluent-color:list-bar-20'
+                        | 'fluent-color:list-bar-24'
+                        | 'fluent-color:list-bar-32'
+                        | 'fluent-color:location-ripple-16'
+                        | 'fluent-color:location-ripple-20'
+                        | 'fluent-color:location-ripple-24'
+                        | 'fluent-color:lock-closed-16'
+                        | 'fluent-color:lock-closed-20'
+                        | 'fluent-color:lock-closed-24'
+                        | 'fluent-color:lock-closed-28'
+                        | 'fluent-color:lock-closed-32'
+                        | 'fluent-color:lock-closed-48'
+                        | 'fluent-color:lock-shield-16'
+                        | 'fluent-color:lock-shield-20'
+                        | 'fluent-color:lock-shield-24'
+                        | 'fluent-color:lock-shield-28'
+                        | 'fluent-color:lock-shield-32'
+                        | 'fluent-color:lock-shield-48'
+                        | 'fluent-color:mail-16'
+                        | 'fluent-color:mail-20'
+                        | 'fluent-color:mail-24'
+                        | 'fluent-color:mail-28'
+                        | 'fluent-color:mail-32'
+                        | 'fluent-color:mail-48'
+                        | 'fluent-color:mail-alert-16'
+                        | 'fluent-color:mail-alert-20'
+                        | 'fluent-color:mail-alert-24'
+                        | 'fluent-color:mail-alert-28'
+                        | 'fluent-color:mail-alert-32'
+                        | 'fluent-color:mail-clock-16'
+                        | 'fluent-color:mail-clock-20'
+                        | 'fluent-color:mail-clock-24'
+                        | 'fluent-color:mail-clock-32'
+                        | 'fluent-color:mail-multiple-16'
+                        | 'fluent-color:mail-multiple-20'
+                        | 'fluent-color:mail-multiple-24'
+                        | 'fluent-color:mail-multiple-28'
+                        | 'fluent-color:mail-multiple-32'
+                        | 'fluent-color:megaphone-loud-16'
+                        | 'fluent-color:megaphone-loud-20'
+                        | 'fluent-color:megaphone-loud-24'
+                        | 'fluent-color:megaphone-loud-28'
+                        | 'fluent-color:megaphone-loud-32'
+                        | 'fluent-color:mic-16'
+                        | 'fluent-color:mic-20'
+                        | 'fluent-color:mic-24'
+                        | 'fluent-color:mic-28'
+                        | 'fluent-color:mic-32'
+                        | 'fluent-color:mic-48'
+                        | 'fluent-color:molecule-16'
+                        | 'fluent-color:molecule-20'
+                        | 'fluent-color:molecule-24'
+                        | 'fluent-color:molecule-28'
+                        | 'fluent-color:molecule-32'
+                        | 'fluent-color:molecule-48'
+                        | 'fluent-color:news-16'
+                        | 'fluent-color:news-20'
+                        | 'fluent-color:news-24'
+                        | 'fluent-color:news-28'
+                        | 'fluent-color:notebook-16'
+                        | 'fluent-color:notebook-20'
+                        | 'fluent-color:notebook-24'
+                        | 'fluent-color:notebook-32'
+                        | 'fluent-color:notebook-question-mark-20'
+                        | 'fluent-color:notebook-question-mark-24'
+                        | 'fluent-color:number-symbol-square-20'
+                        | 'fluent-color:number-symbol-square-24'
+                        | 'fluent-color:number-symbol-square-32'
+                        | 'fluent-color:options-16'
+                        | 'fluent-color:options-20'
+                        | 'fluent-color:options-24'
+                        | 'fluent-color:options-28'
+                        | 'fluent-color:options-32'
+                        | 'fluent-color:options-48'
+                        | 'fluent-color:org-16'
+                        | 'fluent-color:org-20'
+                        | 'fluent-color:org-24'
+                        | 'fluent-color:org-28'
+                        | 'fluent-color:org-32'
+                        | 'fluent-color:org-48'
+                        | 'fluent-color:paint-brush-16'
+                        | 'fluent-color:paint-brush-20'
+                        | 'fluent-color:paint-brush-24'
+                        | 'fluent-color:paint-brush-28'
+                        | 'fluent-color:paint-brush-32'
+                        | 'fluent-color:patient-20'
+                        | 'fluent-color:patient-24'
+                        | 'fluent-color:patient-32'
+                        | 'fluent-color:paw-16'
+                        | 'fluent-color:paw-20'
+                        | 'fluent-color:paw-24'
+                        | 'fluent-color:paw-28'
+                        | 'fluent-color:paw-32'
+                        | 'fluent-color:paw-48'
+                        | 'fluent-color:people-16'
+                        | 'fluent-color:people-20'
+                        | 'fluent-color:people-24'
+                        | 'fluent-color:people-28'
+                        | 'fluent-color:people-32'
+                        | 'fluent-color:people-48'
+                        | 'fluent-color:people-community-16'
+                        | 'fluent-color:people-community-20'
+                        | 'fluent-color:people-community-24'
+                        | 'fluent-color:people-community-28'
+                        | 'fluent-color:people-community-32'
+                        | 'fluent-color:people-community-48'
+                        | 'fluent-color:people-home-16'
+                        | 'fluent-color:people-home-20'
+                        | 'fluent-color:people-home-24'
+                        | 'fluent-color:people-home-28'
+                        | 'fluent-color:people-home-32'
+                        | 'fluent-color:people-home-48'
+                        | 'fluent-color:people-list-16'
+                        | 'fluent-color:people-list-20'
+                        | 'fluent-color:people-list-24'
+                        | 'fluent-color:people-list-28'
+                        | 'fluent-color:people-list-32'
+                        | 'fluent-color:people-sync-16'
+                        | 'fluent-color:people-sync-20'
+                        | 'fluent-color:people-sync-24'
+                        | 'fluent-color:people-sync-28'
+                        | 'fluent-color:people-sync-32'
+                        | 'fluent-color:people-team-16'
+                        | 'fluent-color:people-team-20'
+                        | 'fluent-color:people-team-24'
+                        | 'fluent-color:people-team-28'
+                        | 'fluent-color:people-team-32'
+                        | 'fluent-color:people-team-48'
+                        | 'fluent-color:person-16'
+                        | 'fluent-color:person-20'
+                        | 'fluent-color:person-24'
+                        | 'fluent-color:person-28'
+                        | 'fluent-color:person-32'
+                        | 'fluent-color:person-48'
+                        | 'fluent-color:person-available-16'
+                        | 'fluent-color:person-available-20'
+                        | 'fluent-color:person-available-24'
+                        | 'fluent-color:person-feedback-16'
+                        | 'fluent-color:person-feedback-20'
+                        | 'fluent-color:person-feedback-24'
+                        | 'fluent-color:person-feedback-28'
+                        | 'fluent-color:person-feedback-32'
+                        | 'fluent-color:person-feedback-48'
+                        | 'fluent-color:person-heart-20'
+                        | 'fluent-color:person-heart-24'
+                        | 'fluent-color:person-heart-32'
+                        | 'fluent-color:person-key-20'
+                        | 'fluent-color:person-key-24'
+                        | 'fluent-color:person-key-32'
+                        | 'fluent-color:person-starburst-16'
+                        | 'fluent-color:person-starburst-20'
+                        | 'fluent-color:person-starburst-24'
+                        | 'fluent-color:person-starburst-28'
+                        | 'fluent-color:person-starburst-32'
+                        | 'fluent-color:person-starburst-48'
+                        | 'fluent-color:person-tentative-16'
+                        | 'fluent-color:person-tentative-20'
+                        | 'fluent-color:person-tentative-24'
+                        | 'fluent-color:person-tentative-32'
+                        | 'fluent-color:person-warning-16'
+                        | 'fluent-color:person-warning-20'
+                        | 'fluent-color:person-warning-24'
+                        | 'fluent-color:person-warning-28'
+                        | 'fluent-color:person-warning-32'
+                        | 'fluent-color:person-warning-48'
+                        | 'fluent-color:phone-16'
+                        | 'fluent-color:phone-20'
+                        | 'fluent-color:phone-24'
+                        | 'fluent-color:phone-28'
+                        | 'fluent-color:phone-32'
+                        | 'fluent-color:phone-48'
+                        | 'fluent-color:phone-laptop-16'
+                        | 'fluent-color:phone-laptop-20'
+                        | 'fluent-color:phone-laptop-24'
+                        | 'fluent-color:phone-laptop-32'
+                        | 'fluent-color:pin-16'
+                        | 'fluent-color:pin-20'
+                        | 'fluent-color:pin-24'
+                        | 'fluent-color:pin-28'
+                        | 'fluent-color:pin-32'
+                        | 'fluent-color:pin-48'
+                        | 'fluent-color:poll-16'
+                        | 'fluent-color:poll-20'
+                        | 'fluent-color:poll-24'
+                        | 'fluent-color:poll-32'
+                        | 'fluent-color:premium-16'
+                        | 'fluent-color:premium-20'
+                        | 'fluent-color:premium-24'
+                        | 'fluent-color:premium-28'
+                        | 'fluent-color:premium-32'
+                        | 'fluent-color:puzzle-piece-16'
+                        | 'fluent-color:puzzle-piece-20'
+                        | 'fluent-color:puzzle-piece-24'
+                        | 'fluent-color:puzzle-piece-28'
+                        | 'fluent-color:puzzle-piece-32'
+                        | 'fluent-color:puzzle-piece-48'
+                        | 'fluent-color:question-circle-16'
+                        | 'fluent-color:question-circle-20'
+                        | 'fluent-color:question-circle-24'
+                        | 'fluent-color:question-circle-28'
+                        | 'fluent-color:question-circle-32'
+                        | 'fluent-color:question-circle-48'
+                        | 'fluent-color:receipt-16'
+                        | 'fluent-color:receipt-20'
+                        | 'fluent-color:receipt-24'
+                        | 'fluent-color:receipt-28'
+                        | 'fluent-color:receipt-32'
+                        | 'fluent-color:reward-16'
+                        | 'fluent-color:reward-20'
+                        | 'fluent-color:reward-24'
+                        | 'fluent-color:ribbon-16'
+                        | 'fluent-color:ribbon-20'
+                        | 'fluent-color:ribbon-24'
+                        | 'fluent-color:ribbon-32'
+                        | 'fluent-color:ribbon-star-20'
+                        | 'fluent-color:ribbon-star-24'
+                        | 'fluent-color:ribbon-star-32'
+                        | 'fluent-color:savings-16'
+                        | 'fluent-color:savings-20'
+                        | 'fluent-color:savings-24'
+                        | 'fluent-color:savings-32'
+                        | 'fluent-color:scan-person-16'
+                        | 'fluent-color:scan-person-20'
+                        | 'fluent-color:scan-person-24'
+                        | 'fluent-color:scan-person-28'
+                        | 'fluent-color:scan-person-48'
+                        | 'fluent-color:scan-type-20'
+                        | 'fluent-color:scan-type-24'
+                        | 'fluent-color:search-visual-16'
+                        | 'fluent-color:search-visual-20'
+                        | 'fluent-color:search-visual-24'
+                        | 'fluent-color:send-16'
+                        | 'fluent-color:send-20'
+                        | 'fluent-color:send-24'
+                        | 'fluent-color:send-28'
+                        | 'fluent-color:send-32'
+                        | 'fluent-color:send-48'
+                        | 'fluent-color:send-clock-20'
+                        | 'fluent-color:send-clock-24'
+                        | 'fluent-color:send-clock-32'
+                        | 'fluent-color:settings-16'
+                        | 'fluent-color:settings-20'
+                        | 'fluent-color:settings-24'
+                        | 'fluent-color:settings-28'
+                        | 'fluent-color:settings-32'
+                        | 'fluent-color:settings-48'
+                        | 'fluent-color:share-android-16'
+                        | 'fluent-color:share-android-20'
+                        | 'fluent-color:share-android-24'
+                        | 'fluent-color:share-android-32'
+                        | 'fluent-color:shield-16'
+                        | 'fluent-color:shield-20'
+                        | 'fluent-color:shield-24'
+                        | 'fluent-color:shield-28'
+                        | 'fluent-color:shield-32'
+                        | 'fluent-color:shield-48'
+                        | 'fluent-color:shield-checkmark-16'
+                        | 'fluent-color:shield-checkmark-20'
+                        | 'fluent-color:shield-checkmark-24'
+                        | 'fluent-color:shield-checkmark-28'
+                        | 'fluent-color:shield-checkmark-48'
+                        | 'fluent-color:shifts-16'
+                        | 'fluent-color:shifts-20'
+                        | 'fluent-color:shifts-24'
+                        | 'fluent-color:shifts-28'
+                        | 'fluent-color:shifts-32'
+                        | 'fluent-color:slide-text-sparkle-16'
+                        | 'fluent-color:slide-text-sparkle-20'
+                        | 'fluent-color:slide-text-sparkle-24'
+                        | 'fluent-color:slide-text-sparkle-28'
+                        | 'fluent-color:slide-text-sparkle-32'
+                        | 'fluent-color:slide-text-sparkle-48'
+                        | 'fluent-color:sport-16'
+                        | 'fluent-color:sport-20'
+                        | 'fluent-color:sport-24'
+                        | 'fluent-color:star-16'
+                        | 'fluent-color:star-20'
+                        | 'fluent-color:star-24'
+                        | 'fluent-color:star-28'
+                        | 'fluent-color:star-32'
+                        | 'fluent-color:star-48'
+                        | 'fluent-color:star-settings-20'
+                        | 'fluent-color:star-settings-24'
+                        | 'fluent-color:star-settings-32'
+                        | 'fluent-color:table-16'
+                        | 'fluent-color:table-20'
+                        | 'fluent-color:table-24'
+                        | 'fluent-color:table-28'
+                        | 'fluent-color:table-32'
+                        | 'fluent-color:table-48'
+                        | 'fluent-color:text-bullet-list-square-16'
+                        | 'fluent-color:text-bullet-list-square-20'
+                        | 'fluent-color:text-bullet-list-square-24'
+                        | 'fluent-color:text-bullet-list-square-28'
+                        | 'fluent-color:text-bullet-list-square-32'
+                        | 'fluent-color:text-bullet-list-square-48'
+                        | 'fluent-color:text-bullet-list-square-sparkle-16'
+                        | 'fluent-color:text-bullet-list-square-sparkle-20'
+                        | 'fluent-color:text-bullet-list-square-sparkle-24'
+                        | 'fluent-color:text-bullet-list-square-sparkle-32'
+                        | 'fluent-color:text-edit-style-16'
+                        | 'fluent-color:text-edit-style-20'
+                        | 'fluent-color:text-edit-style-24'
+                        | 'fluent-color:toolbox-16'
+                        | 'fluent-color:toolbox-20'
+                        | 'fluent-color:toolbox-24'
+                        | 'fluent-color:toolbox-28'
+                        | 'fluent-color:toolbox-32'
+                        | 'fluent-color:trophy-16'
+                        | 'fluent-color:trophy-20'
+                        | 'fluent-color:trophy-24'
+                        | 'fluent-color:trophy-28'
+                        | 'fluent-color:trophy-32'
+                        | 'fluent-color:trophy-48'
+                        | 'fluent-color:vault-16'
+                        | 'fluent-color:vault-20'
+                        | 'fluent-color:vault-24'
+                        | 'fluent-color:video-16'
+                        | 'fluent-color:video-20'
+                        | 'fluent-color:video-24'
+                        | 'fluent-color:video-28'
+                        | 'fluent-color:video-32'
+                        | 'fluent-color:video-48'
+                        | 'fluent-color:warning-16'
+                        | 'fluent-color:warning-20'
+                        | 'fluent-color:warning-24'
+                        | 'fluent-color:warning-28'
+                        | 'fluent-color:warning-32'
+                        | 'fluent-color:warning-48'
+                        | 'fluent-color:weather-snowflake-20'
+                        | 'fluent-color:weather-snowflake-24'
+                        | 'fluent-color:weather-snowflake-32'
+                        | 'fluent-color:weather-snowflake-48'
+                        | 'fluent-color:weather-sunny-low-20'
+                        | 'fluent-color:weather-sunny-low-24'
+                        | 'fluent-color:weather-sunny-low-48'
+                        | 'fluent-color:wifi-20'
+                        | 'fluent-color:wifi-24'
+                        | 'fluent-color:wifi-warning-20'
+                        | 'fluent-color:wifi-warning-24'
+                        | 'fluent-color:wrench-16'
+                        | 'fluent-color:wrench-20'
+                        | 'fluent-color:wrench-24'
+                        | 'fluent-color:wrench-screwdriver-20'
+                        | 'fluent-color:wrench-screwdriver-24'
+                        | 'fluent-color:wrench-screwdriver-32';
                       id?: string | null;
                     }[]
                   | null;
@@ -1778,21 +2588,23 @@ export interface ContentSection {
         | null;
       alignment?: ('left' | 'center' | 'right') | null;
     };
-    ctas?:
-      | {
-          cta: {
-            text: string;
-            link: string;
-            variant: 'primary' | 'secondary';
-          };
-          alignment?: ('left' | 'center' | 'right') | null;
-          /**
-           * inside or outside the content
-           */
-          position?: ('inside' | 'outside') | null;
-          id?: string | null;
-        }[]
-      | null;
+    ct?: {
+      ctas?:
+        | {
+            cta: {
+              text: string;
+              link: string;
+              variant: 'primary' | 'secondary';
+            };
+            /**
+             * inside or outside the content
+             */
+            place?: ('inside' | 'outside') | null;
+            id?: string | null;
+          }[]
+        | null;
+      alignment?: ('left' | 'center' | 'right') | null;
+    };
   };
   image?: {
     images?:
@@ -3417,6 +4229,814 @@ export interface IconCardsGridSection {
               | 'lucide:zap-off'
               | 'lucide:zoom-in'
               | 'lucide:zoom-out'
+              | 'fluent-color:add-circle-16'
+              | 'fluent-color:add-circle-20'
+              | 'fluent-color:add-circle-24'
+              | 'fluent-color:add-circle-28'
+              | 'fluent-color:add-circle-32'
+              | 'fluent-color:agents-16'
+              | 'fluent-color:agents-20'
+              | 'fluent-color:agents-24'
+              | 'fluent-color:agents-28'
+              | 'fluent-color:agents-32'
+              | 'fluent-color:agents-48'
+              | 'fluent-color:alert-16'
+              | 'fluent-color:alert-20'
+              | 'fluent-color:alert-24'
+              | 'fluent-color:alert-28'
+              | 'fluent-color:alert-32'
+              | 'fluent-color:alert-48'
+              | 'fluent-color:alert-badge-16'
+              | 'fluent-color:alert-badge-20'
+              | 'fluent-color:alert-badge-24'
+              | 'fluent-color:alert-badge-32'
+              | 'fluent-color:alert-urgent-16'
+              | 'fluent-color:alert-urgent-20'
+              | 'fluent-color:alert-urgent-24'
+              | 'fluent-color:animal-paw-print-16'
+              | 'fluent-color:animal-paw-print-20'
+              | 'fluent-color:animal-paw-print-24'
+              | 'fluent-color:animal-paw-print-28'
+              | 'fluent-color:animal-paw-print-32'
+              | 'fluent-color:animal-paw-print-48'
+              | 'fluent-color:approvals-app-16'
+              | 'fluent-color:approvals-app-20'
+              | 'fluent-color:approvals-app-24'
+              | 'fluent-color:approvals-app-28'
+              | 'fluent-color:approvals-app-32'
+              | 'fluent-color:apps-16'
+              | 'fluent-color:apps-20'
+              | 'fluent-color:apps-24'
+              | 'fluent-color:apps-28'
+              | 'fluent-color:apps-32'
+              | 'fluent-color:apps-48'
+              | 'fluent-color:apps-list-20'
+              | 'fluent-color:apps-list-24'
+              | 'fluent-color:apps-list-32'
+              | 'fluent-color:apps-list-detail-20'
+              | 'fluent-color:apps-list-detail-24'
+              | 'fluent-color:apps-list-detail-32'
+              | 'fluent-color:arrow-clockwise-dashes-16'
+              | 'fluent-color:arrow-clockwise-dashes-20'
+              | 'fluent-color:arrow-clockwise-dashes-24'
+              | 'fluent-color:arrow-clockwise-dashes-32'
+              | 'fluent-color:arrow-clockwise-dashes-settings-16'
+              | 'fluent-color:arrow-clockwise-dashes-settings-20'
+              | 'fluent-color:arrow-clockwise-dashes-settings-24'
+              | 'fluent-color:arrow-clockwise-dashes-settings-28'
+              | 'fluent-color:arrow-clockwise-dashes-settings-32'
+              | 'fluent-color:arrow-clockwise-dashes-settings-48'
+              | 'fluent-color:arrow-square-20'
+              | 'fluent-color:arrow-square-24'
+              | 'fluent-color:arrow-square-32'
+              | 'fluent-color:arrow-square-down-20'
+              | 'fluent-color:arrow-square-down-24'
+              | 'fluent-color:arrow-square-down-32'
+              | 'fluent-color:arrow-sync-16'
+              | 'fluent-color:arrow-sync-20'
+              | 'fluent-color:arrow-sync-24'
+              | 'fluent-color:arrow-trending-lines-20'
+              | 'fluent-color:arrow-trending-lines-24'
+              | 'fluent-color:beach-16'
+              | 'fluent-color:beach-20'
+              | 'fluent-color:beach-24'
+              | 'fluent-color:beach-28'
+              | 'fluent-color:beach-32'
+              | 'fluent-color:beach-48'
+              | 'fluent-color:board-16'
+              | 'fluent-color:board-20'
+              | 'fluent-color:board-24'
+              | 'fluent-color:board-28'
+              | 'fluent-color:book-16'
+              | 'fluent-color:book-20'
+              | 'fluent-color:book-24'
+              | 'fluent-color:book-28'
+              | 'fluent-color:book-32'
+              | 'fluent-color:book-48'
+              | 'fluent-color:book-database-16'
+              | 'fluent-color:book-database-20'
+              | 'fluent-color:book-database-24'
+              | 'fluent-color:book-database-32'
+              | 'fluent-color:book-open-16'
+              | 'fluent-color:book-open-20'
+              | 'fluent-color:book-open-24'
+              | 'fluent-color:book-open-28'
+              | 'fluent-color:book-open-32'
+              | 'fluent-color:book-open-48'
+              | 'fluent-color:book-star-20'
+              | 'fluent-color:book-star-24'
+              | 'fluent-color:bookmark-16'
+              | 'fluent-color:bookmark-20'
+              | 'fluent-color:bookmark-24'
+              | 'fluent-color:bookmark-28'
+              | 'fluent-color:bookmark-32'
+              | 'fluent-color:bot-16'
+              | 'fluent-color:bot-20'
+              | 'fluent-color:bot-24'
+              | 'fluent-color:bot-sparkle-16'
+              | 'fluent-color:bot-sparkle-20'
+              | 'fluent-color:bot-sparkle-24'
+              | 'fluent-color:building-16'
+              | 'fluent-color:building-20'
+              | 'fluent-color:building-24'
+              | 'fluent-color:building-32'
+              | 'fluent-color:building-48'
+              | 'fluent-color:building-government-16'
+              | 'fluent-color:building-government-20'
+              | 'fluent-color:building-government-24'
+              | 'fluent-color:building-government-32'
+              | 'fluent-color:building-government-search-16'
+              | 'fluent-color:building-government-search-20'
+              | 'fluent-color:building-government-search-24'
+              | 'fluent-color:building-government-search-32'
+              | 'fluent-color:building-home-16'
+              | 'fluent-color:building-home-20'
+              | 'fluent-color:building-home-24'
+              | 'fluent-color:building-home-32'
+              | 'fluent-color:building-multiple-20'
+              | 'fluent-color:building-multiple-24'
+              | 'fluent-color:building-people-16'
+              | 'fluent-color:building-people-20'
+              | 'fluent-color:building-people-24'
+              | 'fluent-color:building-store-16'
+              | 'fluent-color:building-store-20'
+              | 'fluent-color:building-store-24'
+              | 'fluent-color:calendar-16'
+              | 'fluent-color:calendar-20'
+              | 'fluent-color:calendar-24'
+              | 'fluent-color:calendar-28'
+              | 'fluent-color:calendar-32'
+              | 'fluent-color:calendar-48'
+              | 'fluent-color:calendar-cancel-16'
+              | 'fluent-color:calendar-cancel-20'
+              | 'fluent-color:calendar-cancel-24'
+              | 'fluent-color:calendar-checkmark-16'
+              | 'fluent-color:calendar-checkmark-20'
+              | 'fluent-color:calendar-checkmark-24'
+              | 'fluent-color:calendar-clock-16'
+              | 'fluent-color:calendar-clock-20'
+              | 'fluent-color:calendar-clock-24'
+              | 'fluent-color:calendar-data-bar-16'
+              | 'fluent-color:calendar-data-bar-20'
+              | 'fluent-color:calendar-data-bar-24'
+              | 'fluent-color:calendar-data-bar-28'
+              | 'fluent-color:calendar-edit-16'
+              | 'fluent-color:calendar-edit-20'
+              | 'fluent-color:calendar-edit-24'
+              | 'fluent-color:calendar-edit-32'
+              | 'fluent-color:calendar-people-20'
+              | 'fluent-color:calendar-sync-16'
+              | 'fluent-color:calendar-sync-20'
+              | 'fluent-color:calendar-sync-24'
+              | 'fluent-color:camera-16'
+              | 'fluent-color:camera-20'
+              | 'fluent-color:camera-24'
+              | 'fluent-color:certificate-16'
+              | 'fluent-color:certificate-20'
+              | 'fluent-color:certificate-24'
+              | 'fluent-color:certificate-32'
+              | 'fluent-color:chart-multiple-16'
+              | 'fluent-color:chart-multiple-20'
+              | 'fluent-color:chart-multiple-24'
+              | 'fluent-color:chart-multiple-32'
+              | 'fluent-color:chat-bubbles-question-16'
+              | 'fluent-color:chat-bubbles-question-20'
+              | 'fluent-color:chat-bubbles-question-24'
+              | 'fluent-color:chat-more-16'
+              | 'fluent-color:chat-more-20'
+              | 'fluent-color:chat-more-24'
+              | 'fluent-color:chat-multiple-16'
+              | 'fluent-color:chat-multiple-20'
+              | 'fluent-color:chat-multiple-24'
+              | 'fluent-color:checkbox-16'
+              | 'fluent-color:checkbox-20'
+              | 'fluent-color:checkbox-24'
+              | 'fluent-color:checkbox-person-16'
+              | 'fluent-color:checkbox-person-20'
+              | 'fluent-color:checkbox-person-24'
+              | 'fluent-color:checkmark-circle-16'
+              | 'fluent-color:checkmark-circle-20'
+              | 'fluent-color:checkmark-circle-24'
+              | 'fluent-color:checkmark-circle-32'
+              | 'fluent-color:checkmark-circle-48'
+              | 'fluent-color:clipboard-16'
+              | 'fluent-color:clipboard-20'
+              | 'fluent-color:clipboard-24'
+              | 'fluent-color:clipboard-28'
+              | 'fluent-color:clipboard-32'
+              | 'fluent-color:clipboard-48'
+              | 'fluent-color:clipboard-task-16'
+              | 'fluent-color:clipboard-task-20'
+              | 'fluent-color:clipboard-task-24'
+              | 'fluent-color:clipboard-text-edit-20'
+              | 'fluent-color:clipboard-text-edit-24'
+              | 'fluent-color:clipboard-text-edit-32'
+              | 'fluent-color:clock-16'
+              | 'fluent-color:clock-20'
+              | 'fluent-color:clock-24'
+              | 'fluent-color:clock-28'
+              | 'fluent-color:clock-32'
+              | 'fluent-color:clock-48'
+              | 'fluent-color:clock-alarm-16'
+              | 'fluent-color:clock-alarm-20'
+              | 'fluent-color:clock-alarm-24'
+              | 'fluent-color:clock-alarm-32'
+              | 'fluent-color:clock-alarm-48'
+              | 'fluent-color:cloud-16'
+              | 'fluent-color:cloud-20'
+              | 'fluent-color:cloud-24'
+              | 'fluent-color:cloud-28'
+              | 'fluent-color:cloud-32'
+              | 'fluent-color:cloud-48'
+              | 'fluent-color:cloud-dismiss-16'
+              | 'fluent-color:cloud-dismiss-20'
+              | 'fluent-color:cloud-dismiss-24'
+              | 'fluent-color:cloud-dismiss-28'
+              | 'fluent-color:cloud-dismiss-32'
+              | 'fluent-color:cloud-dismiss-48'
+              | 'fluent-color:cloud-words-16'
+              | 'fluent-color:cloud-words-20'
+              | 'fluent-color:cloud-words-24'
+              | 'fluent-color:cloud-words-28'
+              | 'fluent-color:cloud-words-32'
+              | 'fluent-color:cloud-words-48'
+              | 'fluent-color:code-16'
+              | 'fluent-color:code-20'
+              | 'fluent-color:code-24'
+              | 'fluent-color:code-block-16'
+              | 'fluent-color:code-block-20'
+              | 'fluent-color:code-block-24'
+              | 'fluent-color:code-block-28'
+              | 'fluent-color:code-block-32'
+              | 'fluent-color:code-block-48'
+              | 'fluent-color:coin-multiple-16'
+              | 'fluent-color:coin-multiple-20'
+              | 'fluent-color:coin-multiple-24'
+              | 'fluent-color:coin-multiple-28'
+              | 'fluent-color:coin-multiple-32'
+              | 'fluent-color:coin-multiple-48'
+              | 'fluent-color:comment-16'
+              | 'fluent-color:comment-20'
+              | 'fluent-color:comment-24'
+              | 'fluent-color:comment-28'
+              | 'fluent-color:comment-32'
+              | 'fluent-color:comment-48'
+              | 'fluent-color:comment-multiple-16'
+              | 'fluent-color:comment-multiple-20'
+              | 'fluent-color:comment-multiple-24'
+              | 'fluent-color:comment-multiple-28'
+              | 'fluent-color:comment-multiple-32'
+              | 'fluent-color:contact-card-16'
+              | 'fluent-color:contact-card-20'
+              | 'fluent-color:contact-card-24'
+              | 'fluent-color:contact-card-28'
+              | 'fluent-color:contact-card-32'
+              | 'fluent-color:contact-card-48'
+              | 'fluent-color:content-view-16'
+              | 'fluent-color:content-view-20'
+              | 'fluent-color:content-view-24'
+              | 'fluent-color:content-view-28'
+              | 'fluent-color:content-view-32'
+              | 'fluent-color:data-area-20'
+              | 'fluent-color:data-area-24'
+              | 'fluent-color:data-area-32'
+              | 'fluent-color:data-bar-vertical-ascending-16'
+              | 'fluent-color:data-bar-vertical-ascending-20'
+              | 'fluent-color:data-bar-vertical-ascending-24'
+              | 'fluent-color:data-line-20'
+              | 'fluent-color:data-line-24'
+              | 'fluent-color:data-line-32'
+              | 'fluent-color:data-pie-20'
+              | 'fluent-color:data-pie-24'
+              | 'fluent-color:data-pie-32'
+              | 'fluent-color:data-scatter-20'
+              | 'fluent-color:data-scatter-24'
+              | 'fluent-color:data-scatter-32'
+              | 'fluent-color:data-trending-16'
+              | 'fluent-color:data-trending-20'
+              | 'fluent-color:data-trending-24'
+              | 'fluent-color:data-trending-28'
+              | 'fluent-color:data-trending-32'
+              | 'fluent-color:data-trending-48'
+              | 'fluent-color:database-16'
+              | 'fluent-color:database-20'
+              | 'fluent-color:database-24'
+              | 'fluent-color:database-32'
+              | 'fluent-color:database-48'
+              | 'fluent-color:design-ideas-16'
+              | 'fluent-color:design-ideas-20'
+              | 'fluent-color:design-ideas-24'
+              | 'fluent-color:design-ideas-28'
+              | 'fluent-color:design-ideas-32'
+              | 'fluent-color:design-ideas-48'
+              | 'fluent-color:dismiss-circle-16'
+              | 'fluent-color:dismiss-circle-20'
+              | 'fluent-color:dismiss-circle-24'
+              | 'fluent-color:dismiss-circle-28'
+              | 'fluent-color:dismiss-circle-32'
+              | 'fluent-color:dismiss-circle-48'
+              | 'fluent-color:diversity-16'
+              | 'fluent-color:diversity-20'
+              | 'fluent-color:diversity-24'
+              | 'fluent-color:diversity-28'
+              | 'fluent-color:diversity-48'
+              | 'fluent-color:document-16'
+              | 'fluent-color:document-20'
+              | 'fluent-color:document-24'
+              | 'fluent-color:document-28'
+              | 'fluent-color:document-32'
+              | 'fluent-color:document-48'
+              | 'fluent-color:document-add-16'
+              | 'fluent-color:document-add-20'
+              | 'fluent-color:document-add-24'
+              | 'fluent-color:document-add-28'
+              | 'fluent-color:document-add-48'
+              | 'fluent-color:document-edit-16'
+              | 'fluent-color:document-edit-20'
+              | 'fluent-color:document-edit-24'
+              | 'fluent-color:document-folder-16'
+              | 'fluent-color:document-folder-20'
+              | 'fluent-color:document-folder-24'
+              | 'fluent-color:document-lock-16'
+              | 'fluent-color:document-lock-20'
+              | 'fluent-color:document-lock-24'
+              | 'fluent-color:document-lock-28'
+              | 'fluent-color:document-lock-32'
+              | 'fluent-color:document-lock-48'
+              | 'fluent-color:document-text-16'
+              | 'fluent-color:document-text-20'
+              | 'fluent-color:document-text-24'
+              | 'fluent-color:document-text-28'
+              | 'fluent-color:document-text-32'
+              | 'fluent-color:document-text-48'
+              | 'fluent-color:drafts-16'
+              | 'fluent-color:drafts-20'
+              | 'fluent-color:drafts-24'
+              | 'fluent-color:edit-16'
+              | 'fluent-color:edit-20'
+              | 'fluent-color:edit-24'
+              | 'fluent-color:edit-32'
+              | 'fluent-color:error-circle-16'
+              | 'fluent-color:error-circle-20'
+              | 'fluent-color:error-circle-24'
+              | 'fluent-color:error-circle-48'
+              | 'fluent-color:fast-forward-circle-24'
+              | 'fluent-color:flag-16'
+              | 'fluent-color:flag-20'
+              | 'fluent-color:flag-24'
+              | 'fluent-color:flag-28'
+              | 'fluent-color:flag-32'
+              | 'fluent-color:flag-48'
+              | 'fluent-color:food-16'
+              | 'fluent-color:food-20'
+              | 'fluent-color:food-24'
+              | 'fluent-color:food-28'
+              | 'fluent-color:food-32'
+              | 'fluent-color:food-48'
+              | 'fluent-color:form-20'
+              | 'fluent-color:form-24'
+              | 'fluent-color:form-28'
+              | 'fluent-color:form-48'
+              | 'fluent-color:game-chat-20'
+              | 'fluent-color:gauge-20'
+              | 'fluent-color:gauge-24'
+              | 'fluent-color:gauge-32'
+              | 'fluent-color:gift-16'
+              | 'fluent-color:gift-20'
+              | 'fluent-color:gift-24'
+              | 'fluent-color:gift-card-16'
+              | 'fluent-color:gift-card-20'
+              | 'fluent-color:gift-card-24'
+              | 'fluent-color:globe-20'
+              | 'fluent-color:globe-24'
+              | 'fluent-color:globe-shield-20'
+              | 'fluent-color:globe-shield-24'
+              | 'fluent-color:globe-shield-48'
+              | 'fluent-color:guest-16'
+              | 'fluent-color:guest-20'
+              | 'fluent-color:guest-24'
+              | 'fluent-color:guest-28'
+              | 'fluent-color:guest-32'
+              | 'fluent-color:guest-48'
+              | 'fluent-color:headphones-20'
+              | 'fluent-color:headphones-24'
+              | 'fluent-color:headphones-28'
+              | 'fluent-color:headphones-32'
+              | 'fluent-color:headphones-48'
+              | 'fluent-color:headset-16'
+              | 'fluent-color:headset-20'
+              | 'fluent-color:headset-24'
+              | 'fluent-color:headset-28'
+              | 'fluent-color:headset-32'
+              | 'fluent-color:headset-48'
+              | 'fluent-color:heart-16'
+              | 'fluent-color:heart-20'
+              | 'fluent-color:heart-24'
+              | 'fluent-color:heart-28'
+              | 'fluent-color:heart-32'
+              | 'fluent-color:heart-48'
+              | 'fluent-color:history-16'
+              | 'fluent-color:history-20'
+              | 'fluent-color:history-24'
+              | 'fluent-color:history-28'
+              | 'fluent-color:history-32'
+              | 'fluent-color:history-48'
+              | 'fluent-color:home-16'
+              | 'fluent-color:home-20'
+              | 'fluent-color:home-24'
+              | 'fluent-color:home-28'
+              | 'fluent-color:home-32'
+              | 'fluent-color:home-48'
+              | 'fluent-color:image-16'
+              | 'fluent-color:image-20'
+              | 'fluent-color:image-24'
+              | 'fluent-color:image-28'
+              | 'fluent-color:image-32'
+              | 'fluent-color:image-48'
+              | 'fluent-color:image-off-20'
+              | 'fluent-color:image-off-24'
+              | 'fluent-color:image-off-28'
+              | 'fluent-color:image-off-32'
+              | 'fluent-color:image-off-48'
+              | 'fluent-color:laptop-16'
+              | 'fluent-color:laptop-20'
+              | 'fluent-color:laptop-24'
+              | 'fluent-color:laptop-28'
+              | 'fluent-color:laptop-32'
+              | 'fluent-color:laptop-48'
+              | 'fluent-color:layer-diagonal-person-16'
+              | 'fluent-color:layer-diagonal-person-20'
+              | 'fluent-color:layer-diagonal-person-24'
+              | 'fluent-color:library-16'
+              | 'fluent-color:library-20'
+              | 'fluent-color:library-24'
+              | 'fluent-color:library-28'
+              | 'fluent-color:library-32'
+              | 'fluent-color:lightbulb-16'
+              | 'fluent-color:lightbulb-20'
+              | 'fluent-color:lightbulb-24'
+              | 'fluent-color:lightbulb-28'
+              | 'fluent-color:lightbulb-32'
+              | 'fluent-color:lightbulb-48'
+              | 'fluent-color:lightbulb-checkmark-20'
+              | 'fluent-color:lightbulb-checkmark-24'
+              | 'fluent-color:lightbulb-checkmark-32'
+              | 'fluent-color:lightbulb-filament-16'
+              | 'fluent-color:lightbulb-filament-20'
+              | 'fluent-color:lightbulb-filament-24'
+              | 'fluent-color:lightbulb-filament-28'
+              | 'fluent-color:lightbulb-filament-32'
+              | 'fluent-color:lightbulb-filament-48'
+              | 'fluent-color:link-multiple-16'
+              | 'fluent-color:link-multiple-20'
+              | 'fluent-color:link-multiple-24'
+              | 'fluent-color:list-bar-16'
+              | 'fluent-color:list-bar-20'
+              | 'fluent-color:list-bar-24'
+              | 'fluent-color:list-bar-32'
+              | 'fluent-color:location-ripple-16'
+              | 'fluent-color:location-ripple-20'
+              | 'fluent-color:location-ripple-24'
+              | 'fluent-color:lock-closed-16'
+              | 'fluent-color:lock-closed-20'
+              | 'fluent-color:lock-closed-24'
+              | 'fluent-color:lock-closed-28'
+              | 'fluent-color:lock-closed-32'
+              | 'fluent-color:lock-closed-48'
+              | 'fluent-color:lock-shield-16'
+              | 'fluent-color:lock-shield-20'
+              | 'fluent-color:lock-shield-24'
+              | 'fluent-color:lock-shield-28'
+              | 'fluent-color:lock-shield-32'
+              | 'fluent-color:lock-shield-48'
+              | 'fluent-color:mail-16'
+              | 'fluent-color:mail-20'
+              | 'fluent-color:mail-24'
+              | 'fluent-color:mail-28'
+              | 'fluent-color:mail-32'
+              | 'fluent-color:mail-48'
+              | 'fluent-color:mail-alert-16'
+              | 'fluent-color:mail-alert-20'
+              | 'fluent-color:mail-alert-24'
+              | 'fluent-color:mail-alert-28'
+              | 'fluent-color:mail-alert-32'
+              | 'fluent-color:mail-clock-16'
+              | 'fluent-color:mail-clock-20'
+              | 'fluent-color:mail-clock-24'
+              | 'fluent-color:mail-clock-32'
+              | 'fluent-color:mail-multiple-16'
+              | 'fluent-color:mail-multiple-20'
+              | 'fluent-color:mail-multiple-24'
+              | 'fluent-color:mail-multiple-28'
+              | 'fluent-color:mail-multiple-32'
+              | 'fluent-color:megaphone-loud-16'
+              | 'fluent-color:megaphone-loud-20'
+              | 'fluent-color:megaphone-loud-24'
+              | 'fluent-color:megaphone-loud-28'
+              | 'fluent-color:megaphone-loud-32'
+              | 'fluent-color:mic-16'
+              | 'fluent-color:mic-20'
+              | 'fluent-color:mic-24'
+              | 'fluent-color:mic-28'
+              | 'fluent-color:mic-32'
+              | 'fluent-color:mic-48'
+              | 'fluent-color:molecule-16'
+              | 'fluent-color:molecule-20'
+              | 'fluent-color:molecule-24'
+              | 'fluent-color:molecule-28'
+              | 'fluent-color:molecule-32'
+              | 'fluent-color:molecule-48'
+              | 'fluent-color:news-16'
+              | 'fluent-color:news-20'
+              | 'fluent-color:news-24'
+              | 'fluent-color:news-28'
+              | 'fluent-color:notebook-16'
+              | 'fluent-color:notebook-20'
+              | 'fluent-color:notebook-24'
+              | 'fluent-color:notebook-32'
+              | 'fluent-color:notebook-question-mark-20'
+              | 'fluent-color:notebook-question-mark-24'
+              | 'fluent-color:number-symbol-square-20'
+              | 'fluent-color:number-symbol-square-24'
+              | 'fluent-color:number-symbol-square-32'
+              | 'fluent-color:options-16'
+              | 'fluent-color:options-20'
+              | 'fluent-color:options-24'
+              | 'fluent-color:options-28'
+              | 'fluent-color:options-32'
+              | 'fluent-color:options-48'
+              | 'fluent-color:org-16'
+              | 'fluent-color:org-20'
+              | 'fluent-color:org-24'
+              | 'fluent-color:org-28'
+              | 'fluent-color:org-32'
+              | 'fluent-color:org-48'
+              | 'fluent-color:paint-brush-16'
+              | 'fluent-color:paint-brush-20'
+              | 'fluent-color:paint-brush-24'
+              | 'fluent-color:paint-brush-28'
+              | 'fluent-color:paint-brush-32'
+              | 'fluent-color:patient-20'
+              | 'fluent-color:patient-24'
+              | 'fluent-color:patient-32'
+              | 'fluent-color:paw-16'
+              | 'fluent-color:paw-20'
+              | 'fluent-color:paw-24'
+              | 'fluent-color:paw-28'
+              | 'fluent-color:paw-32'
+              | 'fluent-color:paw-48'
+              | 'fluent-color:people-16'
+              | 'fluent-color:people-20'
+              | 'fluent-color:people-24'
+              | 'fluent-color:people-28'
+              | 'fluent-color:people-32'
+              | 'fluent-color:people-48'
+              | 'fluent-color:people-community-16'
+              | 'fluent-color:people-community-20'
+              | 'fluent-color:people-community-24'
+              | 'fluent-color:people-community-28'
+              | 'fluent-color:people-community-32'
+              | 'fluent-color:people-community-48'
+              | 'fluent-color:people-home-16'
+              | 'fluent-color:people-home-20'
+              | 'fluent-color:people-home-24'
+              | 'fluent-color:people-home-28'
+              | 'fluent-color:people-home-32'
+              | 'fluent-color:people-home-48'
+              | 'fluent-color:people-list-16'
+              | 'fluent-color:people-list-20'
+              | 'fluent-color:people-list-24'
+              | 'fluent-color:people-list-28'
+              | 'fluent-color:people-list-32'
+              | 'fluent-color:people-sync-16'
+              | 'fluent-color:people-sync-20'
+              | 'fluent-color:people-sync-24'
+              | 'fluent-color:people-sync-28'
+              | 'fluent-color:people-sync-32'
+              | 'fluent-color:people-team-16'
+              | 'fluent-color:people-team-20'
+              | 'fluent-color:people-team-24'
+              | 'fluent-color:people-team-28'
+              | 'fluent-color:people-team-32'
+              | 'fluent-color:people-team-48'
+              | 'fluent-color:person-16'
+              | 'fluent-color:person-20'
+              | 'fluent-color:person-24'
+              | 'fluent-color:person-28'
+              | 'fluent-color:person-32'
+              | 'fluent-color:person-48'
+              | 'fluent-color:person-available-16'
+              | 'fluent-color:person-available-20'
+              | 'fluent-color:person-available-24'
+              | 'fluent-color:person-feedback-16'
+              | 'fluent-color:person-feedback-20'
+              | 'fluent-color:person-feedback-24'
+              | 'fluent-color:person-feedback-28'
+              | 'fluent-color:person-feedback-32'
+              | 'fluent-color:person-feedback-48'
+              | 'fluent-color:person-heart-20'
+              | 'fluent-color:person-heart-24'
+              | 'fluent-color:person-heart-32'
+              | 'fluent-color:person-key-20'
+              | 'fluent-color:person-key-24'
+              | 'fluent-color:person-key-32'
+              | 'fluent-color:person-starburst-16'
+              | 'fluent-color:person-starburst-20'
+              | 'fluent-color:person-starburst-24'
+              | 'fluent-color:person-starburst-28'
+              | 'fluent-color:person-starburst-32'
+              | 'fluent-color:person-starburst-48'
+              | 'fluent-color:person-tentative-16'
+              | 'fluent-color:person-tentative-20'
+              | 'fluent-color:person-tentative-24'
+              | 'fluent-color:person-tentative-32'
+              | 'fluent-color:person-warning-16'
+              | 'fluent-color:person-warning-20'
+              | 'fluent-color:person-warning-24'
+              | 'fluent-color:person-warning-28'
+              | 'fluent-color:person-warning-32'
+              | 'fluent-color:person-warning-48'
+              | 'fluent-color:phone-16'
+              | 'fluent-color:phone-20'
+              | 'fluent-color:phone-24'
+              | 'fluent-color:phone-28'
+              | 'fluent-color:phone-32'
+              | 'fluent-color:phone-48'
+              | 'fluent-color:phone-laptop-16'
+              | 'fluent-color:phone-laptop-20'
+              | 'fluent-color:phone-laptop-24'
+              | 'fluent-color:phone-laptop-32'
+              | 'fluent-color:pin-16'
+              | 'fluent-color:pin-20'
+              | 'fluent-color:pin-24'
+              | 'fluent-color:pin-28'
+              | 'fluent-color:pin-32'
+              | 'fluent-color:pin-48'
+              | 'fluent-color:poll-16'
+              | 'fluent-color:poll-20'
+              | 'fluent-color:poll-24'
+              | 'fluent-color:poll-32'
+              | 'fluent-color:premium-16'
+              | 'fluent-color:premium-20'
+              | 'fluent-color:premium-24'
+              | 'fluent-color:premium-28'
+              | 'fluent-color:premium-32'
+              | 'fluent-color:puzzle-piece-16'
+              | 'fluent-color:puzzle-piece-20'
+              | 'fluent-color:puzzle-piece-24'
+              | 'fluent-color:puzzle-piece-28'
+              | 'fluent-color:puzzle-piece-32'
+              | 'fluent-color:puzzle-piece-48'
+              | 'fluent-color:question-circle-16'
+              | 'fluent-color:question-circle-20'
+              | 'fluent-color:question-circle-24'
+              | 'fluent-color:question-circle-28'
+              | 'fluent-color:question-circle-32'
+              | 'fluent-color:question-circle-48'
+              | 'fluent-color:receipt-16'
+              | 'fluent-color:receipt-20'
+              | 'fluent-color:receipt-24'
+              | 'fluent-color:receipt-28'
+              | 'fluent-color:receipt-32'
+              | 'fluent-color:reward-16'
+              | 'fluent-color:reward-20'
+              | 'fluent-color:reward-24'
+              | 'fluent-color:ribbon-16'
+              | 'fluent-color:ribbon-20'
+              | 'fluent-color:ribbon-24'
+              | 'fluent-color:ribbon-32'
+              | 'fluent-color:ribbon-star-20'
+              | 'fluent-color:ribbon-star-24'
+              | 'fluent-color:ribbon-star-32'
+              | 'fluent-color:savings-16'
+              | 'fluent-color:savings-20'
+              | 'fluent-color:savings-24'
+              | 'fluent-color:savings-32'
+              | 'fluent-color:scan-person-16'
+              | 'fluent-color:scan-person-20'
+              | 'fluent-color:scan-person-24'
+              | 'fluent-color:scan-person-28'
+              | 'fluent-color:scan-person-48'
+              | 'fluent-color:scan-type-20'
+              | 'fluent-color:scan-type-24'
+              | 'fluent-color:search-visual-16'
+              | 'fluent-color:search-visual-20'
+              | 'fluent-color:search-visual-24'
+              | 'fluent-color:send-16'
+              | 'fluent-color:send-20'
+              | 'fluent-color:send-24'
+              | 'fluent-color:send-28'
+              | 'fluent-color:send-32'
+              | 'fluent-color:send-48'
+              | 'fluent-color:send-clock-20'
+              | 'fluent-color:send-clock-24'
+              | 'fluent-color:send-clock-32'
+              | 'fluent-color:settings-16'
+              | 'fluent-color:settings-20'
+              | 'fluent-color:settings-24'
+              | 'fluent-color:settings-28'
+              | 'fluent-color:settings-32'
+              | 'fluent-color:settings-48'
+              | 'fluent-color:share-android-16'
+              | 'fluent-color:share-android-20'
+              | 'fluent-color:share-android-24'
+              | 'fluent-color:share-android-32'
+              | 'fluent-color:shield-16'
+              | 'fluent-color:shield-20'
+              | 'fluent-color:shield-24'
+              | 'fluent-color:shield-28'
+              | 'fluent-color:shield-32'
+              | 'fluent-color:shield-48'
+              | 'fluent-color:shield-checkmark-16'
+              | 'fluent-color:shield-checkmark-20'
+              | 'fluent-color:shield-checkmark-24'
+              | 'fluent-color:shield-checkmark-28'
+              | 'fluent-color:shield-checkmark-48'
+              | 'fluent-color:shifts-16'
+              | 'fluent-color:shifts-20'
+              | 'fluent-color:shifts-24'
+              | 'fluent-color:shifts-28'
+              | 'fluent-color:shifts-32'
+              | 'fluent-color:slide-text-sparkle-16'
+              | 'fluent-color:slide-text-sparkle-20'
+              | 'fluent-color:slide-text-sparkle-24'
+              | 'fluent-color:slide-text-sparkle-28'
+              | 'fluent-color:slide-text-sparkle-32'
+              | 'fluent-color:slide-text-sparkle-48'
+              | 'fluent-color:sport-16'
+              | 'fluent-color:sport-20'
+              | 'fluent-color:sport-24'
+              | 'fluent-color:star-16'
+              | 'fluent-color:star-20'
+              | 'fluent-color:star-24'
+              | 'fluent-color:star-28'
+              | 'fluent-color:star-32'
+              | 'fluent-color:star-48'
+              | 'fluent-color:star-settings-20'
+              | 'fluent-color:star-settings-24'
+              | 'fluent-color:star-settings-32'
+              | 'fluent-color:table-16'
+              | 'fluent-color:table-20'
+              | 'fluent-color:table-24'
+              | 'fluent-color:table-28'
+              | 'fluent-color:table-32'
+              | 'fluent-color:table-48'
+              | 'fluent-color:text-bullet-list-square-16'
+              | 'fluent-color:text-bullet-list-square-20'
+              | 'fluent-color:text-bullet-list-square-24'
+              | 'fluent-color:text-bullet-list-square-28'
+              | 'fluent-color:text-bullet-list-square-32'
+              | 'fluent-color:text-bullet-list-square-48'
+              | 'fluent-color:text-bullet-list-square-sparkle-16'
+              | 'fluent-color:text-bullet-list-square-sparkle-20'
+              | 'fluent-color:text-bullet-list-square-sparkle-24'
+              | 'fluent-color:text-bullet-list-square-sparkle-32'
+              | 'fluent-color:text-edit-style-16'
+              | 'fluent-color:text-edit-style-20'
+              | 'fluent-color:text-edit-style-24'
+              | 'fluent-color:toolbox-16'
+              | 'fluent-color:toolbox-20'
+              | 'fluent-color:toolbox-24'
+              | 'fluent-color:toolbox-28'
+              | 'fluent-color:toolbox-32'
+              | 'fluent-color:trophy-16'
+              | 'fluent-color:trophy-20'
+              | 'fluent-color:trophy-24'
+              | 'fluent-color:trophy-28'
+              | 'fluent-color:trophy-32'
+              | 'fluent-color:trophy-48'
+              | 'fluent-color:vault-16'
+              | 'fluent-color:vault-20'
+              | 'fluent-color:vault-24'
+              | 'fluent-color:video-16'
+              | 'fluent-color:video-20'
+              | 'fluent-color:video-24'
+              | 'fluent-color:video-28'
+              | 'fluent-color:video-32'
+              | 'fluent-color:video-48'
+              | 'fluent-color:warning-16'
+              | 'fluent-color:warning-20'
+              | 'fluent-color:warning-24'
+              | 'fluent-color:warning-28'
+              | 'fluent-color:warning-32'
+              | 'fluent-color:warning-48'
+              | 'fluent-color:weather-snowflake-20'
+              | 'fluent-color:weather-snowflake-24'
+              | 'fluent-color:weather-snowflake-32'
+              | 'fluent-color:weather-snowflake-48'
+              | 'fluent-color:weather-sunny-low-20'
+              | 'fluent-color:weather-sunny-low-24'
+              | 'fluent-color:weather-sunny-low-48'
+              | 'fluent-color:wifi-20'
+              | 'fluent-color:wifi-24'
+              | 'fluent-color:wifi-warning-20'
+              | 'fluent-color:wifi-warning-24'
+              | 'fluent-color:wrench-16'
+              | 'fluent-color:wrench-20'
+              | 'fluent-color:wrench-24'
+              | 'fluent-color:wrench-screwdriver-20'
+              | 'fluent-color:wrench-screwdriver-24'
+              | 'fluent-color:wrench-screwdriver-32'
             )
           | null;
         id?: string | null;
@@ -3484,9 +5104,10 @@ export interface ContactFormSection {
         id?: string | null;
       }[]
     | null;
-  variant?: ('default' | 'reverse' | 'center' | 'vertical' | 'vertical-reverse' | 'background-image') | null;
+  variant?: ('horizontal' | 'horizontal-reverse' | 'center' | 'vertical' | 'background-image') | null;
+  backgroundImage?: (number | null) | Media;
   formBelowContent?: {
-    isInsideForm?: boolean | null;
+    isInside?: boolean | null;
     content?: {
       root: {
         type: string;
@@ -3517,7 +5138,7 @@ export interface ContactFormSection {
  */
 export interface FaqSection {
   title: string;
-  description: string;
+  description?: string | null;
   faqs?:
     | {
         question: string;
@@ -3531,9 +5152,10 @@ export interface FaqSection {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "map-with-content-section".
+ * via the `definition` "map-section".
  */
-export interface MapWithContentSection {
+export interface MapSection {
+  backgroundType?: ('white' | 'gray' | 'primary') | null;
   heading?: string | null;
   content?: {
     root: {
@@ -3550,24 +5172,26 @@ export interface MapWithContentSection {
     };
     [k: string]: unknown;
   } | null;
-  ctas?:
-    | {
-        cta: {
-          text: string;
-          link: string;
-          variant: 'primary' | 'secondary';
-        };
-        alignment?: ('left' | 'center' | 'right') | null;
-        /**
-         * inside or outside the content
-         */
-        position?: ('inside' | 'outside') | null;
-        id?: string | null;
-      }[]
-    | null;
+  ct?: {
+    ctas?:
+      | {
+          cta: {
+            text: string;
+            link: string;
+            variant: 'primary' | 'secondary';
+          };
+          /**
+           * inside or outside the content
+           */
+          place?: ('inside' | 'outside') | null;
+          id?: string | null;
+        }[]
+      | null;
+    alignment?: ('left' | 'center' | 'right') | null;
+  };
   id?: string | null;
   blockName?: string | null;
-  blockType: 'map-with-content-section';
+  blockType: 'map-section';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3593,6 +5217,8 @@ export interface Blog {
   title: string;
   description: string;
   category: number | BlogCategory;
+  author: number | Author;
+  slug?: string | null;
   content: {
     root: {
       type: string;
@@ -3610,7 +5236,7 @@ export interface Blog {
   };
   featuredImage: number | Media;
   hasBottomCta?: boolean | null;
-  cta: {
+  cta?: {
     title: string;
     description?: string | null;
     links?:
@@ -3641,6 +5267,18 @@ export interface BlogCategory {
   id: number;
   name: string;
   slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "author".
+ */
+export interface Author {
+  id: number;
+  name: string;
+  email: string;
+  bio?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -3686,7 +5324,7 @@ export interface Service {
         | ContentSection
         | ContactFormSection
         | FaqSection
-        | MapWithContentSection
+        | MapSection
         | BlogsGridSection
         | ServicesGridSection
         | TestimonialSection
@@ -3751,13 +5389,47 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "author".
+ * via the `definition` "sa".
  */
-export interface Author {
+export interface Sa {
   id: number;
   name: string;
-  email: string;
-  bio?: string | null;
+  heroSection: {
+    showContactForm: boolean;
+    title: string;
+    description?: string | null;
+    ctas?:
+      | {
+          label: string;
+          link: string;
+          variant: 'primary' | 'secondary';
+          id?: string | null;
+        }[]
+      | null;
+    backgroundImage?: (number | null) | Media;
+  };
+  sections?:
+    | (
+        | IconCardsGridSection
+        | ImgCardsGridSection
+        | ContentSection
+        | ContactFormSection
+        | FaqSection
+        | MapSection
+        | BlogsGridSection
+        | ServicesGridSection
+        | TestimonialSection
+      )[]
+    | null;
+  slug?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -3768,28 +5440,7 @@ export interface Author {
 export interface ServiceArea {
   id: number;
   name: string;
-  subAreas?:
-    | {
-        name: string;
-        description: string;
-        content: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  subAreas?: (number | Sa)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -3823,6 +5474,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blog';
         value: number | Blog;
+      } | null)
+    | ({
+        relationTo: 'sa';
+        value: number | Sa;
       } | null)
     | ({
         relationTo: 'service-area';
@@ -3952,6 +5607,8 @@ export interface BlogSelect<T extends boolean = true> {
   title?: T;
   description?: T;
   category?: T;
+  author?: T;
+  slug?: T;
   content?: T;
   featuredImage?: T;
   hasBottomCta?: T;
@@ -3981,18 +5638,45 @@ export interface BlogSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sa_select".
+ */
+export interface SaSelect<T extends boolean = true> {
+  name?: T;
+  heroSection?:
+    | T
+    | {
+        showContactForm?: T;
+        title?: T;
+        description?: T;
+        ctas?:
+          | T
+          | {
+              label?: T;
+              link?: T;
+              variant?: T;
+              id?: T;
+            };
+        backgroundImage?: T;
+      };
+  sections?: T | {};
+  slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "service-area_select".
  */
 export interface ServiceAreaSelect<T extends boolean = true> {
   name?: T;
-  subAreas?:
-    | T
-    | {
-        name?: T;
-        description?: T;
-        content?: T;
-        id?: T;
-      };
+  subAreas?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -4088,7 +5772,7 @@ export interface Index {
         | ContentSection
         | ContactFormSection
         | FaqSection
-        | MapWithContentSection
+        | MapSection
         | BlogsGridSection
         | ServicesGridSection
         | TestimonialSection
@@ -4111,6 +5795,20 @@ export interface Index {
  */
 export interface About {
   id: number;
+  heroSection: {
+    showContactForm: boolean;
+    title: string;
+    description?: string | null;
+    ctas?:
+      | {
+          label: string;
+          link: string;
+          variant: 'primary' | 'secondary';
+          id?: string | null;
+        }[]
+      | null;
+    backgroundImage?: (number | null) | Media;
+  };
   stats?:
     | {
         title?: string | null;
@@ -4121,7 +5819,21 @@ export interface About {
     | null;
   story?: {
     title?: string | null;
-    description?: string | null;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
     image?: (number | null) | Media;
   };
   values?:
@@ -4139,7 +5851,7 @@ export interface About {
         | ContentSection
         | ContactFormSection
         | FaqSection
-        | MapWithContentSection
+        | MapSection
         | BlogsGridSection
         | ServicesGridSection
         | TestimonialSection
@@ -4283,6 +5995,7 @@ export interface SArea {
           id?: string | null;
         }[]
       | null;
+    backgroundImage?: (number | null) | Media;
   };
   sections?:
     | (
@@ -4291,7 +6004,7 @@ export interface SArea {
         | ContentSection
         | ContactFormSection
         | FaqSection
-        | MapWithContentSection
+        | MapSection
         | BlogsGridSection
         | ServicesGridSection
         | TestimonialSection
@@ -4346,6 +6059,22 @@ export interface IndexSelect<T extends boolean = true> {
  * via the `definition` "about_select".
  */
 export interface AboutSelect<T extends boolean = true> {
+  heroSection?:
+    | T
+    | {
+        showContactForm?: T;
+        title?: T;
+        description?: T;
+        ctas?:
+          | T
+          | {
+              label?: T;
+              link?: T;
+              variant?: T;
+              id?: T;
+            };
+        backgroundImage?: T;
+      };
   stats?:
     | T
     | {
@@ -4521,6 +6250,7 @@ export interface SAreaSelect<T extends boolean = true> {
               variant?: T;
               id?: T;
             };
+        backgroundImage?: T;
       };
   sections?: T | {};
   meta?:

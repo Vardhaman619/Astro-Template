@@ -1,10 +1,14 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import ContactForm from "../../components/ContactForm.astro";
-import { Image } from "astro:assets";
+import { Image, Picture } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import { getCollection } from "astro:content";
-const posts = await getCollection("blog");
+import type { Media } from "../../types/payload-types";
+const data:{docs:{title:string,slug:string,description:true,author:{name:string},featuredImage:Media}[]} = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/blog?depth=1&draft=false&locale=undefined&select[title]=true&select[slug]=true&limit=100&select[featuredImage]=true&select[author]=true&select[description]=true`).then(data=>data.json())
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
+
+
 ---
 
 <Layout
@@ -26,34 +30,30 @@ const posts = await getCollection("blog");
         <!-- Main Content -->
         <div class="lg:col-span-2 flex flex-col gap-y-6">
           {
-            posts.map((post) => (
+            data.docs.map((post) => (
               <article class="rounded-xl overflow-hidden shadow-md flex flex-col md:flex-row bg-white ">
                 <a
                   href={`blog/${post.slug}`}
                   class="md:w-2/5 relative aspect-video md:aspect-auto overflow-hidden"
                 >
-                  <Image
-                    src={post.data.image}
-                    alt={post.data.title}
-                    class="md:size-full md:absolute object-cover object-center"
-                  />
+                <Picture
+                src={images[`/src/assets/images/${post.featuredImage.filename}`]()}
+                  alt={post.featuredImage.alt}
+                  class="w-full h-full object-cover"
+                />
                 </a>
                 <div class="md:w-3/5 p-6 flex flex-col justify-between">
                   <div class="flex gap-x-6 items-center ">
                     <small class="flex gap-1.5 items-center text-base">
                       <Icon name="lucide:user" />
-                      John Smith
-                    </small>
-                    <small class="flex gap-1.5 items-center text-base">
-                      <Icon name="lucide:clock-4" />
-                      {post.data.readTimeInMinutes} min read
+                      {post.author.name}
                     </small>
                   </div>
                   <div class="flex flex-col gap-y-2 py-3">
                     <a href={`blog/${post.slug}`} class="text-2xl font-semibold hover:text-secondary transition-colors">
-                      {post.data.title}
+                      {post.title}
                     </a>
-                    <p>{post.data.description}</p>
+                    <p>{post.description}</p>
                   </div>
                   <a
                     href={`blog/${post.slug}`}
@@ -70,7 +70,7 @@ const posts = await getCollection("blog");
         <!-- Quote Form -->
         <div class="lg:col-span-1">
           <div class="sticky top-24">
-            <div class="bg-primary  p-8 rounded-lg shadow-lg">
+            <div class="bg-primary-background p-8 rounded-lg shadow-lg">
               <h3 class="text-2xl font-bold mb-6 text-white">Get Your Free Quote</h3>
               <ContactForm />
             </div>

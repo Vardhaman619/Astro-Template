@@ -1,9 +1,12 @@
-import { CollectionConfig } from "payload";
+import type { CollectionConfig } from "payload";
 
 export const Author: CollectionConfig = {
   slug: 'author',
   access: {
     read: () => true,
+  },
+  admin: {
+    useAsTitle: "name"
   },
   fields: [
     {

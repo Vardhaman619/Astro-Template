@@ -20,28 +20,9 @@ export const ServicesArea: CollectionConfig = {
     },
     {
       name: "subAreas",
-      type: "array",
-      admin: {
-
-      },
-      fields: [
-        {
-          type: "text",
-          name: "name",
-          required: true
-        },
-        {
-          name: "description",
-          type: "textarea",
-          required: true
-        },
-        {
-          name: "content",
-          label: "Content",
-          type: "richText",
-          required: true,
-        },
-      ]
+      type: "relationship",
+      relationTo: "sa",
+      hasMany: true,
     },
   ]
 }

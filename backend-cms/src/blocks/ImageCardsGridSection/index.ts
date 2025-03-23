@@ -1,4 +1,4 @@
-import { Block } from "payload";
+import type { Block } from "payload";
 
 export const ImageCardsGridSection: Block = {
   slug: 'img-cards-grid-section',
