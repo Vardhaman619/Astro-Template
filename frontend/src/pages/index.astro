@@ -17,7 +17,7 @@ import axios from "axios";
 import CmsBlockMap from "../components/CmsBlockMap/index.astro"
 import type { Index as HomePageData } from "../types/payload-types";
 const { hero, sections } = homeContent;
-const data:HomePageData = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/index?depth=1&draft=false&locale=undefined`).then(data=>data.json())
+const data:HomePageData = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/index?depth=2&draft=false&locale=undefined`).then(data=>data.json())
 
 ---
 

@@ -1,74 +1,94 @@
 ---
-import { getCollection } from 'astro:content';
-import { latestNewsContent } from '../config/content/latest-news';
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
+import type { Blog, BlogCategory, BlogsGridSection } from '../types/payload-types';
+import { Icon } from 'astro-icon/components';
 
-// Get all blog posts and sort by publish date
-const allPosts = await getCollection('blog');
-const latestPosts = allPosts
-  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
-  .slice(0, 3);
+interface Props{
+  data:BlogsGridSection
+}
+const {data} = Astro.props
+if(data?.blogs?.some(blog=>typeof blog !== "object") ){
+  throw Error("Latest News Section Want Blog Data as Object")
+}
+const latestPosts = (data?.blogs as Blog[])
+  ?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 
 // Only render section if there are posts
-const hasPosts = latestPosts.length > 0;
-const { title, subtitle } = latestNewsContent;
+const hasPosts = data?.blogs?.length > 0;
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}')
 ---
 
 {hasPosts && (
-  <section class="py-20 bg-white">
-    <div class="container mx-auto px-4">
-      <!-- Call to Action Banner -->
-      <div class="bg-primary mb-20 py-4 px-6 rounded-lg flex flex-col md:flex-row justify-between items-center gap-4">
-        <h2 class="text-2xl text-white font-bold text-center md:text-left">Make an Appointment Today</h2>
-        <a 
-          href="/contact" 
-          class="bg-yellow-200 hover:bg-yellow-300 text-primary px-6 py-2 rounded flex items-center gap-2 transition-colors duration-300"
-        >
-          Get a Free Estimate
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </a>
-      </div>
-
+  <section class="py-20 bg-gray-50">
       <!-- Latest News Section -->
-      <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-primary mb-4">{title}</h2>
-        <p class="text-xl text-neutral-600">{subtitle}</p>
+      <div class="text-center mb-16 container mx-auto">
+        <h2 class="text-4xl font-bold text-primary-background mb-4">{data.title}</h2>
+        <p class="text-xl text-black opacity-80">{data.description}</p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-8">
-        {latestPosts.map(post => (
+      <div class:list={["grid gap-6 container mx-auto",{
+        "grid-cols-1":data.mobileNumberOfColumns == 1,
+        "grid-cols-2":data.mobileNumberOfColumns == 2,
+        "grid-cols-3":data.mobileNumberOfColumns == 3,
+        "grid-cols-4":data.mobileNumberOfColumns == 4,
+        "grid-cols-5":data.mobileNumberOfColumns == 5,
+        "grid-cols-6":data.mobileNumberOfColumns == 6,
+        "grid-cols-7":data.mobileNumberOfColumns == 7,
+        "grid-cols-8":data.mobileNumberOfColumns == 8,
+        "grid-cols-9":data.mobileNumberOfColumns == 9,
+        "md:grid-cols-1":data.tabletNumberOfColumns == 1,
+        "md:grid-cols-2":data.tabletNumberOfColumns == 2,
+        "md:grid-cols-3":data.tabletNumberOfColumns == 3,
+        "md:grid-cols-4":data.tabletNumberOfColumns == 4,
+        "md:grid-cols-5":data.tabletNumberOfColumns == 5,
+        "md:grid-cols-6":data.tabletNumberOfColumns == 6,
+        "md:grid-cols-7":data.tabletNumberOfColumns == 7,
+        "md:grid-cols-8":data.tabletNumberOfColumns == 8,
+        "md:grid-cols-9":data.tabletNumberOfColumns == 9,
+        "lg:grid-cols-1":data.desktopNumberOfColumns == 1,
+        "lg:grid-cols-2":data.desktopNumberOfColumns == 2,
+        "lg:grid-cols-3":data.desktopNumberOfColumns == 3,
+        "lg:grid-cols-4":data.desktopNumberOfColumns == 4,
+        "lg:grid-cols-5":data.desktopNumberOfColumns == 5,
+        "lg:grid-cols-6":data.desktopNumberOfColumns == 6,
+        "lg:grid-cols-7":data.desktopNumberOfColumns == 7,
+        "lg:grid-cols-8":data.desktopNumberOfColumns == 8,
+        "lg:grid-cols-9":data.desktopNumberOfColumns == 9,
+        "lg:grid-cols-10":data.desktopNumberOfColumns == 10,
+      }]}>
+        {latestPosts.map(post => {
+        return (
           <article class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
             <a href={`/blog/${post.slug}`} class="block">
-              <Image 
-                src={post.data.image} 
-                alt={post.data.title}
-                class="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-              />
+            <Picture
+                class="hover:scale-105 transition-transform duration-300"
+              src={images[
+                `/src/assets/images/${post.featuredImage?.filename}`
+              ]()}
+              alt={post.featuredImage?.alt ?? "image"}
+            />
             </a>
             <div class="p-6">
               <h3 class="text-2xl font-bold mb-2 hover:text-secondary transition-colors duration-300">
-                <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+                <a href={`/blog/${post.slug}`}>{post.title}</a>
               </h3>
               <div class="flex items-center text-sm text-neutral mb-4">
-                <span>{post.data.publishDate.toLocaleDateString()}</span>
+                <span>{new Date(post.createdAt).toLocaleDateString()}</span>
                 <span class="mx-2">|</span>
-                <span>{post.data.category}</span>
+                <span>{(post.category as BlogCategory).name}</span>
               </div>
-              <p class="text-neutral mb-4">{post.data.description}</p>
-              <a 
+              <p class="text-neutral mb-4">{post.description}</p>
+              <a
                 href={`/blog/${post.slug}`}
                 class="text-secondary hover:text-primary font-semibold inline-flex items-center gap-2"
               >
                 READ MORE
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
+               <Icon name="lucide:chevron-right"/>
               </a>
             </div>
           </article>
-        ))}
+        )
+        })}
       </div>
     </div>
   </section>

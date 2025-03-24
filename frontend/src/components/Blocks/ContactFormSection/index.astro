@@ -9,7 +9,6 @@ import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
 
 const {data} = Astro.props;
 const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
-
 ---
 <section class="py-14 lg:py-20 relative">
 {data.variant =="background-image" && typeof data?.backgroundImage =="object"  ?
@@ -83,7 +82,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
   {
     "flex-col": data.variant == "vertical",
     "flex-col-reverse md:flex-row-reverse": data.variant == "horizontal-reverse",
-    "flex-col md:flex-row":data.variant == "horizontal",
+    "flex-col md:flex-row":data.variant == "horizontal" || data.variant=="background-image",
     "items-center":data.variant!="vertical"
   }]
   }>

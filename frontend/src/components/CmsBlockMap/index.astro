@@ -6,6 +6,8 @@ import FaqSectionBlock from "../Blocks/FaqSection/index.astro"
 import IconCardsGridSectionBlock from "../Blocks/IconCardsGridSection/index.astro"
 import ImageCardsGridSectionBlock from "../Blocks/ImageCardsGridSection/index.astro"
 import ContactFormSectionBlock from "../Blocks/ContactFormSection/index.astro"
+import TestimonialsSection from "../TestimonialsSection.astro"
+import LatestNews from "../LatestNews.astro"
 interface Props {
   block: ContentSection|
 IconCardsGridSection|
@@ -25,3 +27,5 @@ const {block} = Astro.props
 {block.blockType=="icon-cards-grid-section" ? <IconCardsGridSectionBlock data={block} /> : null}
 {block.blockType=="img-cards-grid-section" ? <ImageCardsGridSectionBlock data={block} /> : null}
 {block.blockType=="contact-form-section" ? <ContactFormSectionBlock data={block} /> : null}
+{block.blockType=="testimonial-section" ? <TestimonialsSection data={block} /> : null}
+{block.blockType=="blogs-grid-section" ? <LatestNews data={block} /> : null}
