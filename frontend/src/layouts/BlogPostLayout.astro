@@ -1,0 +1,143 @@
+---
+import Layout from "./Layout.astro";
+import ContactForm from "../components/ContactForm.astro";
+import type { CollectionEntry } from "astro:content";
+import { Image, Picture } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import { Config } from "../utils/config";
+
+interface Props {
+  frontmatter: {
+    title:string;
+    description:string;
+    author:string;
+    publishDate:string;
+    image:{
+      filename:string;
+      alt:string
+    }
+  }
+}
+
+const { frontmatter } = Astro.props;
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
+
+---
+
+<Layout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  type="article"
+>
+  <article class="py-16">
+    <div class="container mx-auto px-4">
+      <div class="grid lg:grid-cols-3 gap-12">
+        <div class="lg:col-span-2 bg-white rounded-xl shadow-md py-8 px-4">
+          <!-- Breadcrumbs -->
+          <div class="mb-8">
+            <nav class="flex items-center text-sm text-neutral-medium">
+              <a href="/" class="hover:text-secondary transition-colors">Home</a
+              >
+              <span class="mx-2">›</span>
+              <a href="/blog" class="hover:text-secondary transition-colors"
+                >Blog</a
+              >
+              <span class="mx-2">›</span>
+              <span class="text-neutral">{frontmatter.title}</span>
+            </nav>
+          </div>
+
+          <!-- Main Content -->
+          <div>
+            <h1 class="text-4xl font-bold text-primary mb-6">
+              {frontmatter.title}
+            </h1>
+
+            <div class="flex items-center gap-4 text-neutral-medium mb-8">
+              <span class="flex gap-1.5 items-center">
+                <Icon name="lucide:user" />
+                {frontmatter.author}
+              </span>
+              <span>•</span>
+              <span class="flex gap-x-1.5 items-center">
+                <Icon name="lucide:calendar" />
+                {
+                  new Date(frontmatter.publishDate).toLocaleDateString(
+                    "en-US",
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    },
+                  )
+                }</span
+              >
+            </div>
+            <figure>
+            <Picture
+            src={images[`/src/assets/images/${frontmatter.image.filename}`]()}
+              alt={frontmatter.image.alt}
+              class="w-full h-full object-cover"
+            />
+            </figure>
+            <div class="prose prose-lg max-w-none">
+              <slot />
+            </div>
+          </div>
+        </div>
+        <!-- Quote Form -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-28">
+            <div class="bg-primary-background text-primary-foreground text-white p-8 rounded-lg shadow-lg">
+              <h3 class="text-2xl font-bold mb-6">Get Your Free Quote</h3>
+              <div class="text-black">
+              <ContactForm />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .prose {
+    @apply text-neutral-700;
+  }
+
+  .prose h2 {
+    @apply text-3xl font-bold text-primary-background mt-12 mb-6;
+  }
+
+  .prose h3 {
+    @apply text-2xl font-bold text-primary-background mt-8 mb-4;
+  }
+
+  .prose p {
+    @apply mb-6 leading-relaxed;
+  }
+
+  .prose img {
+    @apply rounded-lg shadow-lg my-8 max-w-[800px] mx-auto h-auto;
+  }
+
+  .prose ul {
+    @apply my-6 list-disc pl-6;
+  }
+
+  .prose li {
+    @apply mb-2;
+  }
+
+  /* Add spacing between images and paragraphs */
+  .prose p + img,
+  .prose img + p {
+    @apply mt-12;
+  }
+
+  /* Add spacing between consecutive images */
+  .prose img + img {
+    @apply mt-16;
+  }
+</style>

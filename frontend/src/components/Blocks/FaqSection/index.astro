@@ -1,0 +1,26 @@
+---
+import { Icon } from 'astro-icon/components'
+import type { FaqSection } from '../../../types/payload-types'
+interface Props {
+  data:FaqSection
+}
+const {data} = Astro.props
+---
+<section class:list={["py-16 lg:py-20"]}>
+<div class="container flex flex-col mx-auto">
+<h2 class="text-3xl font-semibold md:font-bold mb-5">{data.title}</h2>
+<div class="divide-y divide-neutral-divider border-t border-t-neutral-divider">
+{data.faqs.map(faq=>{
+return(
+<details class="px-3 py-4 flex flex-col group gap-y-3">
+  <summary class="flex gap-x-3 items-center group-open:text-primary-background transition-all text-lg md:text-xl font-semibold duration-200 cursor-pointer">
+  <Icon name="lucide:chevron-down" class='shrink-0 group-open:rotate-180 transition-all duration-300 text-xl md:text-2xl'/>
+  {faq.question}
+  </summary>
+  <pre class="whitespace-pre-wrap">{faq.answer}</pre>
+</details>
+)
+})}
+</div>
+</div>
+</section>

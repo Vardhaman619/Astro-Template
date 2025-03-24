@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import type { SArea } from '../types/payload-types';
+import HeroSection from '../components/hero/HeroSection.astro';
+import CmsBlockMap from "../components/CmsBlockMap/index.astro"
+import { Icon } from 'astro-icon/components';
+interface Areas {
+  docs:{id:number,name:string,subAreas:{id:number,name:string,slug:string}[]}[]
+}
+
+const areas:Areas = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/service-area?depth=1&select[name]=true&select[subAreas]=true&limit=100`).then(data=>data.json())
+
+
+// Function to convert suburb name to URL-friendly slug
+const toSlug = (suburb: string) => suburb.toLowerCase().replace(/\s+/g, '-');
+
+const data:SArea = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/s-area?depth=1&draft=false`).then(data=>data.json())
+
+
+---
+
+<Layout
+  title="Service Areas - Foundation Repair Adelaide"
+  description="Expert foundation repair services available across all Adelaide suburbs. Find professional foundation solutions in your local area."
+>
+<HeroSection content={data.heroSection}>
+  {data?.heroSection?.showContactForm ? <ContactForm /> : null}
+</HeroSection>
+{data.sections.map((section)=> <CmsBlockMap block={section}/>)}
+
+
+  <!-- Service Areas Grid -->
+  <section class="py-16 bg-neutral-light">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-primary mb-4">Areas We Serve</h2>
+        <p class="text-xl text-neutral-medium">Find expert foundation repair services in your suburb</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {areas.docs.map((area) => (
+          <div class="bg-white p-8 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
+            <h3 class="text-2xl font-bold text-primary mb-6 flex items-center gap-2">
+              <span class="text-secondary">•</span>
+              {area?.name}
+            </h3>
+            <ul class="space-y-3">
+              {area?.subAreas?.map(suburb => (
+                <li>
+                  <a
+                    href={`/suburbs/${suburb.slug}`}
+                    class="flex items-center gap-2 text-neutral hover:text-secondary transition-colors duration-300"
+                  >
+                    <Icon name="lucide:chevron-right"/>
+                    {suburb.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Rest of the sections remain unchanged -->
+  <!-- ... -->
+
+</Layout>

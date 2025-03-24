@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HeroSection from "../components/hero/HeroSection.astro";
+import ContactForm from "../components/ContactForm.astro";
+import DifferenceSection from "../components/DifferenceSection.astro";
+import TestimonialsSection from "../components/TestimonialsSection.astro";
+import WhyChooseUs from "../components/WhyChooseUs.astro";
+import LatestNews from "../components/LatestNews.astro";
+import AppointmentSection from "../components/AppointmentSection.astro";
+import ContentSection from "../components/sections/ContentSection.astro";
+import { homeContent } from "../config/content/home";
+import FluidContentSection from "../components/FluidContentSection.astro";
+import FluidContentSectionImage from "../assets/images/fluid-content-section-image.png";
+import TwoTilesSection from "../components/TwoTilesSection.astro";
+import { payloadcmsClient } from "../utils/payloadcms";
+import axios from "axios";
+import CmsBlockMap from "../components/CmsBlockMap/index.astro"
+import type { Index as HomePageData } from "../types/payload-types";
+const { hero, sections } = homeContent;
+const data:HomePageData = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/index?depth=2&draft=false&locale=undefined`).then(data=>data.json())
+
+---
+
+<Layout
+  title={data.meta.title}
+  description={data.meta.description}
+  image={typeof data.meta.image == "object" ? `/src/assets/images/${data.meta.image.filename}`:undefined}
+>
+  <HeroSection content={data.heroSection}>
+    {data.heroSection.showContactForm ? <ContactForm /> : null}
+  </HeroSection>
+ {data.sections.map((section)=> <CmsBlockMap block={section}/>)}
+</Layout>

@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import type { About as AboutPageData } from "../types/payload-types";
+import HeroSection from "../components/hero/HeroSection.astro";
+import CmsBlockMap from "../components/CmsBlockMap/index.astro"
+import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html';
+import { Picture } from 'astro:assets';
+
+const data:AboutPageData = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/about?depth=2&draft=false&locale=undefined`).then(data=>data.json())
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}')
+if(typeof data?.story?.image !== "object" ) throw Error("About Page Story Image Not Uploaded Yet")
+---
+
+<Layout
+title={data.meta.title}
+description={data.meta.description}
+image={typeof data.meta.image == "object" ? `/src/assets/images/${data.meta.image.filename}`:undefined}
+>
+  <!-- Hero Section -->
+  <HeroSection content={data.heroSection}>
+    {data.heroSection.showContactForm ? <ContactForm /> : null}
+  </HeroSection>
+
+  <!-- Stats Section -->
+  {data.stats ?(<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {data?.stats?.map(stat => (
+          <div class="text-center">
+            {stat?.value ? <p class="text-4xl font-bold text-primary-background mb-2">{stat.value}</p>:null}
+            {stat?.title ? <p class="text-black font-semibold text-xl"></p>:null}
+            {stat?.description ? <p class="text-neutral-gray">{stat.description}</p> : null}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>) :null}
+
+  <!-- Company Story -->
+  {data.story.title ? <section class="py-20 bg-neutral-light">
+    <div class="container mx-auto px-4">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl font-bold text-primary mb-6">{data.story.title}</h2>
+          <div class="prose lg:prose-lg" set:html={convertLexicalToHTML({data:data.story.description})}>
+          </div>
+        </div>
+        <div class="relative">
+          <Picture
+          src={images[
+            `/src/assets/images/${data.story.image.filename}`
+          ]()}
+            alt={data.story.image.alt}
+            class="rounded-lg shadow-xl"
+          />
+        </div>
+      </div>
+    </div>
+  </section>:null}
+
+  <!-- Our Values -->
+  <section class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-primary text-center mb-12">Our Values</h2>
+      <div class="grid md:grid-cols-4 gap-8">
+        {data?.values?.map(value => (
+          <div class="text-center">
+            <div class="text-4xl mb-4">{value?.emoji}</div>
+            <h3 class="text-xl font-bold text-primary mb-2">{value?.title}</h3>
+            <p class="text-neutral">{value?.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  {data.sections.map((section)=> <CmsBlockMap block={section}/>)}
+
+</Layout>

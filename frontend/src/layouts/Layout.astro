@@ -1,0 +1,74 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import SEO from "../components/SEO.astro";
+import type { Color } from "../types/payload-types";
+import "../styles/global.css"
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  noindex?: boolean;
+  type?: "website" | "article";
+}
+
+const { title, description, image, noindex, type } = Astro.props;
+const data:Color = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/colors?depth=1&draft=false&locale=undefined`).then(data=>data.json())
+const injectColors = {
+  primaryBackgroudColor:data.primary.backgroud,
+  primaryForegroundColor:data.primary.foreground,
+  secondaryBackgroudColor:data.secondary.backgroud,
+  secondaryForegroundColor:data.secondary.forground,
+  accentBackgroudColor:data.accent.background,
+  accentForegroundColor:data.accent.forground,
+  neutralGray:data.neutral.paragraph,
+  neutralDivider:data.neutral.divider
+}
+
+
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <SEO
+      title={title}
+      description={description}
+      image={image}
+      noindex={noindex}
+      type={type}
+    />
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+
+    <!-- DNS prefetch -->
+    <link rel="dns-prefetch" href="https://images.unsplash.com" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <style define:vars={{...injectColors}}>
+    :root{
+        --primary-background: var(--primaryBackgroudColor);
+        --primary-foreground: var(--primaryForegroundColor);
+        --secondary-background: var(--secondaryBackgroudColor);
+        --secondary-foreground: var(--secondaryForegroundColor);
+        --accent-background: var(--accentBackgroudColor);
+        --accent-background: var(--accentForegroundColor);
+        --neutral-gray: var(--neutralGray);
+        --neutral-divider: var(--neutralDivider);
+    }
+    </style>
+  </head>
+  <body class="bg-white">
+    <Header />
+    <main >
+      <slot />
+    </main>
+    <Footer />
+    <script src="../scripts/contact-form.ts"></script>
+  </body>
+</html>

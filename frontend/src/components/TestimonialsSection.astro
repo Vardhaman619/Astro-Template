@@ -1,0 +1,35 @@
+---
+import { Icon } from "astro-icon/components";
+import type { Testimonial, TestimonialSection } from "../types/payload-types";
+interface Props {
+  data:TestimonialSection
+}
+const {data} = Astro.props
+---
+
+<section class="py-20 relative bg-primary-background">
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-primary-foreground mb-2">{data.title}</h2>
+      <p class="text-xl text-primary-foreground opacity-90">{data.description}</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      {data.testimonials.map(testimonial => {
+      if(typeof testimonial != "object") return null;
+      return (
+        <div class="p-8 rounded-lg bg-white text-black">
+          <div class="flex mb-4 text-yellow-600 gap-x-0.5">
+            {Array.from({ length: testimonial.rating }).map(() => (
+             <Icon name="lucide:star" class="fill-yellow-600" />
+            ))}
+          </div>
+          <h3 class="text-2xl font-bold mb-4">{testimonial.title}</h3>
+          <p class="text-black/80 mb-6">{testimonial.content}</p>
+          <p class="text-black/80">- {testimonial.reviewerName}</p>
+        </div>
+      )
+      })}
+    </div>
+  </div>
+</section>

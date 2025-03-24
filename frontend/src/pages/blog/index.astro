@@ -1,0 +1,82 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import { Image, Picture } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import { getCollection } from "astro:content";
+import type { Media } from "../../types/payload-types";
+const data:{docs:{title:string,slug:string,description:true,author:{name:string},featuredImage:Media}[]} = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/blog?depth=1&draft=false&locale=undefined&select[title]=true&select[slug]=true&limit=100&select[featuredImage]=true&select[author]=true&select[description]=true`).then(data=>data.json())
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
+
+
+---
+
+<Layout
+  title="Foundation Repair Blog"
+  description="Expert advice and insights for your foundation health"
+>
+  <div class="container mx-auto px-4 py-12">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-12">
+        <h1 class="text-4xl font-bold text-neutral mb-4">
+          Foundation Care Blog
+        </h1>
+        <p class="text-xl text-neutral-medium">
+          Expert advice and insights for your foundation health
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-12">
+        <!-- Main Content -->
+        <div class="lg:col-span-2 flex flex-col gap-y-6">
+          {
+            data.docs.map((post) => (
+              <article class="rounded-xl overflow-hidden shadow-md flex flex-col md:flex-row bg-white ">
+                <a
+                  href={`blog/${post.slug}`}
+                  class="md:w-2/5 relative aspect-video md:aspect-auto overflow-hidden"
+                >
+                <Picture
+                src={images[`/src/assets/images/${post.featuredImage.filename}`]()}
+                  alt={post.featuredImage.alt}
+                  class="w-full h-full object-cover"
+                />
+                </a>
+                <div class="md:w-3/5 p-6 flex flex-col justify-between">
+                  <div class="flex gap-x-6 items-center ">
+                    <small class="flex gap-1.5 items-center text-base">
+                      <Icon name="lucide:user" />
+                      {post.author.name}
+                    </small>
+                  </div>
+                  <div class="flex flex-col gap-y-2 py-3">
+                    <a href={`blog/${post.slug}`} class="text-2xl font-semibold hover:text-secondary transition-colors">
+                      {post.title}
+                    </a>
+                    <p>{post.description}</p>
+                  </div>
+                  <a
+                    href={`blog/${post.slug}`}
+                    class="flex gap-2 items-center font-semibold hover:text-secondary transition-colors"
+                  >
+                    Read More <Icon name="lucide:arrow-right" />
+                  </a>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+
+        <!-- Quote Form -->
+        <div class="lg:col-span-1">
+          <div class="sticky top-24">
+            <div class="bg-primary-background p-8 rounded-lg shadow-lg">
+              <h3 class="text-2xl font-bold mb-6 text-white">Get Your Free Quote</h3>
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

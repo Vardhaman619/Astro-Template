@@ -1,0 +1,111 @@
+---
+import { Picture } from "astro:assets";
+import type {ContactFormSection} from "../../../types/payload-types"
+import ContactForm from "../../ContactForm.astro";
+interface Props{
+  data:ContactFormSection
+}
+import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
+
+const {data} = Astro.props;
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
+---
+<section class="py-14 lg:py-20 relative">
+{data.variant =="background-image" && typeof data?.backgroundImage =="object"  ?
+<div class="absolute inset-0 z-0">
+  <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10"></div>
+  <Picture
+  src={images[`/src/assets/images/${data.backgroundImage.filename}`]()}
+    alt={data.backgroundImage.alt}
+    class="w-full h-full object-cover"
+  />
+</div>
+:null}
+  {data.variant == "center" ? (
+  <>
+    <div class="container flex flex-col max-w-3xl mx-auto bg-white p-12 rounded-lg shadow-xl">
+      <h2 class="text-3xl py-2 font-bold text-center">{data?.title}</h2>
+      {data.description ? (
+        <div
+          class="mb-3"
+          set:html={convertLexicalToHTML({ data: data.description })}
+        ></div>
+      ) : null}
+      <ContactForm />
+      {data?.formBelowContent?.isInside && data.formBelowContent?.content ? (
+        <div
+          class="mt-4 border-t border-t-neutral-divider pt-3 description"
+          set:html={convertLexicalToHTML({
+            data: data.formBelowContent?.content,
+          })}
+        ></div>
+      ) : null}
+      {data.formBelowContent?.isInside && data.formBelowContent?.cta ? (
+        <a
+          href={data.formBelowContent.cta.link}
+          class:list={[
+            "px-5 py-4 bg-primary-background mx-auto inline-flex rounded text-primary-foreground font-semibold hover:opacity-90 transition-all",
+          ]}
+        >
+          {data.formBelowContent.cta.label}
+        </a>
+      ) : null}
+    </div>
+    {data.formBelowContent?.isInside === false ? (
+    <>
+    {data?.formBelowContent?.isInside && data.formBelowContent?.content ? (
+      <div
+        class="mt-4 border-t border-t-neutral-divider pt-3 description"
+        set:html={convertLexicalToHTML({
+          data: data.formBelowContent?.content,
+        })}
+      ></div>
+    ) : null}
+    {data.formBelowContent?.isInside!==false && data.formBelowContent?.cta ? (
+      <a
+        href={data.formBelowContent.cta.link}
+        class:list={[
+          "px-5 py-4 bg-primary-background mx-auto inline-flex rounded text-primary-foreground font-semibold hover:opacity-90 transition-all",
+        ]}
+      >
+        {data.formBelowContent.cta.label}
+      </a>
+    ) : null}
+    </>
+    ) : null}
+    </>
+  ) : null}
+  {
+  data.variant != "center" ? (
+  <div class:list={
+  ["container flex mx-auto gap-5 relative",
+  {
+    "flex-col": data.variant == "vertical",
+    "flex-col-reverse md:flex-row-reverse": data.variant == "horizontal-reverse",
+    "flex-col md:flex-row":data.variant == "horizontal" || data.variant=="background-image",
+    "items-center":data.variant!="vertical"
+  }]
+  }>
+  <div class:list={[
+    "flex-1",
+    {"text-white prose-p:text-white":data.variant == "background-image"}
+  ]}>
+  <h2 class:list={["text-3xl font-semibold"]}>{data.title}</h2>
+  {data.description ?
+  (<div class:list={["description"]} set:html={convertLexicalToHTML({data:data.description})}></div>):null}
+  </div>
+  <div class="bg-white/95 flex-1 p-6 md:p-8 rounded-lg shadow-xl backdrop-blur-sm w-full">
+  <ContactForm/>
+  </div>
+  </div>
+  ):null
+  }
+</section>
+
+<style>
+.description{
+    .payload-richtext{
+        @apply prose max-w-none;
+    }
+}
+</style>

@@ -1,0 +1,121 @@
+---
+import type {
+  BlogsGridSection,
+  Config,
+  ContactFormSection,
+  ContentSection,
+  FaqSection,
+  IconCardsGridSection,
+  ImgCardsGridSection,
+  MapSection,
+  ServicesGridSection,
+  TestimonialSection,
+} from "../../types/payload-types";
+import MapContentSection from "../Blocks/MapContentSection/index.astro";
+import ContentSectionBlock from "../Blocks/ContentSection/index.astro";
+import FaqSectionBlock from "../Blocks/FaqSection/index.astro";
+import IconCardsGridSectionBlock from "../Blocks/IconCardsGridSection/index.astro";
+import ImageCardsGridSectionBlock from "../Blocks/ImageCardsGridSection/index.astro";
+import ContactFormSectionBlock from "../Blocks/ContactFormSection/index.astro";
+import TestimonialsSection from "../TestimonialsSection.astro";
+import LatestNews from "../LatestNews.astro";
+import ServiceGrid from "../services/ServiceGrid.astro";
+import ServiceCard from "../services/ServiceCard.astro";
+interface Props {
+  block:
+    | ContentSection
+    | IconCardsGridSection
+    | ImgCardsGridSection
+    | ContactFormSection
+    | FaqSection
+    | MapSection
+    | BlogsGridSection
+    | ServicesGridSection
+    | TestimonialSection;
+}
+const { block } = Astro.props;
+---
+
+{
+  block.blockType == "content-section" ? (
+    <ContentSectionBlock data={block} />
+  ) : null
+}
+{block.blockType == "map-section" ? <MapContentSection data={block} /> : null}
+{block.blockType == "faq-section" ? <FaqSectionBlock data={block} /> : null}
+{
+  block.blockType == "icon-cards-grid-section" ? (
+    <IconCardsGridSectionBlock data={block} />
+  ) : null
+}
+{
+  block.blockType == "img-cards-grid-section" ? (
+    <ImageCardsGridSectionBlock data={block} />
+  ) : null
+}
+{
+  block.blockType == "contact-form-section" ? (
+    <ContactFormSectionBlock data={block} />
+  ) : null
+}
+{
+  block.blockType == "testimonial-section" ? (
+    <TestimonialsSection data={block} />
+  ) : null
+}
+{block.blockType == "blogs-grid-section" ? <LatestNews data={block} /> : null}
+{
+  block.blockType == "services-grid-section" ? (
+    <section class="bg-gray-50 py-20">
+      <div class="container mx-auto">
+        <h2 class="text-center text-3xl font-semibold mx-auto mb-2">
+          {block.title}
+        </h2>
+        {block.description ? (
+          <p class="text-center mx-auto lg:text-lg text-black opacity-80 text-base font-semibold">
+            {block.description}
+          </p>
+        ) : null}
+        <div
+          class:list={[
+            "grid gap-6 container mx-auto mt-6",
+            {
+              "grid-cols-1": block.mobileNumberOfColumns == 1,
+              "grid-cols-2": block.mobileNumberOfColumns == 2,
+              "grid-cols-3": block.mobileNumberOfColumns == 3,
+              "grid-cols-4": block.mobileNumberOfColumns == 4,
+              "grid-cols-5": block.mobileNumberOfColumns == 5,
+              "grid-cols-6": block.mobileNumberOfColumns == 6,
+              "grid-cols-7": block.mobileNumberOfColumns == 7,
+              "grid-cols-8": block.mobileNumberOfColumns == 8,
+              "grid-cols-9": block.mobileNumberOfColumns == 9,
+              "md:grid-cols-1": block.tabletNumberOfColumns == 1,
+              "md:grid-cols-2": block.tabletNumberOfColumns == 2,
+              "md:grid-cols-3": block.tabletNumberOfColumns == 3,
+              "md:grid-cols-4": block.tabletNumberOfColumns == 4,
+              "md:grid-cols-5": block.tabletNumberOfColumns == 5,
+              "md:grid-cols-6": block.tabletNumberOfColumns == 6,
+              "md:grid-cols-7": block.tabletNumberOfColumns == 7,
+              "md:grid-cols-8": block.tabletNumberOfColumns == 8,
+              "md:grid-cols-9": block.tabletNumberOfColumns == 9,
+              "lg:grid-cols-1": block.desktopNumberOfColumns == 1,
+              "lg:grid-cols-2": block.desktopNumberOfColumns == 2,
+              "lg:grid-cols-3": block.desktopNumberOfColumns == 3,
+              "lg:grid-cols-4": block.desktopNumberOfColumns == 4,
+              "lg:grid-cols-5": block.desktopNumberOfColumns == 5,
+              "lg:grid-cols-6": block.desktopNumberOfColumns == 6,
+              "lg:grid-cols-7": block.desktopNumberOfColumns == 7,
+              "lg:grid-cols-8": block.desktopNumberOfColumns == 8,
+              "lg:grid-cols-9": block.desktopNumberOfColumns == 9,
+              "lg:grid-cols-10": block.desktopNumberOfColumns == 10,
+            },
+          ]}
+        >
+          {block.services.map((service) => {
+            return <ServiceCard service={service} />;
+          })}
+        </div>
+      </div>
+    </section>
+  ) : null
+}

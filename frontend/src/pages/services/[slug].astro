@@ -1,0 +1,78 @@
+---
+import { getCollection } from "astro:content";
+import ServiceLayout from "../../components/ServiceLayout.astro";
+import LeftImageOutlinedHeadingSection from "./_sections/LeftImageOutlinedHeadingSection.astro";
+import Layout from "../../layouts/Layout.astro";
+import HeroSection from "../../components/hero/HeroSection.astro";
+import type { Service } from "../../types/payload-types";
+import CmsBlockMap from "../../components/CmsBlockMap/index.astro"
+import ContactForm from "../../components/ContactForm.astro";
+import { Picture } from "astro:assets";
+interface PathData {
+  docs:{id:number,slug:string}[]
+}
+export async function getStaticPaths() {
+  const services:PathData = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/service?depth=1&draft=false&select[slug]=true&limit=100`).then(data=>data.json())
+  return services.docs.map((service) => ({
+    params: { slug: service.slug },
+    props:{id:service.id}
+  }));
+}
+const { id} = Astro.props;
+const data:Service = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/service/${id}?depth=1&draft=false`).then(data=>data.json())
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
+if(typeof data.heroSection.backgroundImage !== "object") throw Error("Homepage hero section backgroundImage not uploaded yet to cms")
+
+
+---
+
+<Layout
+title={data.meta.title}
+description={data.meta.description}
+image={typeof data.meta.image == "object" ? `/src/assets/images/${data.meta.image.filename}`:undefined}
+>
+  <!-- Hero Section -->
+  <section class="relative min-h-[60vh] py-14 md:py-10 flex items-center">
+    <div class="absolute inset-0 z-0">
+    <Picture
+    src={images[`/src/assets/images/${data.heroSection.backgroundImage.filename}`]()}
+      alt={data.heroSection.backgroundImage.alt}
+      class="w-full h-full object-cover"
+    />
+    </div>
+    <div class="absolute size-full inset-0 bg-black opacity-40"></div>
+    <div
+      class="container mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-x-6 items-center gap-y-10"
+    >
+      <div class="flex flex-col md:items-start items-center">
+        <div class="flex items-center text-white/80 mb-4">
+          <a href="/" class="hover:text-white transition-colors">Home</a>
+          <span class="mx-2">›</span>
+          <a href="/services" class="hover:text-white transition-colors"
+            >Services</a
+          >
+          <span class="mx-2">›</span>
+          <span class="text-white">{data.heroSection.title}</span>
+        </div>
+        <h1 class="text-5xl font-bold text-white mb-4 text-center md:text-left">
+          {data.heroSection.title}
+        </h1>
+        <p class="text-xl text-white/90 max-w-2xl text-center md:text-left">
+          {data.heroSection.description}
+        </p>
+      </div>
+      {data.heroSection.showContactForm ? <div class="flex justify-center lg:justify-end">
+        <div
+          class="bg-white/95 p-6 md:p-8 rounded-lg shadow-xl backdrop-blur-sm w-full max-w-lg"
+        >
+          <h2 class="text-xl md:text-2xl font-bold text-primary mb-6">
+            Get Your Free Quote
+          </h2>
+          <ContactForm />
+        </div>
+      </div>:null}
+    </div>
+  </section>
+  {data.sections.map((section)=> <CmsBlockMap block={section}/>)}
+
+  </Layout>

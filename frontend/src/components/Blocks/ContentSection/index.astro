@@ -1,0 +1,208 @@
+---
+import { Picture } from 'astro:assets';
+import type { ContentSection } from '../../../types/payload-types'
+import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
+import { Icon } from 'astro-icon/components';
+
+
+interface Props {
+  data:ContentSection
+}
+const {data} = Astro.props
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}')
+
+---
+<section class:list={["py-16 lg:py-20",{
+  "bg-gray-50":data.backgroundType=="gray",
+  "bg-primary-background text-primary-foreground prose-p:text-primary-foreground":data.backgroundType=="primary",
+}]}>
+  <div
+    class:list={[
+      "container flex mx-auto gap-x-5 gap-y-9",
+      {
+        "flex-col": data.direction == "vertical",
+        "flex-col-reverse": data.direction == "vertical-reverse",
+        "flex-col-reverse md:flex-row-reverse": data.direction == "horizontal-reverse",
+        "flex-col md:flex-row":data.direction == "horizontal"
+      },
+    ]}
+  >
+    <div class="flex-1 flex flex-col gap-y-5">
+      <h2 class:list={
+      [
+        "text-3xl font-semibold",
+        {"text-center":data.content.heading.alignment=="center",
+        "hidden":data.direction == "vertical-reverse",
+        "hidden md:block":data.direction == "horizontal-reverse"
+        }
+      ]
+      }>{data.content.heading.title}</h2>
+      <div>
+        {data.content.despoint.blocks.map((block) => {
+          if (block.blockType == "description")
+            return (<div class:list={["description",
+              {"text-center":data.content.despoint.alignment=="center"},
+              {"text-right":data.content.despoint.alignment=="right"}
+            ]} set:html={convertLexicalToHTML({data:block.content})}></div>)
+          return (<div class="flex flex-col gap-y-6 mt-2">
+          {block.point.map((point) =>(
+            <div class="flex gap-x-6 items-start">
+              <div class:list={["size-14 text-2xl shadow rounded-full grid place-items-center shrink-0",
+                {
+                  "bg-primary-background text-primary-foreground":data.backgroundType!="primary",
+                  "bg-primary-foreground text-primary-background":data.backgroundType=="primary",
+                }
+              ]}>
+                <Icon name={point.icon} />
+              </div>
+              <div class="flex flex-1 flex-col gap-y-2">
+                <b class="text-xl font-semibold">{point?.title}</b>
+               {point?.description &&  <p>{point.description}</p>}
+              </div>
+            </div>
+          ))}
+          </div>)
+        })}
+      </div>
+      {(data.content?.ct && data.content?.ct.ctas.length>0) ? (
+        <div class:list={[
+          "flex flex-wrap gap-4",
+          {"justify-center":data.content?.ct?.alignment && data.content.ct.alignment == "center",
+            "justify-end":data.content?.ct?.alignment && data.content.ct.alignment == "right",
+          "justify-start":data.content?.ct?.alignment && data.content.ct.alignment == "left",
+          }
+        ]}>
+        {data.content?.ct.ctas.filter(cta=>cta.place == "inside").map(({cta})=>{
+        return (
+        <a href={cta.link}
+        class:list={[
+          "px-5 py-4",
+          {"bg-primary-background text-primary-foreground font-semibold hover:opacity-90 transition-all":cta.variant=="primary",
+          "bg-secondary-background text-secondary-foreground font-semibold hover:opacity-90 transition-all":cta.variant=="secondary"
+          }
+        ]}
+        >{cta.text}</a>
+        )
+        })}
+        </div>
+      ): null}
+    </div>
+    {data?.image && data?.image?.images?.length > 0 ? (
+      <div class:list={["flex-1 ",{"lg:self-center":data.content?.despoint?.blocks?.some(block=>block.blockType == "icon-point-list")}]}>
+        {data.image.images.length > 1 ? (
+          <div class="flex gap-x-5 gap-y-9 flex-col md:flex-row">
+            {data.image.images.map((imageField) => {
+              return (
+                <figure class="flex flex-col gap-y-4">
+                <Picture
+                  src={images[
+                    `/src/assets/images/${imageField.image.filename}`
+                  ]()}
+                  alt={imageField.image.alt ?? "image"}
+                />
+                {imageField?.caption ?
+                <figcaption
+                class:list={
+                [
+                  "text-black/70 font-semibold",
+                  {
+                    "text-2xl":imageField.caption.size=="large",
+                    "text-xl":imageField.caption.size=="medium",
+                    "text-lg":imageField.caption.size=="small",
+                    "text-center":imageField.caption.align=="center",
+                    "text-left":imageField.caption.align=="left",
+                    "text-right":imageField.caption.align=="right",
+                  }
+                ]
+                }
+                >{imageField.caption.content}</figcaption>
+                :null
+                }
+                </figure>
+              );
+            })}
+          </div>
+        ) : (
+        <figure>
+        <Picture
+          src={images[
+            `/src/assets/images/${data.image.images[0].image.filename}`
+          ]()}
+          alt={data.image.images[0].image.alt ?? "image"}
+          class='overflow-hidden rounded-xl mx-auto'
+        />
+        {data.image.images[0].caption ?
+        <figcaption
+        class:list={
+        [
+          "text-black/70",
+          {
+            "font-semibold text-xl":data.image.images[0].caption.size="large",
+            "text-lg font-semibold":data.image.images[0].caption.size="medium",
+            "":data.image.images[0].caption.size="small",
+          }
+        ]
+        }
+        >{data.image.images[0].caption.content}</figcaption>
+        :null
+        }
+        </figure>
+        )}
+      </div>
+    ) : null}
+    { data.direction == "vertical-reverse" ?
+    <h2 class:list={
+    [
+      "text-3xl font-semibold",
+      {"text-center":data.content.heading.alignment=="center",
+      "hidden":data.direction != "vertical-reverse"
+      }
+    ]
+    }>{data.content.heading.title}</h2>
+    :null
+    }
+    { data.direction == "horizontal-reverse" ?
+    <h2 class:list={
+    [
+      "text-3xl font-semibold md:hidden",
+      {"text-center":data.content.heading.alignment=="center",
+      }
+    ]
+    }>{data.content.heading.title}</h2>
+    : null}
+  </div>
+  <div class="container mx-auto">
+  {(data.content?.ct && data.content?.ct.ctas.length>0) ? (
+    <div class:list={[
+      "flex flex-wrap gap-4",
+      {"justify-center":data.content?.ct?.alignment && data.content.ct.alignment == "center",
+        "justify-end":data.content?.ct?.alignment && data.content.ct.alignment == "right",
+      "justify-start":data.content?.ct?.alignment && data.content.ct.alignment == "left",
+      }
+    ]}>
+    {data.content?.ct.ctas.filter(cta=>cta.place == "outside").map(({cta})=>{
+    return (
+    <a href={cta.link}
+    class:list={[
+      "px-5 py-4",
+      {"bg-primary-background text-primary-foreground font-semibold hover:opacity-90 transition-all":cta.variant=="primary",
+      "bg-secondary-background text-secondary-foreground font-semibold hover:opacity-90 transition-all":cta.variant=="secondary"
+      }
+    ]}
+    >{cta.text}</a>
+    )
+    })}
+    </div>
+  ): null}
+  </div>
+</section>
+
+
+<style>
+
+.description{
+    .payload-richtext{
+        @apply prose max-w-none;
+    }
+}
+</style>

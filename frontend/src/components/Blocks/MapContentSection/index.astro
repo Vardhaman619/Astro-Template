@@ -1,0 +1,85 @@
+---
+import type {MapSection,Setting } from "../../../types/payload-types"
+import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
+
+interface Props {
+  data:MapSection
+}
+const {data} = Astro.props
+const map:Setting = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined`).then(data=>data.json())
+
+---
+<section class:list={["py-16 lg:py-20",
+  {
+    "bg-gray-50":data.backgroundType=="gray",
+    "bg-primary-background text-primary-foreground prose-p:text-primary-foreground":data.backgroundType=="primary",
+  }]}>
+  <div
+    class:list={[
+      "container flex mx-auto gap-x-5 gap-y-9 flex-col md:flex-row",
+    ]}
+  >
+    <div class="flex-1 flex flex-col gap-y-5">
+      <h2 class:list={
+      [
+        "text-3xl font-semibold"
+      ]
+      }>{data?.heading}</h2>
+      <div class="description" set:html={convertLexicalToHTML({data:data.content})}></div>
+      {(data?.ct && data?.ct.ctas.length>0) ? (
+        <div class:list={[
+          "flex flex-wrap gap-4",
+          {"justify-center":data?.ct?.alignment && data.ct.alignment == "center",
+            "justify-end":data?.ct?.alignment && data.ct.alignment == "right",
+          "justify-start":data?.ct?.alignment && data.ct.alignment == "left",
+          }
+        ]}>
+        {data?.ct.ctas.filter(cta=>cta.place == "inside").map(({cta})=>{
+        return (
+        <a href={cta.link}
+        class:list={[
+          "px-5 py-4",
+          {"bg-primary-background text-primary-foreground font-semibold hover:opacity-90 transition-all":cta.variant=="primary",
+          "bg-secondary-background text-secondary-foreground font-semibold hover:opacity-90 transition-all":cta.variant=="secondary"
+          }
+        ]}
+        >{cta.text}</a>
+        )
+        })}
+        </div>
+      ): null}
+    </div>
+    <div class="flex-1 flex" set:html={map.address.mapsEmbed}/>
+  </div>
+  <div class="container mx-auto">
+  {(data.content?.ct && data?.ct.ctas.length>0) ? (
+    <div class:list={[
+      "flex flex-wrap gap-4",
+      {"justify-center":data?.ct?.alignment && data.ct.alignment == "center",
+        "justify-end":data?.ct?.alignment && data.ct.alignment == "right",
+      "justify-start":data?.ct?.alignment && data.ct.alignment == "left",
+      }
+    ]}>
+    {data.content?.ct.ctas.filter(cta=>cta.place == "outside").map(({cta})=>{
+    return (
+    <a href={cta.link}
+    class:list={[
+      "px-5 py-4",
+      {"bg-primary-background text-primary-foreground font-semibold hover:opacity-90 transition-all":cta.variant=="primary",
+      "bg-secondary-background text-secondary-foreground font-semibold hover:opacity-90 transition-all":cta.variant=="secondary"
+      }
+    ]}
+    >{cta.text}</a>
+    )
+    })}
+    </div>
+  ): null}
+</section>
+
+<style>
+.description{
+    .payload-richtext{
+        @apply prose max-w-none;
+    }
+}
+</style>
