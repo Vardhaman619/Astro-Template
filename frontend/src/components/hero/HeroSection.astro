@@ -1,23 +1,28 @@
 ---
-import { Picture } from 'astro:assets';
-import type { Index } from '../../types/payload-types';
-import Image from '../common/Image.astro';
+import { Picture } from "astro:assets";
+import type { Index } from "../../types/payload-types";
+import Image from "../common/Image.astro";
 
 interface Props {
-  content:  Index["heroSection"];
+  content: Index["heroSection"];
 }
 
 const { content } = Astro.props;
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
-if(typeof content.backgroundImage != "object") throw Error("Homepage hero section backgroundImage not uploaded yet to cms")
-
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+);
+if (typeof content.backgroundImage !== "object")
+  throw Error("Homepage hero section backgroundImage not uploaded yet to cms");
 ---
 
 <section class="relative min-h-[80vh] flex items-center py-10">
   <div class="absolute inset-0 z-0">
-    <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10"></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10"
+    >
+    </div>
     <Picture
-    src={images[`/src/assets/images/${content.backgroundImage.filename}`]()}
+      src={images[`/src/assets/images/${content.backgroundImage.filename}`]()}
       alt={content.backgroundImage.alt}
       class="w-full h-full object-cover"
     />
@@ -25,34 +30,53 @@ if(typeof content.backgroundImage != "object") throw Error("Homepage hero sectio
   <div class="container mx-auto px-4 relative z-20">
     <div class="grid md:grid-cols-2 gap-12 items-center">
       <div class="text-center md:text-left">
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 [text-shadow:_2px_2px_4px_rgb(0_0_0_/_50%)]">
+        <h1
+          class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 [text-shadow:_2px_2px_4px_rgb(0_0_0_/_50%)]"
+        >
           {content.title}
         </h1>
-        <p class="text-lg md:text-xl text-white/90 mb-8 [text-shadow:_1px_1px_2px_rgb(0_0_0_/_50%)]">
+        <p
+          class="text-lg md:text-xl text-white/90 mb-8 [text-shadow:_1px_1px_2px_rgb(0_0_0_/_50%)]"
+        >
           {content.description}
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-          {content.ctas.map((cta)=>{
-          return (
-          <a
-            href={cta.link}
-            class:list={["px-8 py-4 rounded-md font-bold transition duration-300 text-center shadow-lg hover:shadow-xl",{
-              "bg-primary-foreground text-primary-background":cta.variant == "primary",
-              "bg-transparent hover:bg-primary-foreground text-primary-foreground hover:text-primary-background outline outline-1 outline-primary-foreground ":cta.variant == "secondary",
-            }]}
-          >
-            {cta.label}
-          </a>
-          )
-          })}
+        <div
+          class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
+        >
+          {
+            content.ctas.map((cta) => {
+              return (
+                <a
+                  href={cta.link}
+                  class:list={[
+                    "px-8 py-4 rounded-md font-bold transition duration-300 text-center shadow-lg hover:shadow-xl",
+                    {
+                      "bg-primary-foreground text-primary-background":
+                        cta.variant == "primary",
+                      "bg-transparent hover:bg-primary-foreground text-primary-foreground hover:text-primary-background outline outline-1 outline-primary-foreground ":
+                        cta.variant == "secondary",
+                    },
+                  ]}
+                >
+                  {cta.label}
+                </a>
+              );
+            })
+          }
         </div>
       </div>
-      <div class="flex justify-center md:justify-end mt-8 md:mt-0">
-        <div class="bg-white/95 p-6 md:p-8 rounded-lg shadow-xl backdrop-blur-sm w-full max-w-lg">
-          <h2 class="text-xl md:text-2xl font-bold text-primary-background mb-6">Get Your Free Quote</h2>
-          <slot />
-        </div>
-      </div>
+      {
+        content?.showContactForm ? (
+          <div class="flex justify-center md:justify-end mt-8 md:mt-0">
+            <div class="bg-white/95 p-6 md:p-8 rounded-lg shadow-xl backdrop-blur-sm w-full max-w-lg">
+              <h2 class="text-xl md:text-2xl font-bold text-primary-background mb-6">
+                Get Your Free Quote
+              </h2>
+              <slot />
+            </div>
+          </div>
+        ) : null
+      }
     </div>
   </div>
 </section>

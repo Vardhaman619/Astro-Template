@@ -1,5 +1,7 @@
 ---
-
+const services: { docs: { slug: string; name: string }[] } = await fetch(
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/service?depth=1&draft=false&limit=100&select[name]=true`
+).then((data) => data.json());
 ---
 
 <form data-el="contact-form" class="space-y-4">
@@ -54,11 +56,15 @@
       aria-required="true"
     >
       <option value="">Select Service *</option>
-      <option value="foundation-inspection">Foundation Inspection</option>
-      <option value="crack-repair">Crack Repair</option>
-      <option value="underpinning">Underpinning</option>
-      <option value="waterproofing">Waterproofing</option>
-      <option value="slab-leveling">Slab Leveling</option>
+      {
+        services.docs.map((service) => {
+          return (
+            <option value={service.name.trim().replaceAll(" ", "-")}>
+              {service.name}
+            </option>
+          );
+        })
+      }
     </select>
   </div>
 
@@ -76,7 +82,7 @@
 
   <button
     type="submit"
-    class="w-full bg-primary-background hover:opacity-80 text-primary-foreground font-bold py-2 lg:py-3 px-4 rounded-md transition duration-300 text-sm cursor-pointer "
+    class="w-full bg-primary-background hover:opacity-80 text-primary-foreground font-bold py-2 lg:py-3 px-4 rounded-md transition duration-300 text-sm cursor-pointer"
   >
     Get Free Quote
   </button>

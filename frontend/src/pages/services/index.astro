@@ -1,18 +1,22 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import ServiceHeader from '../../components/services/ServiceHeader.astro';
-import ServiceGrid from '../../components/services/ServiceGrid.astro';
-import ServiceContent from '../../components/services/ServiceContent.astro';
-import CTASection from '../../components/CTASection.astro';
-import { getCollection } from 'astro:content';
-import type { Media } from '../../types/payload-types';
+import Layout from "../../layouts/Layout.astro";
+import ServiceHeader from "../../components/services/ServiceHeader.astro";
+import ServiceGrid from "../../components/services/ServiceGrid.astro";
+import ServiceContent from "../../components/services/ServiceContent.astro";
+import CTASection from "../../components/CTASection.astro";
+import { getCollection } from "astro:content";
+import type { Media } from "../../types/payload-types";
 
-type Services = {docs:{slug:string,meta:{title:string,image:Media}}[]}
-const services:Services = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/service?depth=1&draft=false&select[slug]=true&limit=100&select[meta][image]=true&select[meta][title]=true`).then(data=>data.json())
+type Services = {
+  docs: { slug: string;name:string; meta: { image: Media } }[];
+};
+const services: Services = await fetch(
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/service?depth=1&draft=false&limit=100&select[slug]=true&select[meta][image]=true&select[name]=true`
+).then((data) => data.json());
 
 const breadcrumbs = [
-  { label: 'Home', href: '/' },
-  { label: 'Services', href: null }
+  { label: "Home", href: "/" },
+  { label: "Services", href: null },
 ];
 
 const content = `At Foundation Repair Adelaide, we specialize in comprehensive foundation solutions that ensure the long-term stability and safety of your property. Our team of certified professionals brings decades of experience and cutting-edge technology to every project.
@@ -43,7 +47,10 @@ Our commitment to excellence extends beyond just fixing immediate problems. We f
           <div class="sticky top-24">
             <div class="bg-primary text-white p-8 rounded-lg shadow-lg">
               <h3 class="text-2xl font-bold mb-4">Need Expert Help?</h3>
-              <p class="mb-6">Get a free consultation and quote for your foundation repair needs.</p>
+              <p class="mb-6">
+                Get a free consultation and quote for your foundation repair
+                needs.
+              </p>
               <a
                 href="/contact"
                 class="block bg-secondary hover:bg-secondary-light text-white text-center px-6 py-3 rounded-md transition-colors duration-300"
@@ -59,7 +66,9 @@ Our commitment to excellence extends beyond just fixing immediate problems. We f
 
   <section class="py-16 bg-neutral-light">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-primary text-center mb-12">Our Services</h2>
+      <h2 class="text-3xl font-bold text-primary text-center mb-12">
+        Our Services
+      </h2>
       <ServiceGrid services={services.docs} />
     </div>
   </section>

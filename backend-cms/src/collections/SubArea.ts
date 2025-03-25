@@ -1,22 +1,22 @@
-import { slugField } from "@/fields/slug"
-import type { CollectionConfig } from "payload"
+import { slugField } from '@/fields/slug'
+import type { CollectionConfig } from 'payload'
 export const SubArea: CollectionConfig = {
   slug: 'sa',
   labels: {
-    singular: "Sub Area",
-    plural: "Sub Areas"
+    singular: 'Sub Area',
+    plural: 'Sub Areas',
   },
   access: {
     read: () => true,
   },
   admin: {
-    useAsTitle: "name",
+    useAsTitle: 'name',
   },
   fields: [
     {
-      name: "name",
-      label: "Sub Area Name",
-      type: "text",
+      name: 'name',
+      label: 'Sub Area Name',
+      type: 'text',
       required: true,
     },
     {
@@ -98,6 +98,6 @@ export const SubArea: CollectionConfig = {
         'testimonial-section',
       ],
     },
-    slugField('name'),
+    slugField('name', { required: true }),
   ],
 }
