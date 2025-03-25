@@ -8,6 +8,7 @@ import type {
   IconCardsGridSection,
   ImgCardsGridSection,
   MapSection,
+  Service,
   ServicesGridSection,
   TestimonialSection,
 } from "../../types/payload-types";
@@ -111,7 +112,8 @@ const { block } = Astro.props;
             },
           ]}
         >
-          {block.services.map((service) => {
+          {(block.services as Service[]).map((service) => {
+            if (typeof service?.meta?.image == "number") return null;
             return <ServiceCard service={service} />;
           })}
         </div>

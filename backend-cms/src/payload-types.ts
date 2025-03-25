@@ -5303,6 +5303,7 @@ export interface ServicesGridSection {
  */
 export interface Service {
   id: number;
+  name: string;
   heroSection: {
     showContactForm: boolean;
     title: string;
@@ -5330,7 +5331,7 @@ export interface Service {
         | TestimonialSection
       )[]
     | null;
-  slug?: string | null;
+  slug: string;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -5421,7 +5422,7 @@ export interface Sa {
         | TestimonialSection
       )[]
     | null;
-  slug?: string | null;
+  slug: string;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -5685,6 +5686,7 @@ export interface ServiceAreaSelect<T extends boolean = true> {
  * via the `definition` "service_select".
  */
 export interface ServiceSelect<T extends boolean = true> {
+  name?: T;
   heroSection?:
     | T
     | {

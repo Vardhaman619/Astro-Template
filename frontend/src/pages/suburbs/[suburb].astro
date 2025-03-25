@@ -1,53 +1,81 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import ContactForm from '../../components/ContactForm.astro';
-import ServiceQuoteSection from '../../components/ServiceQuoteSection.astro';
-import type {Sa as SubArea} from "../../types/payload-types"
-import { Picture } from 'astro:assets';
-import CmsBlockMap from "../../components/CmsBlockMap/index.astro"
+import Layout from "../../layouts/Layout.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import ServiceQuoteSection from "../../components/ServiceQuoteSection.astro";
+import type { Sa as SubArea } from "../../types/payload-types";
+import { Picture } from "astro:assets";
+import CmsBlockMap from "../../components/CmsBlockMap/index.astro";
 
 export async function getStaticPaths() {
-  const paths:{docs:{slug:string,id:string}[]} = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/sa?depth=1&draft=false&limit=100&select[slug]=true`).then(data=>data.json())
+  const paths: { docs: { slug: string; id: string }[] } = await fetch(
+    `${import.meta.env.PAYLOAD_CMS_URL}/api/sa?depth=1&draft=false&limit=100&select[slug]=true`
+  ).then((data) => data.json());
 
   return paths.docs.map(({ slug, id }) => ({
     params: { suburb: slug },
-    props: { id }
+    props: { id },
   }));
 }
 
 const { id } = Astro.props;
-  const data:SubArea = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/sa/${id}?depth=1&draft=false&locale=undefined`).then(data=>data.json())
-  const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
-  if(typeof data.heroSection.backgroundImage !== "object") throw Error(`Subarea:${data.name} hero section backgroundImage not uploaded yet to cms`)
+const data: SubArea = await fetch(
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/sa/${id}?depth=1&draft=false&locale=undefined`
+).then((data) => data.json());
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+);
+if (typeof data.heroSection.backgroundImage !== "object")
+  throw Error(
+    `Subarea:${data.name} hero section backgroundImage not uploaded yet to cms`
+  );
 ---
 
-<Layout
-  title={data?.meta?.title}
-  description={data?.meta?.description}
->
+<Layout title={data?.meta?.title} description={data?.meta?.description}>
   <!-- Hero Section -->
   <section class="relative min-h-[60vh] flex items-center">
     <div class="absolute inset-0 z-0 size-full">
-    <Picture
-    src={images[`/src/assets/images/${data.heroSection.backgroundImage.filename}`]()}
-      alt={data.heroSection.backgroundImage.alt}
-      class="w-full h-full object-cover"
-    />
+      <Picture
+        src={images[
+          `/src/assets/images/${data.heroSection.backgroundImage.filename}`
+        ]()}
+        alt={data.heroSection.backgroundImage.alt}
+        class="w-full h-full object-cover"
+      />
     </div>
     <div class="absolute z-10 bg-black/30 size-full"></div>
-    <div class="container mx-auto px-4 relative z-10">
+    <div
+      class="container mx-auto px-4 relative z-10 grid md:grid-cols-2 gap-12 items-center"
+    >
       <div class="flex flex-col items-start">
         <div class="flex items-center text-white font-medium mb-4">
           <a href="/" class="hover:text-white transition-colors">Home</a>
           <span class="mx-2">›</span>
-          <a href="/service-areas" class="hover:text-white transition-colors">Service Areas</a>
+          <a href="/service-areas" class="hover:text-white transition-colors"
+            >Service Areas</a
+          >
           <span class="mx-2">›</span>
           <span class="text-white">{data.name}</span>
         </div>
-        <h1 class="text-5xl font-bold text-white mb-4">{data.heroSection.title}</h1>
-        <p class="text-xl text-white/90 max-w-2xl">{data.heroSection.description}</p>
+        <h1 class="text-5xl font-bold text-white mb-4">
+          {data.heroSection.title}
+        </h1>
+        <p class="text-xl text-white/90 max-w-2xl">
+          {data.heroSection.description}
+        </p>
       </div>
+      {
+        data.heroSection?.showContactForm ? (
+          <div class="flex justify-center md:justify-end mt-8 md:mt-0">
+            <div class="bg-white/95 p-6 md:p-8 rounded-lg shadow-xl backdrop-blur-sm w-full max-w-lg">
+              <h2 class="text-xl md:text-2xl font-bold text-primary-background mb-6">
+                Get Your Free Quote
+              </h2>
+              <ContactForm />
+            </div>
+          </div>
+        ) : null
+      }
     </div>
   </section>
-  {data.sections.map((section)=> <CmsBlockMap block={section}/>)}
+  {data.sections.map((section) => <CmsBlockMap block={section} />)}
 </Layout>

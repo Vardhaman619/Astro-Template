@@ -6,7 +6,16 @@ export const Service: CollectionConfig = {
   access: {
     read: () => true,
   },
+  admin: {
+    useAsTitle: 'name',
+  },
   fields: [
+    {
+      name: 'name',
+      label: 'Service Name',
+      type: 'text',
+      required: true,
+    },
     {
       label: 'Hero Section',
       name: 'heroSection',
@@ -86,6 +95,6 @@ export const Service: CollectionConfig = {
         'testimonial-section',
       ],
     },
-    slugField('meta.title'),
+    slugField('name', { required: true }),
   ],
 }
