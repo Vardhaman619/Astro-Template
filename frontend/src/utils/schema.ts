@@ -4,7 +4,7 @@ export class Schema {
       "@context": "https://schema.org",
       "@type": "HomeAndConstructionBusiness",
       "@id": "https://foundationrepairadelaide.com.au/#business",
-      "name": "Foundation Repair Adelaide",
+      "name": "Foundation Repair Melbourne",
       "image": "https://foundationrepairadelaide.com.au/images/logo.jpg",
       "description": "Adelaide's leading foundation repair specialists providing professional inspection, repair, and maintenance services.",
       "url": "https://foundationrepairadelaide.com.au",
