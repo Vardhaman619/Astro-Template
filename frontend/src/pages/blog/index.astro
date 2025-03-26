@@ -43,7 +43,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
             data.docs.map((post) => (
               <article class="rounded-xl overflow-hidden shadow-md flex flex-col md:flex-row bg-white ">
                 <a
-                  href={`blog/${post.slug}`}
+                  href={`/blog/${post.slug}`}
                   class="md:w-2/5 relative aspect-video md:aspect-auto overflow-hidden"
                 >
                   <Picture
@@ -63,7 +63,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
                   </div>
                   <div class="flex flex-col gap-y-2 py-3">
                     <a
-                      href={`blog/${post.slug}`}
+                      href={`/blog/${post.slug}`}
                       class="text-2xl font-semibold hover:text-secondary transition-colors"
                     >
                       {post.title}
@@ -71,7 +71,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
                     <p>{post.description}</p>
                   </div>
                   <a
-                    href={`blog/${post.slug}`}
+                    href={`/blog/${post.slug}`}
                     class="flex gap-2 items-center font-semibold hover:text-secondary transition-colors"
                   >
                     Read More <Icon name="lucide:arrow-right" />
