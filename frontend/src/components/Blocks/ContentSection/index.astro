@@ -169,9 +169,9 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
             },
           ]}
         >
-          {data.image.images.length > 1 ? (
+          {data?.image?.images?.length > 1 ? (
             <div class="flex gap-x-5 gap-y-9 flex-col md:flex-row">
-              {data.image.images.map((imageField) => {
+              {data?.image?.images.map((imageField) => {
                 return (
                   <figure class="flex flex-col gap-y-4">
                     <Picture

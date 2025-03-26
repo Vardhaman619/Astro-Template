@@ -34,7 +34,7 @@ if (typeof data.heroSection.backgroundImage !== "object")
 <Layout
   title={data?.meta?.title}
   description={data?.meta?.description}
-  image={typeof data?.meta?.image == "object"
+  image={Boolean(data?.meta?.image) && typeof data?.meta?.image == "object"
     ? (await images[`/src/assets/images/${data?.meta?.image?.filename}`]?.())
         .default.src
     : undefined}

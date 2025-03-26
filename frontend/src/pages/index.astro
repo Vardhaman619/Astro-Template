@@ -27,8 +27,8 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 
 <Layout
   title={data?.meta?.title || "Home"}
-  description={data.meta.description}
-  image={typeof data?.meta?.image == "object"
+  description={data?.meta?.description}
+  image={Boolean(data?.meta?.image) && typeof data?.meta?.image == "object"
     ? (await images?.[`/src/assets/images/${data.meta.image.filename}`]?.())
         .default.src
     : undefined}
