@@ -112,7 +112,7 @@ const { block } = Astro.props;
             },
           ]}
         >
-          {(block.services as Service[]).map((service) => {
+          {(block?.services as Service[] | undefined)?.map((service) => {
             if (typeof service?.meta?.image == "number") return null;
             return <ServiceCard service={service} />;
           })}

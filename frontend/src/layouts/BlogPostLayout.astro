@@ -1,33 +1,36 @@
 ---
 import Layout from "./Layout.astro";
 import ContactForm from "../components/ContactForm.astro";
-import type { CollectionEntry } from "astro:content";
-import { Image, Picture } from "astro:assets";
+import { Picture } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import { Config } from "../utils/config";
 
 interface Props {
   frontmatter: {
-    title:string;
-    description:string;
-    author:string;
-    publishDate:string;
-    image:{
-      filename:string;
-      alt:string
-    }
-  }
+    title: string;
+    description: string;
+    author: string;
+    publishDate: string;
+    image: {
+      filename: string;
+      alt: string;
+    };
+  };
 }
 
 const { frontmatter } = Astro.props;
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
-
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+);
 ---
 
 <Layout
   title={frontmatter.title}
   description={frontmatter.description}
   type="article"
+  image={Boolean(frontmatter?.image) && typeof frontmatter?.image == "object"
+    ? (await images?.[`/src/assets/images/${frontmatter.image.filename}`]?.())
+        .default.src
+    : undefined}
 >
   <article class="py-16">
     <div class="container mx-auto px-4">
@@ -68,17 +71,19 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
                       year: "numeric",
                       month: "long",
                       day: "numeric",
-                    },
+                    }
                   )
                 }</span
               >
             </div>
             <figure>
-            <Picture
-            src={images[`/src/assets/images/${frontmatter.image.filename}`]()}
-              alt={frontmatter.image.alt}
-              class="w-full h-full object-cover"
-            />
+              <Picture
+                src={images[
+                  `/src/assets/images/${frontmatter.image.filename}`
+                ]()}
+                alt={frontmatter.image.alt}
+                class="w-full h-full object-cover"
+              />
             </figure>
             <div class="prose prose-lg max-w-none">
               <slot />
@@ -88,10 +93,14 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
         <!-- Quote Form -->
         <div class="lg:col-span-1">
           <div class="sticky top-28">
-            <div class="bg-primary-background text-primary-foreground text-white p-8 rounded-lg shadow-lg">
+            <div
+              class="bg-primary-background text-primary-foreground text-white p-8 rounded-lg shadow-lg"
+            >
               <h3 class="text-2xl font-bold mb-6">Get Your Free Quote</h3>
-              <div class="text-black">
-              <ContactForm />
+              <div class="text-black form">
+                <ContactForm
+                  btnClasses="outline outline-primary-foreground text-primary-foreground transition-all duration-300 hover:bg-primary-foreground hover:text-primary-background"
+                />
               </div>
             </div>
           </div>
@@ -100,10 +109,9 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
     </div>
   </article>
 </Layout>
-
 <style>
   .prose {
-    @apply text-neutral-700;
+    @apply prose-a:underline  prose-blue prose-stone;
   }
 
   .prose h2 {

@@ -4,9 +4,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "bun remote-to-local-image.ts && astro dev",
+    "dev": "bun remote-to-local-image.js && astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "bun remote-to-local-image.js && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

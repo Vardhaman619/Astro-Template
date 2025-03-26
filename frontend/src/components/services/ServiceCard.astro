@@ -1,11 +1,14 @@
 ---
 import { Image, Picture } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
 import type { Media } from "../../types/payload-types";
 import { Icon } from "astro-icon/components";
-
+import CardImagePlaceholder from "../../assets/placeholders/card-placeholder.jpg";
 interface Props {
-  service: { slug: string; name: string; meta: { image: Media } };
+  service: {
+    slug: string;
+    name: string;
+    meta?: { image?: Media | number };
+  };
 }
 const images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
@@ -20,8 +23,14 @@ const { service } = Astro.props;
   >
     <div class="relative h-48">
       <Picture
-        src={images[`/src/assets/images/${service.meta.image.filename}`]()}
-        alt={service.meta.image.alt}
+        src={Boolean(service?.meta?.image) &&
+        typeof service?.meta?.image == "object"
+          ? images[`/src/assets/images/${service?.meta?.image?.filename}`]()
+          : CardImagePlaceholder}
+        alt={(Boolean(service?.meta?.image) &&
+          typeof service?.meta?.image == "object" &&
+          service?.meta?.image?.alt) ||
+          "service image"}
         class="w-full h-full object-cover"
       />
       <div

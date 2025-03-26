@@ -1,25 +1,27 @@
 ---
 const differences = [
   {
-    icon: '🛠️',
-    title: 'Experienced and Skilled Team',
-    description: 'Our certified experts bring decades of foundation repair experience'
+    icon: "🛠️",
+    title: "Experienced and Skilled Team",
+    description:
+      "Our certified experts bring decades of foundation repair experience",
   },
   {
-    icon: '⏰',
-    title: 'Reliability and Timeliness',
-    description: 'On-time service delivery with clear communication throughout'
+    icon: "⏰",
+    title: "Reliability and Timeliness",
+    description: "On-time service delivery with clear communication throughout",
   },
   {
-    icon: '🏗️',
-    title: 'Use of High-Quality Materials',
-    description: 'Premium materials and advanced techniques for lasting results'
+    icon: "🏗️",
+    title: "Use of High-Quality Materials",
+    description:
+      "Premium materials and advanced techniques for lasting results",
   },
   {
-    icon: '🤝',
-    title: 'Local Community Involvement',
-    description: 'Proudly serving Adelaide with personalized solutions'
-  }
+    icon: "🤝",
+    title: "Local Community Involvement",
+    description: "Proudly serving Adelaide with personalized solutions",
+  },
 ];
 ---
 
@@ -31,28 +33,32 @@ const differences = [
           The Foundation Repair Adelaide Difference
         </h2>
         <div class="space-y-8">
-          {differences.map(item => (
-            <div class="flex items-start gap-4">
-              <div class="bg-white p-3 rounded-full">
-                <span class="text-2xl">{item.icon}</span>
+          {
+            differences?.map((item) => (
+              <div class="flex items-start gap-4">
+                <div class="bg-white p-3 rounded-full">
+                  <span class="text-2xl">{item.icon}</span>
+                </div>
+                <div>
+                  <h3 class="text-xl font-bold text-white mb-2">
+                    {item.title}
+                  </h3>
+                  <p class="text-white/90">{item.description}</p>
+                </div>
               </div>
-              <div>
-                <h3 class="text-xl font-bold text-white mb-2">{item.title}</h3>
-                <p class="text-white/90">{item.description}</p>
-              </div>
-            </div>
-          ))}
+            ))
+          }
         </div>
       </div>
       <div class="relative">
         <div class="absolute -top-8 -right-8 z-10">
-          <img 
+          <img
             src="https://images.unsplash.com/photo-1541123437800-1bb1317badc2?w=500&h=400&q=80"
             alt="Foundation Work"
             class="rounded-lg shadow-xl"
           />
         </div>
-        <img 
+        <img
           src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?w=500&h=400&q=80"
           alt="Foundation Repair Process"
           class="rounded-lg shadow-xl relative z-20"

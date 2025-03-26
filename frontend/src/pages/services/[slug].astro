@@ -5,40 +5,50 @@ import LeftImageOutlinedHeadingSection from "./_sections/LeftImageOutlinedHeadin
 import Layout from "../../layouts/Layout.astro";
 import HeroSection from "../../components/hero/HeroSection.astro";
 import type { Service } from "../../types/payload-types";
-import CmsBlockMap from "../../components/CmsBlockMap/index.astro"
+import CmsBlockMap from "../../components/CmsBlockMap/index.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import { Picture } from "astro:assets";
 interface PathData {
-  docs:{id:number,slug:string}[]
+  docs: { id: number; slug: string }[];
 }
 export async function getStaticPaths() {
-  const services:PathData = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/service?depth=1&draft=false&select[slug]=true&limit=100`).then(data=>data.json())
+  const services: PathData = await fetch(
+    `${import.meta.env.PAYLOAD_CMS_URL}/api/service?depth=1&draft=false&select[slug]=true&limit=100`
+  ).then((data) => data.json());
   return services.docs.map((service) => ({
     params: { slug: service.slug },
-    props:{id:service.id}
+    props: { id: service.id },
   }));
 }
-const { id} = Astro.props;
-const data:Service = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/service/${id}?depth=1&draft=false`).then(data=>data.json())
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
-if(typeof data.heroSection.backgroundImage !== "object") throw Error("Homepage hero section backgroundImage not uploaded yet to cms")
-
-
+const { id } = Astro.props;
+const data: Service = await fetch(
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/service/${id}?depth=1&draft=false`
+).then((data) => data.json());
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+);
+if (typeof data.heroSection.backgroundImage !== "object")
+  throw Error("Homepage hero section backgroundImage not uploaded yet to cms");
 ---
 
 <Layout
-title={data.meta.title}
-description={data.meta.description}
-image={typeof data.meta.image == "object" ? `/src/assets/images/${data.meta.image.filename}`:undefined}
+  title={data?.meta?.title}
+  description={data?.meta?.description}
+  image={Boolean(data?.meta?.image) && typeof data?.meta?.image == "object"
+    ? (await images[`/src/assets/images/${data?.meta?.image?.filename}`]?.())
+        .default.src
+    : undefined}
 >
   <!-- Hero Section -->
   <section class="relative min-h-[60vh] py-14 md:py-10 flex items-center">
     <div class="absolute inset-0 z-0">
-    <Picture
-    src={images[`/src/assets/images/${data.heroSection.backgroundImage.filename}`]()}
-      alt={data.heroSection.backgroundImage.alt}
-      class="w-full h-full object-cover"
-    />
+      <Picture
+        src={images[
+          `/src/assets/images/${data.heroSection.backgroundImage.filename}`
+        ]()}
+        alt={data.heroSection.backgroundImage.alt}
+        class="w-full h-full object-cover"
+      />
     </div>
     <div class="absolute size-full inset-0 bg-black opacity-40"></div>
     <div
@@ -61,18 +71,19 @@ image={typeof data.meta.image == "object" ? `/src/assets/images/${data.meta.imag
           {data.heroSection.description}
         </p>
       </div>
-      {data.heroSection.showContactForm ? <div class="flex justify-center lg:justify-end">
-        <div
-          class="bg-white/95 p-6 md:p-8 rounded-lg shadow-xl backdrop-blur-sm w-full max-w-lg"
-        >
-          <h2 class="text-xl md:text-2xl font-bold text-primary mb-6">
-            Get Your Free Quote
-          </h2>
-          <ContactForm />
-        </div>
-      </div>:null}
+      {
+        data.heroSection.showContactForm ? (
+          <div class="flex justify-center lg:justify-end">
+            <div class="bg-white/95 p-6 md:p-8 rounded-lg shadow-xl backdrop-blur-sm w-full max-w-lg">
+              <h2 class="text-xl md:text-2xl font-bold text-primary mb-6">
+                Get Your Free Quote
+              </h2>
+              <ContactForm />
+            </div>
+          </div>
+        ) : null
+      }
     </div>
   </section>
-  {data.sections.map((section)=> <CmsBlockMap block={section}/>)}
-
-  </Layout>
+  {data?.sections?.map((section) => <CmsBlockMap block={section} />)}
+</Layout>

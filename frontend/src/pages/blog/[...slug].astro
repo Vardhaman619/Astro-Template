@@ -1,33 +1,75 @@
 ---
-import { getCollection } from 'astro:content';
-import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
-import type { Author, Blog, Media } from '../../types/payload-types';
-import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html';
+import { getCollection } from "astro:content";
+import BlogPostLayout from "../../layouts/BlogPostLayout.astro";
+import type { Author, Blog, Media } from "../../types/payload-types";
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 
 export async function getStaticPaths() {
-  const data:{docs:{id:number,slug:string}[]} = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/blog?depth=1&draft=false&locale=undefined&select[slug]=true&limit=100`).then(data=>data.json());
-  return data.docs.map(({slug,id}) => ({
+  const data: { docs: { id: number; slug: string }[] } = await fetch(
+    `${import.meta.env.PAYLOAD_CMS_URL}/api/blog?depth=1&draft=false&locale=undefined&select[slug]=true&limit=100`
+  ).then((data) => data.json());
+  return data.docs.map(({ slug, id }) => ({
     params: { slug },
     props: { id },
   }));
 }
 
 const { id } = Astro.props;
-const data:Blog = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/blog/${id}?depth=1&draft=false&locale=undefined`).then(data=>data.json());
+const data: Blog = await fetch(
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/blog/${id}?depth=1&draft=false&locale=undefined`
+).then((data) => data.json());
 ---
 
-<BlogPostLayout frontmatter={{
-  title:data.title,
-  description:data.description,
-  publishDate:data.createdAt,
-  author:(data.author as Author).name,
-  image:{
-    filename:(data.featuredImage as Media).filename,
-    alt:(data.featuredImage as Media).alt
+<BlogPostLayout
+  frontmatter={{
+    title: data.title,
+    description: data.description,
+    publishDate: data.createdAt,
+    author: (data.author as Author).name,
+    image: {
+      filename: (data.featuredImage as Media).filename,
+      alt: (data.featuredImage as Media).alt,
+    },
+  }}
+>
+  {
+    data?.content ? (
+      <div
+        set:html={convertLexicalToHTML({
+          data: data?.content,
+        })}
+      />
+    ) : null
   }
-
-}}>
-<div set:html={convertLexicalToHTML({
-  data: data?.content,
-})}></div>
+  {
+    data.hasBottomCta && data?.cta ? (
+      <div class="bg-primary-background text-primary-foreground rounded shadow p-4 flex items-center justify-between mt-12 gap-8 md:flex-row flex-col">
+        <p class="text-xl font-semibold text-primary-foreground">
+          {data?.cta?.title}
+        </p>
+        <div class="flex gap-4">
+          {Array.isArray(data?.cta?.links)
+            ? data.cta.links.map((cta) => {
+                return (
+                  <a
+                    href={cta.link}
+                    class:list={[
+                      "px-5 text-base py-2 no-underline rounded",
+                      {
+                        "bg-secondary-background text-secondary-foreground font-semibold transition-all hover:opacity-90":
+                          cta.variant == "primary",
+                        "outline outline-primary-foreground hover:bg-primary-foreground hover:text-primary-background text-primary-foreground font-semibold transition-all":
+                          cta.variant == "secondary",
+                      },
+                    ]}
+                  >
+                    {cta.text}
+                  </a>
+                );
+              })
+            : null}
+        </div>
+      </div>
+    ) : null
+  }
 </BlogPostLayout>

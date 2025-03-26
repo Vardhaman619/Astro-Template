@@ -1,7 +1,11 @@
 ---
+interface Props {
+  btnClasses?: string;
+}
 const services: { docs: { slug: string; name: string }[] } = await fetch(
   `${import.meta.env.PAYLOAD_CMS_URL}/api/service?depth=1&draft=false&limit=100&select[name]=true`
 ).then((data) => data.json());
+const { btnClasses } = Astro.props;
 ---
 
 <form data-el="contact-form" class="space-y-4">
@@ -57,7 +61,7 @@ const services: { docs: { slug: string; name: string }[] } = await fetch(
     >
       <option value="">Select Service *</option>
       {
-        services.docs.map((service) => {
+        services?.docs?.map((service) => {
           return (
             <option value={service.name.trim().replaceAll(" ", "-")}>
               {service.name}
@@ -82,7 +86,10 @@ const services: { docs: { slug: string; name: string }[] } = await fetch(
 
   <button
     type="submit"
-    class="w-full bg-primary-background hover:opacity-80 text-primary-foreground font-bold py-2 lg:py-3 px-4 rounded-md transition duration-300 text-sm cursor-pointer"
+    class:list={[
+      "w-full bg-primary-background hover:opacity-90 text-primary-foreground font-bold py-2 lg:py-3 px-4 rounded-md transition duration-300 text-sm cursor-pointer",
+      btnClasses,
+    ]}
   >
     Get Free Quote
   </button>
