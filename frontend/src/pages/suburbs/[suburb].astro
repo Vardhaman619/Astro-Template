@@ -5,6 +5,7 @@ import ServiceQuoteSection from "../../components/ServiceQuoteSection.astro";
 import type { Sa as SubArea } from "../../types/payload-types";
 import { Picture } from "astro:assets";
 import CmsBlockMap from "../../components/CmsBlockMap/index.astro";
+import BannerPlaceholder from "../../../assets/placeholders/banner-placeholder.jpg";
 
 export async function getStaticPaths() {
   const paths: { docs: { slug: string; id: string }[] } = await fetch(
@@ -30,14 +31,23 @@ if (typeof data.heroSection.backgroundImage !== "object")
   );
 ---
 
-<Layout title={data?.meta?.title} description={data?.meta?.description}>
+<Layout
+  title={data?.meta?.title}
+  description={data?.meta?.description}
+  image={typeof data?.meta?.image == "object"
+    ? (await images?.[`/src/assets/images/${data.meta.image.filename}`]?.())
+        .default.src
+    : undefined}
+>
   <!-- Hero Section -->
   <section class="relative min-h-[60vh] flex items-center">
     <div class="absolute inset-0 z-0 size-full">
       <Picture
-        src={images[
-          `/src/assets/images/${data.heroSection.backgroundImage.filename}`
-        ]()}
+        src={typeof data?.heroSection?.backgroundImage == "object"
+          ? images[
+              `/src/assets/images/${data.heroSection.backgroundImage.filename}`
+            ]()
+          : BannerPlaceholder}
         alt={data.heroSection.backgroundImage.alt}
         class="w-full h-full object-cover"
       />
@@ -77,5 +87,5 @@ if (typeof data.heroSection.backgroundImage !== "object")
       }
     </div>
   </section>
-  {data.sections.map((section) => <CmsBlockMap block={section} />)}
+  {data?.sections?.map((section) => <CmsBlockMap block={section} />)}
 </Layout>

@@ -3,57 +3,72 @@ import { getCollection } from "astro:content";
 import type { Header, Setting } from "../types/payload-types";
 import { Icon } from "astro-icon/components";
 import { Picture } from "astro:assets";
-const headerData:Header = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/header?depth=1&draft=false&locale=undefined`).then(data=>data.json())
-const settingsdata:Setting = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined`).then(data=>data.json())
-if(typeof settingsdata.logo === "number") throw Error("Logo is not uploaded yet in cms");
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}');
+const headerData: Header = await fetch(
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/globals/header?depth=1&draft=false&locale=undefined`
+).then((data) => data.json());
+const settingsdata: Setting = await fetch(
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined`
+).then((data) => data.json());
+if (typeof settingsdata.logo === "number")
+  throw Error("Logo is not uploaded yet in cms");
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+);
 ---
 
 <header class="sticky top-0 w-full bg-white shadow-md z-50">
   <div class="container mx-auto">
     <!-- Top Bar -->
     {
-    headerData.showTopBar ? (
-    <div
-      class="flex justify-end items-center py-1 px-6 border-b border-neutral-divider/50"
-    >
-      <div class="flex items-center gap-6 text-sm">
-        <div class="flex items-center gap-2">
-          <Icon name="lucide:map-pin"/>
-          <span>{`${settingsdata.address.city}, ${settingsdata.address.country}`}</span>
+      headerData?.showTopBar ? (
+        <div class="flex justify-end items-center py-1 px-6 border-b border-neutral-divider/50">
+          <div class="flex items-center gap-6 text-sm">
+            <div class="flex items-center gap-2">
+              <Icon name="lucide:map-pin" />
+              <span>{`${settingsdata.address.city}, ${settingsdata.address.country}`}</span>
+            </div>
+            <a
+              href={`tel:${settingsdata.contact.phone.replaceAll(" ", "")}`}
+              class="flex items-center gap-2 text-primary hover:text-primary-light transition-colors"
+            >
+              <Icon name="lucide:phone-call" />
+              <span>{settingsdata.contact.phone}</span>
+            </a>
+          </div>
         </div>
-        <a
-          href={`tel:${settingsdata.contact.phone.replaceAll(" ","")}`}
-          class="flex items-center gap-2 text-primary hover:text-primary-light transition-colors"
-        >
-          <Icon name="lucide:phone-call"/>
-          <span>{settingsdata.contact.phone}</span>
-        </a>
-      </div>
-    </div>
-    ) : (null)
+      ) : null
     }
 
     <!-- Main Navigation -->
     <nav class="flex justify-between items-center py-3">
       <!-- Logo -->
       <a href="/">
-      <Picture
-      src={images[`/src/assets/images/${settingsdata.logo.filename}`]()}
-      alt={settingsdata.logo.alt??"image"}
-      class="w-24"
-      /></a>
+        {
+          typeof settingsdata?.logo == "object" ? (
+            <Picture
+              src={images?.[
+                `/src/assets/images/${settingsdata.logo.filename}`
+              ]()}
+              alt={settingsdata?.logo.alt ?? "logo"}
+              class="w-24"
+            />
+          ) : null
+        }
+      </a>
       <!-- Navigation Items -->
       <div class="hidden lg:flex items-center">
         {
-          headerData.links.map((item) => (
+          headerData?.links?.map((item) => (
             <div class="relative group px-3">
               {item.hasSubmenu ? (
                 <>
-                  <button class="flex items-center gap-1 text-neutral hover:text-primary transition-colors py-2">
+                  <a
+                    href={item.link}
+                    class="flex items-center gap-1 text-neutral hover:text-primary transition-colors py-2"
+                  >
                     {item.text}
                     <Icon name="lucide:chevron-down" />
-                  </button>
+                  </a>
                   <div class="absolute left-0 top-full bg-white shadow-lg rounded-md py-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
                     {item.submenu.map((subItem) => (
                       <a
@@ -91,7 +106,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
         class="lg:hidden text-neutral hover:text-primary p-2"
         onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
       >
-        <Icon name="lucide:menu" size={28}/>
+        <Icon name="lucide:menu" size={28} />
       </button>
     </nav>
 
@@ -99,7 +114,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
     <div id="mobile-menu" class="lg:hidden hidden">
       <div class="px-4 py-2 space-y-1 border-t border-gray-100">
         {
-           headerData.links.map((item) => (
+          headerData.links.map((item) => (
             <div class="py-1">
               {item.hasSubmenu ? (
                 <div>
@@ -149,7 +164,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
             href={headerData.cta.ctaLink}
             class="block w-full bg-[#B91C1C] hover:bg-[#991B1B] text-white text-center px-5 py-2 rounded-sm text-sm font-semibold transition-colors duration-300"
           >
-           {headerData.cta.ctaText}
+            {headerData.cta.ctaText}
           </a>
         </div>
       </div>

@@ -57,7 +57,7 @@ const services: { docs: { slug: string; name: string }[] } = await fetch(
     >
       <option value="">Select Service *</option>
       {
-        services.docs.map((service) => {
+        services?.docs?.map((service) => {
           return (
             <option value={service.name.trim().replaceAll(" ", "-")}>
               {service.name}

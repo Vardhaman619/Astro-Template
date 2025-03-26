@@ -2,7 +2,7 @@
 import { Picture } from 'astro:assets';
 import type { Blog, BlogCategory, BlogsGridSection } from '../types/payload-types';
 import { Icon } from 'astro-icon/components';
-
+import CardPlaceholderImage from "../assets/placeholders/card-placeholder.jpg"
 interface Props{
   data:BlogsGridSection
 }
@@ -56,16 +56,16 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/
         "lg:grid-cols-9":data.desktopNumberOfColumns == 9,
         "lg:grid-cols-10":data.desktopNumberOfColumns == 10,
       }]}>
-        {latestPosts.map(post => {
+        {latestPosts?.map(post => {
         return (
           <article class="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
             <a href={`/blog/${post.slug}`} class="block">
             <Picture
                 class="hover:scale-105 transition-transform duration-300"
-              src={images[
+              src={typeof post?.featuredImage == "object" ? images[
                 `/src/assets/images/${post.featuredImage?.filename}`
-              ]()}
-              alt={post.featuredImage?.alt ?? "image"}
+              ]():CardPlaceholderImage}
+              alt={typeof post?.featuredImage == "object" ? post.featuredImage?.alt : "blog image"}
             />
             </a>
             <div class="p-6">

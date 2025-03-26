@@ -8,7 +8,7 @@ import { getCollection } from "astro:content";
 import type { Media } from "../../types/payload-types";
 
 type Services = {
-  docs: { slug: string;name:string; meta: { image: Media } }[];
+  docs: { slug: string; name: string; meta: { image: Media } }[];
 };
 const services: Services = await fetch(
   `${import.meta.env.PAYLOAD_CMS_URL}/api/service?depth=1&draft=false&limit=100&select[slug]=true&select[meta][image]=true&select[name]=true`
@@ -27,8 +27,8 @@ Our commitment to excellence extends beyond just fixing immediate problems. We f
 ---
 
 <Layout
-  title="Our Foundation Repair Services"
-  description="Comprehensive foundation repair services in Adelaide. From inspections to repairs, we provide expert solutions for all foundation issues."
+  title="Our Services"
+  description="We offer a range of high-quality services tailored to meet your needs."
 >
   <section class="py-16 bg-white">
     <div class="container mx-auto px-4">

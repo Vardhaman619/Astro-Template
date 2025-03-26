@@ -1,8 +1,7 @@
 ---
 import { Picture } from "astro:assets";
 import type { Index } from "../../types/payload-types";
-import Image from "../common/Image.astro";
-
+import BannerPlaceholder from "../../assets/placeholders/banner-placeholder.jpg";
 interface Props {
   content: Index["heroSection"];
 }
@@ -22,8 +21,10 @@ if (typeof content.backgroundImage !== "object")
     >
     </div>
     <Picture
-      src={images[`/src/assets/images/${content.backgroundImage.filename}`]()}
-      alt={content.backgroundImage.alt}
+      src={content?.backgroundImage?.filename != null
+        ? images?.[`/src/assets/images/${content.backgroundImage.filename}`]?.()
+        : BannerPlaceholder}
+      alt={content?.backgroundImage?.alt || "Background Image"}
       class="w-full h-full object-cover"
     />
   </div>

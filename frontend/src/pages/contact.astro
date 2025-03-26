@@ -1,42 +1,57 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import ContactForm from '../components/ContactForm.astro';
-import type { Setting } from '../types/payload-types';
-import { Icon } from 'astro-icon/components';
-
-const settingsdata:Setting = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined`).then(data=>data.json())
+import Layout from "../layouts/Layout.astro";
+import ContactForm from "../components/ContactForm.astro";
+import type { Setting } from "../types/payload-types";
+import { Icon } from "astro-icon/components";
+import { Picture } from "astro:assets";
+import ContactHeroSectionBgImage from "../assets/placeholders/contact-hero-section.jpg";
+const settingsdata: Setting = await fetch(
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined`
+).then((data) => data.json());
 const contactInfo = [
   {
-    title:"Our Location",
-    content:`${settingsdata?.address?.street},${settingsdata?.address?.city},${settingsdata?.address?.state},${settingsdata?.address?.country}-${settingsdata?.address?.postcode}`,
-    icon:"lucide:map-pin",
-    link:"#",
+    title: "Our Location",
+    content: `${settingsdata?.address?.street},${settingsdata?.address?.city},${settingsdata?.address?.state},${settingsdata?.address?.country}-${settingsdata?.address?.postcode}`,
+    icon: "lucide:map-pin",
+    link: "#",
   },
- {
-			title: "Phone Number",
-			content: settingsdata?.contact?.phone ?? "(123) 456-7890",
-			icon:"lucide:phone",
-			link:`tel:${settingsdata?.contact?.phone ?? "(123) 456-7890"}`
-}  ,
-{
- 	title: "Email Address",
-			content: settingsdata?.contact?.email ?? "info@foundationrepair.com",
-			icon:"lucide:mail",
-			link:`mailto:${settingsdata?.contact?.email ?? "info@foundationrepair.com"}`
-}
-]
-
+  {
+    title: "Phone Number",
+    content: settingsdata?.contact?.phone ?? "(123) 456-7890",
+    icon: "lucide:phone",
+    link: `tel:${settingsdata?.contact?.phone ?? "(123) 456-7890"}`,
+  },
+  {
+    title: "Email Address",
+    content: settingsdata?.contact?.email ?? "info@foundationrepair.com",
+    icon: "lucide:mail",
+    link: `mailto:${settingsdata?.contact?.email ?? "info@foundationrepair.com"}`,
+  },
+];
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+);
+const timeFormatter = new Intl.DateTimeFormat("en-US", {
+  hour: "numeric",
+  minute: "numeric",
+  hour12: true,
+  timeZone: "Europe/Rome",
+});
 ---
 
 <Layout
-  title="Contact Us - Foundation Repair Adelaide"
-  description="Get in touch with Adelaide's leading foundation repair experts. Contact us for a free consultation and quote."
+  title=`Contact Us - ${settingsdata.siteName}`
+  description="Get in touch with us. Contact us for a free consultation and quote."
+  image={typeof settingsdata?.logo == "object"
+    ? (await images?.[`/src/assets/images/${settingsdata.logo.filename}`]?.())
+        .default.src
+    : ContactHeroSectionBgImage.src}
 >
   <!-- Hero Section -->
-  <section class="relative min-h-[40vh] flex items-center">
+  <section class="relative min-h-[50vh] flex items-center">
     <div class="absolute inset-0 z-0">
-      <img
-        src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=2070"
+      <Picture
+        src={ContactHeroSectionBgImage}
         alt="Contact Us"
         class="w-full h-full object-cover brightness-50"
       />
@@ -45,7 +60,8 @@ const contactInfo = [
       <div class="max-w-3xl">
         <h1 class="text-5xl font-bold text-white mb-6">Contact Us</h1>
         <p class="text-xl text-white/90">
-          Get in touch with our team for expert foundation repair solutions. We're here to help with all your foundation needs.
+          Get in touch with our team for expert foundation repair solutions.
+          We're here to help with all your foundation needs.
         </p>
       </div>
     </div>
@@ -55,18 +71,22 @@ const contactInfo = [
   <section class="py-16 bg-white">
     <div class="container mx-auto px-4">
       <div class="grid md:grid-cols-3 gap-8">
-        {contactInfo.map(item => (
-          <a
-            href={item.link}
-            class="bg-neutral-light p-8 rounded-lg text-center hover:bg-primary-background hover:text-primary-foreground transition-all duration-300 group outline outline-primary-background"
-          >
-            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-primary-background">
-              <Icon name={item.icon} class='text-3xl'/>
-            </div>
-            <h3 class="text-xl font-bold mb-2">{item.title}</h3>
-            <p class="text-neutral group-hover:text-white/90">{item.content}</p>
-          </a>
-        ))}
+        {
+          contactInfo.map((item) => (
+            <a
+              href={item.link}
+              class="bg-neutral-light p-8 rounded-lg text-center hover:bg-primary-background hover:text-primary-foreground transition-all duration-300 group outline outline-primary-background"
+            >
+              <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-primary-background">
+                <Icon name={item.icon} class="text-3xl" />
+              </div>
+              <h3 class="text-xl font-bold mb-2">{item.title}</h3>
+              <p class="text-neutral group-hover:text-white/90">
+                {item.content}
+              </p>
+            </a>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -76,9 +96,12 @@ const contactInfo = [
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-12">
-          <h2 class="text-4xl font-bold text-primary mb-4">Get Your Free Quote</h2>
+          <h2 class="text-4xl font-bold text-primary mb-4">
+            Get Your Free Quote
+          </h2>
           <p class="text-xl text-neutral-medium">
-            Fill out the form below and our team will get back to you within 24 hours.
+            Fill out the form below and our team will get back to you within 24
+            hours.
           </p>
         </div>
 
@@ -89,7 +112,10 @@ const contactInfo = [
         <div class="mt-12 text-center">
           <p class="text-neutral-medium mb-4">
             Need immediate assistance? Call us at
-            <a href={`tel:${settingsdata?.contact?.phone ?? "(123) 456-7890"}`} class="text-secondary hover:text-primary font-bold">
+            <a
+              href={`tel:${settingsdata?.contact?.phone ?? "(123) 456-7890"}`}
+              class="text-secondary hover:text-primary font-bold"
+            >
               {settingsdata?.contact?.phone}
             </a>
           </p>
@@ -102,25 +128,51 @@ const contactInfo = [
   </section>
 
   <!-- Map Section -->
-  <section class="h-[450px] relative" set:html={settingsdata.address.mapsEmbed}>
-  </section>
+  <section
+    class="h-[450px] relative"
+    set:html={settingsdata.address.mapsEmbed}
+  />
 
   <!-- Business Hours -->
   <section class="py-16 bg-white">
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-primary text-center mb-12">Business Hours</h2>
+        <h2 class="text-3xl font-bold text-primary text-center mb-12">
+          Business Hours
+        </h2>
         <div class="grid md:grid-cols-2 gap-8">
           <div class="bg-neutral-light p-8 rounded-lg">
             <h3 class="text-xl font-bold text-primary mb-6">Regular Hours</h3>
             <ul class="space-y-4">
               <li class="flex justify-between">
                 <span>Monday - Friday</span>
-                <span class="font-bold">8:00 AM - 6:00 PM</span>
+                <span class="font-bold"
+                  >{
+                    timeFormatter.format(
+                      new Date(settingsdata.workingDays.startTime)
+                    )
+                  } - {
+                    timeFormatter.format(
+                      new Date(settingsdata.workingDays.endTime)
+                    )
+                  }
+                </span>
               </li>
               <li class="flex justify-between">
                 <span>Saturday</span>
-                <span class="font-bold">9:00 AM - 4:00 PM</span>
+                <span class="font-bold"
+                  >{
+                    settingsdata.workingDays.days.includes("saturday")
+                      ? `${timeFormatter.format(
+                          new Date(settingsdata.workingDays.startTime)
+                        )}
+                   - 
+                    ${timeFormatter.format(
+                      new Date(settingsdata.workingDays.endTime)
+                    )}`
+                      : "Closed"
+                  }</span
+                >
               </li>
               <li class="flex justify-between">
                 <span>Sunday</span>
@@ -131,13 +183,14 @@ const contactInfo = [
           <div class="bg-primary text-white p-8 rounded-lg">
             <h3 class="text-xl font-bold mb-6">Emergency Service</h3>
             <p class="mb-4">
-              Available 24/7 for emergency foundation repair services. Call our emergency hotline:
+              Available 24/7 for emergency foundation repair services. Call our
+              emergency hotline:
             </p>
             <a
-              href="tel:(123)456-7890"
-              class="text-2xl font-bold hover:text-secondary transition-colors"
+              href={`tel:${settingsdata.contact.phone}`}
+              class="text-2xl font-bold text-black hover:text-primary-background transition-colors"
             >
-              (123) 456-7890
+              {settingsdata.contact.phone}
             </a>
           </div>
         </div>

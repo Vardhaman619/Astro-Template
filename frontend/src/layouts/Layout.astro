@@ -2,8 +2,13 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import SEO from "../components/SEO.astro";
-import type { Color } from "../types/payload-types";
-import "../styles/global.css"
+import type {
+  Color,
+  Media,
+  Setting,
+  SettingSelect,
+} from "../types/payload-types";
+import "../styles/global.css";
 interface Props {
   title: string;
   description: string;
@@ -11,21 +16,26 @@ interface Props {
   noindex?: boolean;
   type?: "website" | "article";
 }
-
+const settingsdata: { id: number; favicon: Media | undefined } = await fetch(
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined&select[favicon]=true`
+).then((data) => data.json());
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+);
 const { title, description, image, noindex, type } = Astro.props;
-const data:Color = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/colors?depth=1&draft=false&locale=undefined`).then(data=>data.json())
+const data: Color = await fetch(
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/globals/colors?depth=1&draft=false&locale=undefined`
+).then((data) => data.json());
 const injectColors = {
-  primaryBackgroudColor:data.primary.backgroud,
-  primaryForegroundColor:data.primary.foreground,
-  secondaryBackgroudColor:data.secondary.backgroud,
-  secondaryForegroundColor:data.secondary.forground,
-  accentBackgroudColor:data.accent.background,
-  accentForegroundColor:data.accent.forground,
-  neutralGray:data.neutral.paragraph,
-  neutralDivider:data.neutral.divider
-}
-
-
+  primaryBackgroudColor: data.primary.backgroud,
+  primaryForegroundColor: data.primary.foreground,
+  secondaryBackgroudColor: data.secondary.backgroud,
+  secondaryForegroundColor: data.secondary.forground,
+  accentBackgroudColor: data.accent.background,
+  accentForegroundColor: data.accent.forground,
+  neutralGray: data.neutral.paragraph,
+  neutralDivider: data.neutral.divider,
+};
 ---
 
 <!doctype html>
@@ -48,10 +58,20 @@ const injectColors = {
     <!-- DNS prefetch -->
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={typeof settingsdata?.favicon == "object"
+        ? (
+            await images[
+              `/src/assets/images/${settingsdata?.favicon?.filename}`
+            ]()
+          ).default.src
+        : "favicon.svg"}
+    />
 
-    <style define:vars={{...injectColors}}>
-    :root{
+    <style define:vars={{ ...injectColors }}>
+      :root {
         --primary-background: var(--primaryBackgroudColor);
         --primary-foreground: var(--primaryForegroundColor);
         --secondary-background: var(--secondaryBackgroudColor);
@@ -60,12 +80,12 @@ const injectColors = {
         --accent-background: var(--accentForegroundColor);
         --neutral-gray: var(--neutralGray);
         --neutral-divider: var(--neutralDivider);
-    }
+      }
     </style>
   </head>
   <body class="bg-white">
     <Header />
-    <main >
+    <main>
       <slot />
     </main>
     <Footer />
