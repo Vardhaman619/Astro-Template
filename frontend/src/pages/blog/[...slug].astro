@@ -32,9 +32,44 @@ const data: Blog = await fetch(
     },
   }}
 >
-  <div
-    set:html={convertLexicalToHTML({
-      data: data?.content,
-    })}
-  />
+  {
+    data?.content ? (
+      <div
+        set:html={convertLexicalToHTML({
+          data: data?.content,
+        })}
+      />
+    ) : null
+  }
+  {
+    data.hasBottomCta && data?.cta ? (
+      <div class="bg-primary-background text-primary-foreground rounded shadow p-4 flex items-center justify-between mt-12 gap-8 md:flex-row flex-col">
+        <p class="text-xl font-semibold text-primary-foreground">
+          {data?.cta?.title}
+        </p>
+        <div class="flex gap-4">
+          {Array.isArray(data?.cta?.links)
+            ? data.cta.links.map((cta) => {
+                return (
+                  <a
+                    href={cta.link}
+                    class:list={[
+                      "px-5 text-base py-2 no-underline rounded",
+                      {
+                        "bg-secondary-background text-secondary-foreground font-semibold transition-all hover:opacity-90":
+                          cta.variant == "primary",
+                        "outline outline-primary-foreground hover:bg-primary-foreground hover:text-primary-background text-primary-foreground font-semibold transition-all":
+                          cta.variant == "secondary",
+                      },
+                    ]}
+                  >
+                    {cta.text}
+                  </a>
+                );
+              })
+            : null}
+        </div>
+      </div>
+    ) : null
+  }
 </BlogPostLayout>

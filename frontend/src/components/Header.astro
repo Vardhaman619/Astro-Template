@@ -44,6 +44,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
       <!-- Logo -->
       <a href="/">
         {
+          Boolean(settingsdata?.logo) &&
           typeof settingsdata?.logo == "object" ? (
             <Picture
               src={images?.[
@@ -70,14 +71,16 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
                     <Icon name="lucide:chevron-down" />
                   </a>
                   <div class="absolute left-0 top-full bg-white shadow-lg rounded-md py-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                    {item.submenu.map((subItem) => (
-                      <a
-                        href={subItem.link}
-                        class="block px-4 py-2 text-neutral hover:bg-neutral-light hover:text-primary transition-colors"
-                      >
-                        {subItem.text}
-                      </a>
-                    ))}
+                    {Array.isArray(item?.submenu)
+                      ? item?.submenu?.map((subItem) => (
+                          <a
+                            href={subItem.link}
+                            class="block px-4 py-2 text-neutral hover:bg-neutral-light hover:text-primary transition-colors"
+                          >
+                            {subItem.text}
+                          </a>
+                        ))
+                      : null}
                   </div>
                 </>
               ) : (
@@ -114,50 +117,52 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
     <div id="mobile-menu" class="lg:hidden hidden">
       <div class="px-4 py-2 space-y-1 border-t border-gray-100">
         {
-          headerData.links.map((item) => (
-            <div class="py-1">
-              {item.hasSubmenu ? (
-                <div>
-                  <button
-                    class="w-full flex items-center justify-between px-4 py-2 text-neutral hover:text-primary transition-colors"
-                    onclick={`this.nextElementSibling.classList.toggle('hidden')`}
-                  >
-                    {item.text}
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </button>
-                  <div class="hidden pl-4">
-                    {item.submenu.map((subItem) => (
-                      <a
-                        href={subItem.link}
-                        class="block px-4 py-2 text-neutral hover:text-primary transition-colors"
+          Array.isArray(headerData?.links)
+            ? headerData?.links?.map((item) => (
+                <div class="py-1">
+                  {item.hasSubmenu ? (
+                    <div>
+                      <button
+                        class="w-full flex items-center justify-between px-4 py-2 text-neutral hover:text-primary transition-colors"
+                        onclick={`this.nextElementSibling.classList.toggle('hidden')`}
                       >
-                        {subItem.text}
-                      </a>
-                    ))}
-                  </div>
+                        {item.text}
+                        <svg
+                          class="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
+                      </button>
+                      <div class="hidden pl-4">
+                        {item.submenu.map((subItem) => (
+                          <a
+                            href={subItem.link}
+                            class="block px-4 py-2 text-neutral hover:text-primary transition-colors"
+                          >
+                            {subItem.text}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <a
+                      href={item.link}
+                      class="block px-4 py-2 text-neutral hover:text-primary transition-colors"
+                    >
+                      {item.text}
+                    </a>
+                  )}
                 </div>
-              ) : (
-                <a
-                  href={item.link}
-                  class="block px-4 py-2 text-neutral hover:text-primary transition-colors"
-                >
-                  {item.text}
-                </a>
-              )}
-            </div>
-          ))
+              ))
+            : null
         }
         <div class="py-4">
           <a

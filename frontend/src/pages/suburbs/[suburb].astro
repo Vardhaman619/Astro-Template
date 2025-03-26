@@ -5,7 +5,7 @@ import ServiceQuoteSection from "../../components/ServiceQuoteSection.astro";
 import type { Sa as SubArea } from "../../types/payload-types";
 import { Picture } from "astro:assets";
 import CmsBlockMap from "../../components/CmsBlockMap/index.astro";
-import BannerPlaceholder from "../../../assets/placeholders/banner-placeholder.jpg";
+import BannerPlaceholder from "../../assets/placeholders/banner-placeholder.jpg";
 
 export async function getStaticPaths() {
   const paths: { docs: { slug: string; id: string }[] } = await fetch(

@@ -61,7 +61,8 @@ const injectColors = {
     <link
       rel="icon"
       type="image/svg+xml"
-      href={typeof settingsdata?.favicon == "object"
+      href={Boolean(settingsdata?.favicon) &&
+      typeof settingsdata?.favicon == "object"
         ? (
             await images[
               `/src/assets/images/${settingsdata?.favicon?.filename}`

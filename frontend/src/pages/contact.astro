@@ -42,7 +42,7 @@ const timeFormatter = new Intl.DateTimeFormat("en-US", {
 <Layout
   title=`Contact Us - ${settingsdata.siteName}`
   description="Get in touch with us. Contact us for a free consultation and quote."
-  image={typeof settingsdata?.logo == "object"
+  image={Boolean(settingsdata?.logo) && typeof settingsdata?.logo == "object"
     ? (await images?.[`/src/assets/images/${settingsdata.logo.filename}`]?.())
         .default.src
     : ContactHeroSectionBgImage.src}

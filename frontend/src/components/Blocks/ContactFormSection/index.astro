@@ -18,12 +18,13 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
 <section class="py-14 lg:py-20 relative">
   {
     data.variant == "background-image" &&
+    Boolean(data?.backgroundImage) &&
     typeof data?.backgroundImage == "object" ? (
       <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10" />
         <Picture
           src={
-            typeof data?.backgroundImage == "object"
+            Boolean(data?.backgroundImage)
               ? images[`/src/assets/images/${data.backgroundImage.filename}`]()
               : BannerPlaceholder
           }
