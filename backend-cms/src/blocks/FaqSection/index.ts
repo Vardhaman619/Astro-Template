@@ -8,11 +8,32 @@ export const FaqSection: Block = {
   },
   fields: [
     {
-      name: "title",
-      label: "Section Title",
-      type: "text",
-      required: true
-    },
+      name:"sectionTitle",
+      type:"group",
+      label:"Section Title",
+      fields:[
+          {
+              name: "title",
+              label: "Title Text",
+              type: "text",
+              required:true
+          },
+          {
+              type:"select",
+              label:"Heading Type",
+              name:"type",
+              defaultValue:"H2",
+              options:[
+                  "H2",
+                  "H3",
+                  "H4",
+                  "H5",
+                  "H6",
+              ],
+              required:true
+          }
+      ],
+  },
     {
       name: "description",
       label: "Section Description",

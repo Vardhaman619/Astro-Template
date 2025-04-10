@@ -6,7 +6,7 @@ import { Icon } from "astro-icon/components";
 import { Picture } from "astro:assets";
 import ContactHeroSectionBgImage from "../assets/placeholders/contact-hero-section.jpg";
 const settingsdata: Setting = await fetch(
-  `${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined`
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=2&draft=false&locale=undefined`
 ).then((data) => data.json());
 const contactInfo = [
   {

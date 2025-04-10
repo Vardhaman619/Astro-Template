@@ -9,26 +9,26 @@ import CmsBlockMap from "../../components/CmsBlockMap/index.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import { Picture } from "astro:assets";
 interface PathData {
-  docs: { id: number; slug: string }[];
+	docs: { id: number; slug: string }[];
 }
 export async function getStaticPaths() {
-  const services: PathData = await fetch(
-    `${import.meta.env.PAYLOAD_CMS_URL}/api/service?depth=1&draft=false&select[slug]=true&limit=100`
-  ).then((data) => data.json());
-  return services.docs.map((service) => ({
-    params: { slug: service.slug },
-    props: { id: service.id },
-  }));
+	const services: PathData = await fetch(
+		`${import.meta.env.PAYLOAD_CMS_URL}/api/service?depth=1&draft=false&select[slug]=true&limit=100`,
+	).then((data) => data.json());
+	return services.docs.map((service) => ({
+		params: { slug: service.slug },
+		props: { id: service.id },
+	}));
 }
 const { id } = Astro.props;
 const data: Service = await fetch(
-  `${import.meta.env.PAYLOAD_CMS_URL}/api/service/${id}?depth=1&draft=false`
+	`${import.meta.env.PAYLOAD_CMS_URL}/api/service/${id}?depth=3&draft=false`,
 ).then((data) => data.json());
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+	"/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}",
 );
 if (typeof data.heroSection.backgroundImage !== "object")
-  throw Error("Homepage hero section backgroundImage not uploaded yet to cms");
+	throw Error("Homepage hero section backgroundImage not uploaded yet to cms");
 ---
 
 <Layout
@@ -38,6 +38,7 @@ if (typeof data.heroSection.backgroundImage !== "object")
     ? (await images[`/src/assets/images/${data?.meta?.image?.filename}`]?.())
         .default.src
     : undefined}
+  jsonLd={data.meta.jsonLD}
 >
   <!-- Hero Section -->
   <section class="relative min-h-[60vh] py-14 md:py-10 flex items-center">

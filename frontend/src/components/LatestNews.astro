@@ -1,28 +1,36 @@
 ---
-import { Picture } from 'astro:assets';
-import type { Blog, BlogCategory, BlogsGridSection } from '../types/payload-types';
-import { Icon } from 'astro-icon/components';
-import CardPlaceholderImage from "../assets/placeholders/card-placeholder.jpg"
-interface Props{
-  data:BlogsGridSection
+import { Picture } from "astro:assets";
+import type {
+	Blog,
+	BlogCategory,
+	BlogsGridSection,
+} from "../types/payload-types";
+import { Icon } from "astro-icon/components";
+import CardPlaceholderImage from "../assets/placeholders/card-placeholder.jpg";
+interface Props {
+	data: BlogsGridSection;
 }
-const {data} = Astro.props
-if(data?.blogs?.some(blog=>typeof blog !== "object") ){
-  throw Error("Latest News Section Want Blog Data as Object")
+const { data } = Astro.props;
+if (data?.blogs?.some((blog) => typeof blog !== "object")) {
+	throw Error("Latest News Section Want Blog Data as Object");
 }
-const latestPosts = (data?.blogs as Blog[])
-  ?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+const latestPosts = (data?.blogs as Blog[])?.sort(
+	(a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+);
 
 // Only render section if there are posts
 const hasPosts = data?.blogs?.length > 0;
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}')
+const images = import.meta.glob<{ default: ImageMetadata }>(
+	"/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}",
+);
+const Heading = data.sectionTitle.type;
 ---
 
 {hasPosts && (
   <section class="py-20 bg-gray-50">
       <!-- Latest News Section -->
       <div class="text-center mb-16 container mx-auto">
-        <h2 class="text-4xl font-bold text-primary-background mb-4">{data.title}</h2>
+        <Heading class="text-4xl font-bold text-primary-background mb-4">{data?.sectionTitle?.title}</Heading>
         <p class="text-xl text-black opacity-80">{data.description}</p>
       </div>
 

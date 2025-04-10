@@ -165,6 +165,7 @@ export interface ContentSection {
        */
       tagLine?: string | null;
       title: string;
+      type: 'H2' | 'H3' | 'H4' | 'H5' | 'H6';
       alignment?: ('left' | 'center' | 'right') | null;
     };
     despoint?: {
@@ -2648,7 +2649,10 @@ export interface Media {
  * via the `definition` "icon-cards-grid-section".
  */
 export interface IconCardsGridSection {
-  title?: string | null;
+  sectionTitle: {
+    title?: string | null;
+    type: 'H2' | 'H3' | 'H4' | 'H5' | 'H6';
+  };
   description?: string | null;
   cards?:
     | {
@@ -5055,7 +5059,10 @@ export interface IconCardsGridSection {
  * via the `definition` "img-cards-grid-section".
  */
 export interface ImgCardsGridSection {
-  title?: string | null;
+  sectionTitle: {
+    title?: string | null;
+    type: 'H2' | 'H3' | 'H4' | 'H5' | 'H6';
+  };
   description?: string | null;
   cards?:
     | {
@@ -5080,7 +5087,10 @@ export interface ImgCardsGridSection {
  * via the `definition` "contact-form-section".
  */
 export interface ContactFormSection {
-  title?: string | null;
+  sectionTitle: {
+    title?: string | null;
+    type: 'H2' | 'H3' | 'H4' | 'H5' | 'H6';
+  };
   description?: {
     root: {
       type: string;
@@ -5137,7 +5147,10 @@ export interface ContactFormSection {
  * via the `definition` "faq-section".
  */
 export interface FaqSection {
-  title: string;
+  sectionTitle: {
+    title: string;
+    type: 'H2' | 'H3' | 'H4' | 'H5' | 'H6';
+  };
   description?: string | null;
   faqs?:
     | {
@@ -5156,7 +5169,10 @@ export interface FaqSection {
  */
 export interface MapSection {
   backgroundType?: ('white' | 'gray' | 'primary') | null;
-  heading?: string | null;
+  sectionTitle: {
+    heading?: string | null;
+    type: 'H2' | 'H3' | 'H4' | 'H5' | 'H6';
+  };
   content?: {
     root: {
       type: string;
@@ -5198,7 +5214,10 @@ export interface MapSection {
  * via the `definition` "blogs-grid-section".
  */
 export interface BlogsGridSection {
-  title?: string | null;
+  sectionTitle: {
+    title?: string | null;
+    type: 'H2' | 'H3' | 'H4' | 'H5' | 'H6';
+  };
   description?: string | null;
   blogs: (number | Blog)[];
   desktopNumberOfColumns: number;
@@ -5255,6 +5274,15 @@ export interface Blog {
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    jsonLD?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -5287,7 +5315,10 @@ export interface Author {
  * via the `definition` "services-grid-section".
  */
 export interface ServicesGridSection {
-  title?: string | null;
+  sectionTitle: {
+    title?: string | null;
+    type: 'H2' | 'H3' | 'H4' | 'H5' | 'H6';
+  };
   description?: string | null;
   services: (number | Service)[];
   desktopNumberOfColumns: number;
@@ -5339,6 +5370,15 @@ export interface Service {
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    jsonLD?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -5348,7 +5388,10 @@ export interface Service {
  * via the `definition` "testimonial-section".
  */
 export interface TestimonialSection {
-  title: string;
+  sectionTitle: {
+    title: string;
+    type: 'H2' | 'H3' | 'H4' | 'H5' | 'H6';
+  };
   description: string;
   testimonials: (number | Testimonial)[];
   id?: string | null;
@@ -5430,6 +5473,15 @@ export interface Sa {
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    jsonLD?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -5633,6 +5685,7 @@ export interface BlogSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+        jsonLD?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -5667,6 +5720,7 @@ export interface SaSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+        jsonLD?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -5711,6 +5765,7 @@ export interface ServiceSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+        jsonLD?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -5787,6 +5842,15 @@ export interface Index {
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    jsonLD?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -5866,6 +5930,15 @@ export interface About {
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    jsonLD?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -6019,6 +6092,15 @@ export interface SArea {
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    jsonLD?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -6051,6 +6133,7 @@ export interface IndexSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+        jsonLD?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -6107,6 +6190,7 @@ export interface AboutSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+        jsonLD?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -6261,6 +6345,7 @@ export interface SAreaSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+        jsonLD?: T;
       };
   updatedAt?: T;
   createdAt?: T;

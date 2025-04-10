@@ -5,21 +5,22 @@ import { Picture } from "astro:assets";
 import { Icon } from "astro-icon/components";
 
 interface Props {
-  frontmatter: {
-    title: string;
-    description: string;
-    author: string;
-    publishDate: string;
-    image: {
-      filename: string;
-      alt: string;
-    };
-  };
+	frontmatter: {
+		title: string;
+		description: string;
+		author: string;
+		publishDate: string;
+		image: {
+			filename: string;
+			alt: string;
+		};
+	};
+	jsonLd?: unknown;
 }
 
-const { frontmatter } = Astro.props;
+const { frontmatter, jsonLd } = Astro.props;
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+	"/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}",
 );
 ---
 
@@ -31,6 +32,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
     ? (await images?.[`/src/assets/images/${frontmatter.image.filename}`]?.())
         .default.src
     : undefined}
+  jsonLd={jsonLd}
 >
   <article class="py-16">
     <div class="container mx-auto px-4">

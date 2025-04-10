@@ -8,27 +8,27 @@ import CmsBlockMap from "../../components/CmsBlockMap/index.astro";
 import BannerPlaceholder from "../../assets/placeholders/banner-placeholder.jpg";
 
 export async function getStaticPaths() {
-  const paths: { docs: { slug: string; id: string }[] } = await fetch(
-    `${import.meta.env.PAYLOAD_CMS_URL}/api/sa?depth=1&draft=false&limit=100&select[slug]=true`
-  ).then((data) => data.json());
+	const paths: { docs: { slug: string; id: string }[] } = await fetch(
+		`${import.meta.env.PAYLOAD_CMS_URL}/api/sa?depth=3&draft=false&limit=100&select[slug]=true`,
+	).then((data) => data.json());
 
-  return paths.docs.map(({ slug, id }) => ({
-    params: { suburb: slug },
-    props: { id },
-  }));
+	return paths.docs.map(({ slug, id }) => ({
+		params: { suburb: slug },
+		props: { id },
+	}));
 }
 
 const { id } = Astro.props;
 const data: SubArea = await fetch(
-  `${import.meta.env.PAYLOAD_CMS_URL}/api/sa/${id}?depth=1&draft=false&locale=undefined`
+	`${import.meta.env.PAYLOAD_CMS_URL}/api/sa/${id}?depth=3&draft=false&locale=undefined`,
 ).then((data) => data.json());
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+	"/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}",
 );
 if (typeof data.heroSection.backgroundImage !== "object")
-  throw Error(
-    `Subarea:${data.name} hero section backgroundImage not uploaded yet to cms`
-  );
+	throw Error(
+		`Subarea:${data.name} hero section backgroundImage not uploaded yet to cms`,
+	);
 ---
 
 <Layout
@@ -38,6 +38,7 @@ if (typeof data.heroSection.backgroundImage !== "object")
     ? (await images?.[`/src/assets/images/${data.meta.image.filename}`]?.())
         .default.src
     : undefined}
+    jsonLd={data.meta.jsonLD}
 >
   <!-- Hero Section -->
   <section class="relative min-h-[60vh] flex items-center">

@@ -77,6 +77,20 @@ export const ContentSection: Block = {
               required: true,
             },
             {
+              type:"select",
+              label:"Heading Type",
+              name:"type",
+              defaultValue:"H2",
+              options:[
+                  "H2",
+                  "H3",
+                  "H4",
+                  "H5",
+                  "H6",
+              ],
+              required:true
+            },
+            {
               name: "alignment",
               label: "Heading Alignment",
               type: "radio",

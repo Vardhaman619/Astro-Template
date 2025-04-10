@@ -7,11 +7,32 @@ export const ContactForm: Block = {
     plural: "Contact From Sections"
   },
   fields: [
-    {
-      name: "title",
-      label: "Title",
-      type: "text",
-    },
+  {
+    name:"sectionTitle",
+    type:"group",
+    label:"Section Title",
+    fields:[
+      {
+        name: "title",
+        label: "Title",
+        type: "text",
+      },
+      {
+        type:"select",
+        label:"Heading Type",
+        name:"type",
+        defaultValue:"H2",
+        options:[
+            "H2",
+            "H3",
+            "H4",
+            "H5",
+            "H6",
+        ],
+        required:true
+      }
+    ],
+  },
     {
       name: "description",
       label: "Description",

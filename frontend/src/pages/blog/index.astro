@@ -6,18 +6,18 @@ import { Icon } from "astro-icon/components";
 import { getCollection } from "astro:content";
 import type { Media } from "../../types/payload-types";
 const data: {
-  docs: {
-    title: string;
-    slug: string;
-    description: true;
-    author: { name: string };
-    featuredImage: Media;
-  }[];
+	docs: {
+		title: string;
+		slug: string;
+		description: true;
+		author: { name: string };
+		featuredImage: Media;
+	}[];
 } = await fetch(
-  `${import.meta.env.PAYLOAD_CMS_URL}/api/blog?depth=1&draft=false&locale=undefined&select[title]=true&select[slug]=true&limit=100&select[featuredImage]=true&select[author]=true&select[description]=true`
+	`${import.meta.env.PAYLOAD_CMS_URL}/api/blog?depth=1&draft=false&locale=undefined&select[title]=true&select[slug]=true&limit=100&select[featuredImage]=true&select[author]=true&select[description]=true`,
 ).then((data) => data.json());
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+	"/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}",
 );
 ---
 

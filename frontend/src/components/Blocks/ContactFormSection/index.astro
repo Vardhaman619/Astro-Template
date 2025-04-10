@@ -5,14 +5,15 @@ import ContactForm from "../../ContactForm.astro";
 import BannerPlaceholder from "../../../assets/placeholders/banner-placeholder.jpg";
 
 interface Props {
-  data: ContactFormSection;
+	data: ContactFormSection;
 }
 import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 
 const { data } = Astro.props;
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+	"/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}",
 );
+const Heading = data.sectionTitle.type;
 ---
 
 <section class="py-14 lg:py-20 relative">
@@ -38,7 +39,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
     data.variant == "center" ? (
       <>
         <div class="container flex flex-col max-w-3xl mx-auto bg-white p-12 rounded-lg shadow-xl">
-          <h2 class="text-3xl py-2 font-bold text-center">{data?.title}</h2>
+          <Heading class="text-3xl py-2 font-bold text-center">{data?.sectionTitle?.title}</Heading>
           {data.description ? (
             <div
               class="mb-3"
@@ -118,7 +119,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
             },
           ]}
         >
-          <h2 class:list={["text-3xl font-semibold"]}>{data.title}</h2>
+          <Heading class:list={["text-3xl font-semibold"]}>{data.sectionTitle?.title}</Heading>
           {data.description ? (
             <div
               class:list={["description"]}

@@ -8,13 +8,13 @@ import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 import { Picture } from "astro:assets";
 
 const data: AboutPageData = await fetch(
-  `${import.meta.env.PAYLOAD_CMS_URL}/api/globals/about?depth=2&draft=false&locale=undefined`
+	`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/about?depth=3&draft=false&locale=undefined`,
 ).then((data) => data.json());
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
+	"/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}",
 );
 if (typeof data?.story?.image !== "object")
-  throw Error("About Page Story Image Not Uploaded Yet");
+	throw Error("About Page Story Image Not Uploaded Yet");
 ---
 
 <Layout
@@ -24,6 +24,7 @@ if (typeof data?.story?.image !== "object")
     ? (await images?.[`/src/assets/images/${data.meta.image.filename}`]?.())
         .default.src
     : undefined}
+    jsonLd={data.meta.jsonLD}
 >
   <!-- Hero Section -->
   <HeroSection content={data.heroSection}>

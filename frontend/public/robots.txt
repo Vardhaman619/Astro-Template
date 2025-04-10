@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Sitemap: https://<domain-name>/sitemap.xml
+
+Disallow: /*.css$
+Disallow: /*.js$
+Disallow: /*.png$
+Disallow: /*.jpg$
+Disallow: /*.jpeg$
+Disallow: /*.svg$
+Disallow: /*.woff$
+Disallow: /*.woff2$
+Disallow: /*.ttf$

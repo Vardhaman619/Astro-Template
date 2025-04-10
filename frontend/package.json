@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "bun remote-to-local-image.js && astro dev",
     "start": "astro dev",
-    "build": "bun remote-to-local-image.js && astro build",
+    "build": "bun remote-to-local-image.js && astro build && cp .vercel/output/static/sitemap-0.xml .vercel/output/static/sitemap.xml",
     "preview": "astro preview",
     "astro": "astro"
   },

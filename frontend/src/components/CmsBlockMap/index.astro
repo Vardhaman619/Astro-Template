@@ -1,16 +1,16 @@
 ---
 import type {
-  BlogsGridSection,
-  Config,
-  ContactFormSection,
-  ContentSection,
-  FaqSection,
-  IconCardsGridSection,
-  ImgCardsGridSection,
-  MapSection,
-  Service,
-  ServicesGridSection,
-  TestimonialSection,
+	BlogsGridSection,
+	Config,
+	ContactFormSection,
+	ContentSection,
+	FaqSection,
+	IconCardsGridSection,
+	ImgCardsGridSection,
+	MapSection,
+	Service,
+	ServicesGridSection,
+	TestimonialSection,
 } from "../../types/payload-types";
 import MapContentSection from "../Blocks/MapContentSection/index.astro";
 import ContentSectionBlock from "../Blocks/ContentSection/index.astro";
@@ -23,18 +23,20 @@ import LatestNews from "../LatestNews.astro";
 import ServiceGrid from "../services/ServiceGrid.astro";
 import ServiceCard from "../services/ServiceCard.astro";
 interface Props {
-  block:
-    | ContentSection
-    | IconCardsGridSection
-    | ImgCardsGridSection
-    | ContactFormSection
-    | FaqSection
-    | MapSection
-    | BlogsGridSection
-    | ServicesGridSection
-    | TestimonialSection;
+	block:
+		| ContentSection
+		| IconCardsGridSection
+		| ImgCardsGridSection
+		| ContactFormSection
+		| FaqSection
+		| MapSection
+		| BlogsGridSection
+		| ServicesGridSection
+		| TestimonialSection;
 }
 const { block } = Astro.props;
+const Heading =
+	block.blockType === "services-grid-section" ? block.sectionTitle.type : "h2";
 ---
 
 {
@@ -69,9 +71,9 @@ const { block } = Astro.props;
   block.blockType == "services-grid-section" ? (
     <section class="bg-gray-50 py-20">
       <div class="container mx-auto">
-        <h2 class="text-center text-3xl font-semibold mx-auto mb-2">
-          {block.title}
-        </h2>
+        <Heading class="text-center text-3xl font-semibold mx-auto mb-2">
+          {block?.sectionTitle?.title}
+        </Heading>
         {block.description ? (
           <p class="text-center mx-auto lg:text-lg text-black opacity-80 text-base font-semibold">
             {block.description}

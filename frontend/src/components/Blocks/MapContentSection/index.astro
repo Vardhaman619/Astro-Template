@@ -1,13 +1,15 @@
 ---
-import type {MapSection,Setting } from "../../../types/payload-types"
-import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
+import type { MapSection, Setting } from "../../../types/payload-types";
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 
 interface Props {
-  data:MapSection
+	data: MapSection;
 }
-const {data} = Astro.props
-const map:Setting = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined`).then(data=>data.json())
-
+const { data } = Astro.props;
+const map: Setting = await fetch(
+	`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/setting?depth=1&draft=false&locale=undefined`,
+).then((data) => data.json());
+const Heading = data.sectionTitle.type;
 ---
 <section class:list={["py-16 lg:py-20",
   {
@@ -20,11 +22,11 @@ const map:Setting = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/
     ]}
   >
     <div class="flex-1 flex flex-col gap-y-5">
-      <h2 class:list={
+      <Heading class:list={
       [
         "text-3xl font-semibold"
       ]
-      }>{data?.heading}</h2>
+      }>{data?.sectionTitle?.heading}</Heading>
       <div class="description" set:html={convertLexicalToHTML({data:data.content})}></div>
       {(data?.ct && data?.ct.ctas.length>0) ? (
         <div class:list={[
@@ -60,7 +62,7 @@ const map:Setting = await fetch(`${import.meta.env.PAYLOAD_CMS_URL}/api/globals/
       "justify-start":data?.ct?.alignment && data.ct.alignment == "left",
       }
     ]}>
-    {data.content?.ct.ctas.filter(cta=>cta.place == "outside").map(({cta})=>{
+    {data?.ct?.ctas.filter(cta=>cta.place == "outside").map(({cta})=>{
     return (
     <a href={cta.link}
     class:list={[
