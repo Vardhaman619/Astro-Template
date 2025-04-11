@@ -18,7 +18,7 @@ import CmsBlockMap from "../components/CmsBlockMap/index.astro";
 import type { Index as HomePageData } from "../types/payload-types";
 const { hero, sections } = homeContent;
 const data: HomePageData = await fetch(
-  `${import.meta.env.PAYLOAD_CMS_URL}/api/globals/index?depth=2&draft=false&locale=undefined`
+  `${import.meta.env.PAYLOAD_CMS_URL}/api/globals/index?depth=3&draft=false&locale=undefined`
 ).then((data) => data.json());
 const images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
@@ -32,6 +32,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
     ? (await images?.[`/src/assets/images/${data.meta.image.filename}`]?.())
         .default.src
     : undefined}
+    jsonLd={data.meta.jsonLD}
 >
   <HeroSection content={data.heroSection}>
     {data.heroSection.showContactForm ? <ContactForm /> : null}

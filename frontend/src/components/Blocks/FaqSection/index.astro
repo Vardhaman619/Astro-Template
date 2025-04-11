@@ -1,14 +1,16 @@
 ---
-import { Icon } from 'astro-icon/components'
-import type { FaqSection } from '../../../types/payload-types'
+import { Icon } from "astro-icon/components";
+import type { FaqSection } from "../../../types/payload-types";
 interface Props {
-  data:FaqSection
+	data: FaqSection;
 }
-const {data} = Astro.props
+const { data } = Astro.props;
+
+const Heading = data.sectionTitle.type;
 ---
 <section class:list={["py-16 lg:py-20"]}>
 <div class="container flex flex-col mx-auto">
-<h2 class="text-3xl font-semibold md:font-bold mb-5">{data.title}</h2>
+<Heading class="text-3xl font-semibold md:font-bold mb-5">{data?.sectionTitle?.title}</Heading>
 <div class="divide-y divide-neutral-divider border-t border-t-neutral-divider">
 {data.faqs.map(faq=>{
 return(

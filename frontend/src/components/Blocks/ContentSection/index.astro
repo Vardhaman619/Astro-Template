@@ -11,6 +11,8 @@ const { data } = Astro.props;
 const images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/images/*.{jpeg,jpg,png,gif,webp,avif}"
 );
+const Heading = data.content.heading.type;
+
 ---
 
 <section
@@ -56,7 +58,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
           </div>
         ) : null
       }
-      <h2
+      <Heading
         class:list={[
           "text-3xl font-semibold",
           {
@@ -67,7 +69,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
         ]}
       >
         {data.content.heading.title}
-      </h2>
+      </Heading>
       <div>
         {
           data.content.despoint.blocks.map((block) => {
@@ -238,7 +240,7 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
     }
     {
       data.direction == "vertical-reverse" ? (
-        <h2
+        <Heading
           class:list={[
             "text-3xl font-semibold",
             {
@@ -248,19 +250,19 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
           ]}
         >
           {data.content.heading.title}
-        </h2>
+        </Heading>
       ) : null
     }
     {
       data.direction == "horizontal-reverse" ? (
-        <h2
+        <Heading
           class:list={[
             "text-3xl font-semibold md:hidden",
             { "text-center": data.content.heading.alignment == "center" },
           ]}
         >
           {data.content.heading.title}
-        </h2>
+        </Heading>
       ) : null
     }
   </div>
