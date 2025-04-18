@@ -16,7 +16,7 @@ const contactInfo = [
     link: "#",
   },
   {
-    title: "Phone Number",
+    title: "Numero di telefono",
     content: settingsdata?.contact?.phone ?? "(123) 456-7890",
     icon: "lucide:phone",
     link: `tel:${settingsdata?.contact?.phone ?? "(123) 456-7890"}`,
@@ -40,7 +40,7 @@ const timeFormatter = new Intl.DateTimeFormat("en-US", {
 ---
 
 <Layout
-  title=`Contact Us - ${settingsdata.siteName}`
+  title=`Contatti - ${settingsdata.siteName}`
   description="Get in touch with us. Contact us for a free consultation and quote."
   image={Boolean(settingsdata?.logo) && typeof settingsdata?.logo == "object"
     ? (await images?.[`/src/assets/images/${settingsdata.logo.filename}`]?.())

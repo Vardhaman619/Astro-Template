@@ -1,11 +1,11 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { Config } from '../utils/config';
+import Layout from "../layouts/Layout.astro";
+import { Config } from "../utils/config";
 
 const companyInfo = Config.getCompanyInfo();
 ---
 
-<Layout 
+<Layout
   title="Privacy Policy"
   description="Privacy Policy for Foundation Repair Adelaide. Learn how we collect, use, and protect your personal information."
 >
@@ -13,28 +13,37 @@ const companyInfo = Config.getCompanyInfo();
     <div class="container mx-auto px-4">
       <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 rounded-lg shadow-sm">
         <h1 class="text-4xl font-bold text-primary mb-8">Privacy Policy</h1>
-        
+
         <div class="prose prose-lg max-w-none">
           <p>Last updated: {new Date().toLocaleDateString()}</p>
 
           <h2>1. Introduction</h2>
           <p>
-            {companyInfo.name} ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services.
+            {companyInfo.name} ("we," "our," or "us") is committed to protecting
+            your privacy. This Privacy Policy explains how we collect, use, disclose,
+            and safeguard your information when you visit our website or use our
+            services.
           </p>
 
           <h2>2. Information We Collect</h2>
           <h3>Personal Information</h3>
-          <p>We may collect personal information that you provide to us, including but not limited to:</p>
+          <p>
+            We may collect personal information that you provide to us,
+            including but not limited to:
+          </p>
           <ul>
             <li>Name and contact information</li>
             <li>Email address</li>
-            <li>Phone number</li>
+            <li>Numero di telefono</li>
             <li>Property address</li>
             <li>Payment information</li>
           </ul>
 
           <h3>Automatically Collected Information</h3>
-          <p>When you visit our website, we may automatically collect certain information, including:</p>
+          <p>
+            When you visit our website, we may automatically collect certain
+            information, including:
+          </p>
           <ul>
             <li>IP address</li>
             <li>Browser type</li>
@@ -43,7 +52,9 @@ const companyInfo = Config.getCompanyInfo();
           </ul>
 
           <h2>3. How We Use Your Information</h2>
-          <p>We use the collected information for various purposes, including:</p>
+          <p>
+            We use the collected information for various purposes, including:
+          </p>
           <ul>
             <li>Providing and maintaining our services</li>
             <li>Responding to your inquiries</li>
@@ -62,7 +73,9 @@ const companyInfo = Config.getCompanyInfo();
 
           <h2>5. Data Security</h2>
           <p>
-            We implement appropriate security measures to protect your personal information. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.
+            We implement appropriate security measures to protect your personal
+            information. However, no method of transmission over the internet is
+            100% secure, and we cannot guarantee absolute security.
           </p>
 
           <h2>6. Your Rights</h2>
@@ -76,11 +89,12 @@ const companyInfo = Config.getCompanyInfo();
 
           <h2>7. Contact Us</h2>
           <p>
-            If you have questions about this Privacy Policy, please contact us at:
+            If you have questions about this Privacy Policy, please contact us
+            at:
           </p>
           <p>
-            Email: {Config.getEmail()}<br>
-            Phone: {Config.getPhone()}<br>
+            Email: {Config.getEmail()}<br />
+            Phone: {Config.getPhone()}<br />
             Address: {Config.getAddress()}
           </p>
         </div>

@@ -1,9 +1,12 @@
 document.querySelectorAll('[data-el="contact-form"]').forEach((form) =>
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
+    debugger;
     const form = e.target as HTMLFormElement;
     const formMessage = document.getElementById("formMessage");
-    const submitButton = form.querySelector('button[type="submit"]');
+    const submitButton = form.querySelector<HTMLButtonElement>(
+      'button[type="submit"]'
+    );
 
     if (!formMessage || !submitButton) return;
 
@@ -17,7 +20,7 @@ document.querySelectorAll('[data-el="contact-form"]').forEach((form) =>
           | HTMLSelectElement;
         if (!input.value.trim()) {
           throw new Error(
-            `${field.charAt(0).toUpperCase() + field.slice(1)} is required`,
+            `${field.charAt(0).toUpperCase() + field.slice(1)} is required`
           );
         }
       }
@@ -83,5 +86,5 @@ document.querySelectorAll('[data-el="contact-form"]').forEach((form) =>
       submitButton.disabled = false;
       submitButton.textContent = "Get Free Quote";
     }
-  }),
+  })
 );

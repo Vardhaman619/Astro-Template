@@ -14,7 +14,7 @@ const { btnClasses } = Astro.props;
       <input
         type="text"
         name="firstName"
-        placeholder="First Name"
+        placeholder="Nome"
         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary text-sm"
         required
       />
@@ -23,7 +23,7 @@ const { btnClasses } = Astro.props;
       <input
         type="text"
         name="lastName"
-        placeholder="Last Name"
+        placeholder="Cognome"
         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary text-sm"
         required
       />
@@ -45,7 +45,7 @@ const { btnClasses } = Astro.props;
     <input
       type="tel"
       name="phone"
-      placeholder="Phone *"
+      placeholder="Telefono *"
       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary text-sm"
       required
       aria-required="true"
@@ -59,7 +59,7 @@ const { btnClasses } = Astro.props;
       required
       aria-required="true"
     >
-      <option value="">Select Service *</option>
+      <option value="">Seleziona servizio *</option>
       {
         services?.docs?.map((service) => {
           return (
@@ -75,15 +75,28 @@ const { btnClasses } = Astro.props;
   <div>
     <textarea
       name="message"
-      placeholder="Message *"
+      placeholder="Messaggio *"
       rows="3"
       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary text-sm"
       required
       aria-required="true"></textarea>
   </div>
-
+  <div class="flex gap-x-2 items-baseline">
+    <input
+      type="checkbox"
+      name="terms"
+      id="terms"
+      class="rounded transition-all accent-primary-background"
+      required
+      checked
+    />
+    <label for="terms" class="text-sm">
+      Inviando il modulo dichiaro di aver preso visione dell’l’informativa sulla
+      privacy e acconsento al trattamento dei miei dati personali ai sensi del
+      Regolamento UE 2016/679 (“GDPR”)
+    </label>
+  </div>
   <div id="formMessage" class="hidden text-center p-3 rounded-md"></div>
-
   <button
     type="submit"
     class:list={[
@@ -91,6 +104,6 @@ const { btnClasses } = Astro.props;
       btnClasses,
     ]}
   >
-    Get Free Quote
+    Richiedi un Preventivo Gratuito
   </button>
 </form>
